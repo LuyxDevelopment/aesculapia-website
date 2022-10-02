@@ -3,8 +3,8 @@
 ## Technologies used:
 
   **Front End**:
-  > . React
-  > . Tailwindcss
+  > - React
+  > - Tailwindcss
 
   **Back End**:
-  > . NextJS
+  > - NextJS
