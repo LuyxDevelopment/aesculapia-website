@@ -6,5 +6,5 @@
   > React
   > Tailwindcss
 
-  ** Back End**:
+  **Back End**:
   > NextJS
