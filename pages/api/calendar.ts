@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default function homeHandler(
+export default function calendarHandler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ): void {
