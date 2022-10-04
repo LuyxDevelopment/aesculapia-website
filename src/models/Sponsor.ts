@@ -1,4 +1,3 @@
-// A social for Aesculapia
 import mongoose from 'mongoose';
 
 export interface ISponsor {
@@ -6,7 +5,8 @@ export interface ISponsor {
 	image: string;
 	url: string;
 }
-const sponsorSchema = new mongoose.Schema<ISponsor>({
+
+export const sponsorSchema = new mongoose.Schema<ISponsor>({
 	name: mongoose.Schema.Types.String,
 	image: mongoose.Schema.Types.String,
 	url: mongoose.Schema.Types.String,

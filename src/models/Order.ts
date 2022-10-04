@@ -1,6 +1,5 @@
-// Transactions users make when buying products
-
 import mongoose from 'mongoose';
+import { productSchema } from './Product.js';
 
 export interface IOrder {
 	email: string;
@@ -9,11 +8,11 @@ export interface IOrder {
 	product: mongoose.Types.ObjectId;
 }
 
-const orderSchema = new mongoose.Schema<IOrder>({
+export const orderSchema = new mongoose.Schema<IOrder>({
 	email: mongoose.Schema.Types.String,
 	issuedAt: mongoose.Schema.Types.Number,
 	user: mongoose.Schema.Types.ObjectId,
-	product: mongoose.Schema.Types.ObjectId,
+	product: productSchema,
 }, {
 	collection: 'orders',
 });
