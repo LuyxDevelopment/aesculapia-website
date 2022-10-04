@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 export interface IProduct {
 	title: string;
 	description: string;
+	image: string | null;
 	cost: number;
 	salePercent: number;
 	stock: number;
@@ -14,6 +15,7 @@ export interface IProduct {
 const productSchema = new mongoose.Schema<IProduct>({
 	title: mongoose.Schema.Types.String,
 	description: mongoose.Schema.Types.String,
+	image: { type: mongoose.Schema.Types.String, default: null },
 	cost: mongoose.Schema.Types.Number,
 	salePercent: { type: mongoose.Schema.Types.Number, default: 1.00 },
 	stock: { type: mongoose.Schema.Types.Number, default: 0 },
