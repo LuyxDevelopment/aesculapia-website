@@ -13,7 +13,7 @@ const dbConnect = async () => {
     return;
   }
 
-  const db = await connect(process.env.MONGO_URI!);
+  const db = await connect(process.env.MONGO_URI);
 
   connection.state = db.connections[0].readyState;
 
