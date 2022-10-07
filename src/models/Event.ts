@@ -6,7 +6,6 @@ export interface IEvent {
 	banner: string | null;
 	startsAtTimestamp: number;
 	endsAtTimestamp: number;
-	tickets: mongoose.Types.Subdocument
 }
 
 export interface IEntry {
@@ -23,17 +22,17 @@ export const ticketsSchema = new mongoose.Schema<IEntry>({
 	eventCapacity: mongoose.Schema.Types.Number,
 });
 
-export const eventSchema = new mongoose.Schema<IEvent>({
-	title: mongoose.Schema.Types.String,
-	description: mongoose.Schema.Types.String,
-	banner: { type: mongoose.Schema.Types.String, default: null },
-	startsAtTimestamp: mongoose.Schema.Types.Number,
-	endsAtTimestamp: { type: mongoose.Schema.Types.Number, default: null },
-	tickets: {
-		type: ticketsSchema,
+export const eventSchema = new mongoose.Schema<IEvent>(
+	{
+		title: mongoose.Schema.Types.String,
+		description: mongoose.Schema.Types.String,
+		banner: { type: mongoose.Schema.Types.String, default: null },
+		startsAtTimestamp: mongoose.Schema.Types.Number,
+		endsAtTimestamp: { type: mongoose.Schema.Types.Number, default: null },
 	},
-}, {
-	collection: 'events',
-});
+	{
+		collection: 'events',
+	},
+);
 
 export const Event = mongoose.model<IEvent>('Event', eventSchema);

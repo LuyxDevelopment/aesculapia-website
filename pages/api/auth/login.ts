@@ -16,42 +16,47 @@ export default withIronSessionApiRoute(async function loginHandler(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData>,
 ): Promise<void> {
-	if (req.method === 'POST') {
-		const { email, password } = req.body as { email: string; password: string };
-		const admin = await Admin.findOne({ email: email });
+	switch (req.method) {
+		case 'POST': {
+			const { email, password } = req.body as {
+				email: string;
+				password: string;
+			};
+			const admin = await Admin.findOne({ email: email });
 
-		if (!admin) {
-			res.status(400).json({
-				error: true,
-				message: 'Email not registered!',
-			});
-			return;
-		}
-
-		compare(password, admin.password, async (error, isMatch) => {
-			if (error) {
-				throw new Error(error.message);
-			}
-
-			if (!isMatch) {
+			if (!admin) {
 				res.status(400).json({
 					error: true,
-					message: 'Password does not match!',
+					message: 'Email not registered!',
 				});
 				return;
 			}
 
-			req.session.user = {
-				email: email,
-			};
+			compare(password, admin.password, async (error, isMatch) => {
+				if (error) {
+					throw new Error(error.message);
+				}
 
-			await req.session.save();
+				if (!isMatch) {
+					res.status(400).json({
+						error: true,
+						message: 'Password does not match!',
+					});
+					return;
+				}
 
-			res.status(200).json({
-				error: false,
-				message: 'Logged in successfully!',
+				req.session.user = {
+					email: email,
+				};
+
+				await req.session.save();
+
+				res.status(200).json({
+					error: false,
+					message: 'Logged in successfully!',
+				});
 			});
-		});
+		}
 	}
 },
 ironOptions);
