@@ -8,3 +8,4 @@
 
   **Back End**:
   > - NextJS
+  > - MongoDB
