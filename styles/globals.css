@@ -1,3 +1,150 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  
+  html,
+  body {
+    height: 100%;
+  }
+  
+  .container {
+    padding-top: 30px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  .toast {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    color: #000;
+    border-radius: 15px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    box-shadow: 4px 3px 8px 1px #969696;
+    background-color: white;
+  }
+  
+  .toast h6 {
+    font-weight: 700;
+  }
+  
+  .toast.toast-success {
+    border-left: 10px solid #2CB216;
+  }
+  
+  .toast.toast-error {
+    border-left: 10px solid #D74343;
+  }
+
+  .toast.toast-info {
+    border-left: 10px solid #43B3D7;
+  }
+
+  .toast.toast-loading {
+    border-left: 10px solid #6472EA;
+  }
+  
+  .toast.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+  
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgb(44, 42, 42);
+    color: #ffff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 1s;
+  }
+  
+  .tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      width: 750px;
+    }
+  }
+  @media (min-width: 992px) {
+    .container {
+      width: 970px;
+    }
+  }
+  @media (min-width: 1200px) {
+    .container {
+      width: 1170px;
+    }
+  }
+  
+  @-webkit-keyframes fadein {
+    from {
+      bottom: 0;
+      visibility: hidden;
+    }
+    to {
+      bottom: 30px;
+      visibility: visible;
+    }
+  }
+  
+  @keyframes fadein {
+    from {
+      bottom: 0;
+      visibility: hidden;
+    }
+    to {
+      bottom: 30px;
+      visibility: visible;
+    }
+  }
+  
+  @-webkit-keyframes fadeout {
+    from {
+      bottom: 30px;
+      visibility: visible;
+    }
+    to {
+      bottom: 0;
+      visibility: hidden;
+    }
+  }
+  
+  @keyframes fadeout {
+    from {
+      bottom: 30px;
+      visibility: visible;
+    }
+    to {
+      bottom: 0;
+      visibility: hidden;
+    }
+  }
