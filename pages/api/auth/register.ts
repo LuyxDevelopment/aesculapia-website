@@ -20,11 +20,15 @@ interface RegisterNextApiRequest extends NextApiRequest {
 dbConnect();
 
 const validateRegisterBody = ajv.compile<RegisterNextApiRequest['body']>({
+	type: 'object',
+	required: ['email', 'password'],
 	email: {
 		type: 'string',
+		format: '.+@.+..+',
 	},
 	password: {
 		type: 'string',
+		minLength: 6,
 	},
 });
 
@@ -38,21 +42,22 @@ export default async function registerHandler(
 
 			const email = req.body.email;
 			const password = req.body.password;
-			const existingEmail = await Admin.findOne({ email: email });
 
-			if (existingEmail) {
+			if (await Admin.exists({ email: email })) {
 				res.status(400).json({
 					error: true,
 					message: 'Email already in use!',
 				});
+
 				return;
 			}
 
 			const admin = new Admin({
-				email: email,
+				email,
+				password: '',
 			});
 
-			genSalt(process.env.SALT_ROUNDS, (saltError, salt) => {
+			genSalt(parseInt(process.env.SALT_ROUNDS), (saltError, salt) => {
 				if (saltError) throw new Error(saltError.message);
 
 				hash(password, salt, async (hashError, hash) => {
@@ -66,6 +71,7 @@ export default async function registerHandler(
 							error: false,
 							message: 'Admin profile created successfully!',
 						});
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
 					} catch (error: any) {
 						res.status(400).json({
 							error: true,
