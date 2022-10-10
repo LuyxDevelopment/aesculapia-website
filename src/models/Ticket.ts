@@ -20,4 +20,4 @@ export const ticketSchema = new mongoose.Schema<ITicket>({
 	collection: 'tickets',
 });
 
-export const Ticket = mongoose.model<ITicket>('Ticket', ticketSchema);
+export const Ticket = mongoose.models.Ticket as mongoose.Model<ITicket> || mongoose.model<ITicket>('Ticket', ticketSchema);

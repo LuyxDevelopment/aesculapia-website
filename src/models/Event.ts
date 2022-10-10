@@ -35,4 +35,4 @@ export const eventSchema = new mongoose.Schema<IEvent>(
 	},
 );
 
-export const Event = mongoose.model<IEvent>('Event', eventSchema);
+export const Event = mongoose.models.Event as mongoose.Model<IEvent> || mongoose.model<IEvent>('Event', eventSchema);

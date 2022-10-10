@@ -14,4 +14,4 @@ export const sponsorSchema = new mongoose.Schema<ISponsor>({
 	collection: 'sponsors',
 });
 
-export const Sponsor = mongoose.model<ISponsor>('Sponsor', sponsorSchema);
+export const Sponsor = mongoose.models.Sponsor as mongoose.Model<ISponsor> || mongoose.model<ISponsor>('Sponsor', sponsorSchema);

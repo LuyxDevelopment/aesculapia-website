@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { productSchema } from './Product.js';
+import { productSchema } from './Product';
 
 export interface IOrder {
 	email: string;
@@ -17,4 +17,4 @@ export const orderSchema = new mongoose.Schema<IOrder>({
 	collection: 'orders',
 });
 
-export const Order = mongoose.model<IOrder>('Order', orderSchema);
+export const Order = mongoose.models.Order as mongoose.Model<IOrder> || mongoose.model<IOrder>('Order', orderSchema);

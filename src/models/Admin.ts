@@ -11,21 +11,25 @@ export interface IAdmin {
 	password: string;
 	createdAt: number;
 	authorityLevel: AuthorityLevel;
+	has2faEnabled: boolean;
+	secret: string;
 }
 
 export const adminSchema = new mongoose.Schema<IAdmin>(
 	{
-		email: mongoose.Schema.Types.String,
-		password: mongoose.Schema.Types.String,
-		createdAt: { type: mongoose.Schema.Types.Number, default: Date.now },
+		email: { type: mongoose.Schema.Types.String, required: true },
+		password: { type: mongoose.Schema.Types.String, required: true },
+		createdAt: { type: mongoose.Schema.Types.Number, default: Date.now, required: true },
 		authorityLevel: {
 			type: mongoose.Schema.Types.Number,
 			default: AuthorityLevel.MEMBER,
 		},
+		has2faEnabled: { type: mongoose.Schema.Types.Boolean, required: true },
+		secret: { type: mongoose.Schema.Types.String, required: true },
 	},
 	{
 		collection: 'admins',
 	},
 );
 
-export const Admin = mongoose.model<IAdmin>('Admin', adminSchema);
+export const Admin = mongoose.models.Admin as mongoose.Model<IAdmin> || mongoose.model<IAdmin>('Admin', adminSchema);

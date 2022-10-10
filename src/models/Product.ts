@@ -18,4 +18,4 @@ export const productSchema = new mongoose.Schema<IProduct>({
 	collection: 'products',
 });
 
-export const Product = mongoose.model<IProduct>('Product', productSchema);
+export const Product = mongoose.models.Product as mongoose.Model<IProduct> || mongoose.model<IProduct>('Product', productSchema);
