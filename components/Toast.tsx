@@ -7,7 +7,7 @@ interface ToastOptions {
 	type: ToastType;
 }
 
-type ToastType = 'error' | 'success';
+type ToastType = 'error' | 'success' | 'info' | 'loading';
 
 const Toast = ({ title, description, type }: ToastOptions): JSX.Element => {
 	useEffect(() => {
@@ -23,7 +23,7 @@ const Toast = ({ title, description, type }: ToastOptions): JSX.Element => {
 				<div className="inline-block align-middle mr-2">
 					<Image
 						src={
-							type === 'success' ? '/assets/success.png' : '/assets/error.png'
+							'/assets/icons/' + type + '.svg'
 						}
 						alt="icon"
 						width="25"
