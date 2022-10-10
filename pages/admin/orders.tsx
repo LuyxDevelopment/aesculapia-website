@@ -1,3 +1,9 @@
-export default function AdminOrders(): JSX.Element {
-	return (<></>);
-}
+import type { NextPage } from 'next';
+
+const AdminOrders: NextPage = () => {
+	return (
+		<></>
+	);
+};
+
+export default AdminOrders;
