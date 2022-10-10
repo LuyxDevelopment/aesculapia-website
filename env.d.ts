@@ -5,14 +5,9 @@ declare global {
 			MONGO_URI: string;
 			COOKIE_NAME: string;
 			SESSION_PASSWORD: string;
-			SALT_ROUNDS: number;
+			SALT_ROUNDS: string;
+			TWO_FACTOR_AUTHENTICATION_APP_NAME: string;
 		}
-	}
-}
-
-declare module 'iron-session' {
-	interface IronSessionData {
-		user?: { email: string };
 	}
 }
 
