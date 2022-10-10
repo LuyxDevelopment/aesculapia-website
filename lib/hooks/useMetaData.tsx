@@ -10,7 +10,7 @@ export const useMetaData = (
 			<title>{title} | Aesculapia</title>
 			<link
 				rel="shortcut icon"
-				href="/assets/treefarmer.png"
+				href=""
 				type="image/png"
 			/>
 
