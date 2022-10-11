@@ -1,5 +1,3 @@
-import { withIronSessionSsr } from 'iron-session/next';
-import { ironOptions } from '../../src/util/ironConfig';
 import { useState } from 'react';
 import Layout from '../../components/Layout';
 import Toast from '../../components/Toast';
@@ -9,7 +7,7 @@ import { useForm } from 'react-hook-form';
 type FieldValues = {
 	email: string;
 	password: string;
-} | { [x: string]: any };
+} | { [x: string]: unknown };
 
 export default function AdminLogin(): JSX.Element {
 	const [isAllowed, setIsAllowed] = useState(false);

@@ -2,9 +2,9 @@ import QRCode from 'qrcode.react';
 import type { NextPage } from 'next';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../src/util/ironConfig';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
-const AdminSettings: NextPage<{ user: { email: string } , otpAuthUri: string }> = ({ user, otpAuthUri }) => {
+const AdminSettings: NextPage<{ user: { email: string } , otpAuthUri: string }> = ({ otpAuthUri }) => {
 	const [qrCode] = useState(otpAuthUri);
 	const [qrCodeShown, showQrCode] = useState(false);
 
