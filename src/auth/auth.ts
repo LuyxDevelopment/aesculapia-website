@@ -1,4 +1,7 @@
+import { NextApiRequest } from 'next';
 import { authenticator } from 'otplib';
+import { Admin, AuthorityLevel } from '../models/Admin.js';
+import { hasUserSession } from '../util/hasUserSession.js';
 
 export class Authentication {
 	public static generateSecret(): string {
@@ -18,5 +21,13 @@ export class Authentication {
 		const otp = authenticator.keyuri(email, process.env.TWO_FACTOR_AUTHENTICATION_APP_NAME, secret);
 
 		return otp;
+	}
+
+	public static async auth(requiredLevel: AuthorityLevel, req: NextApiRequest): Promise<boolean>  {
+		if (!hasUserSession(req)) return false;
+
+		const admin = await Admin.findOne({ email: req.session.user!.email });
+
+		return admin !== null && admin.authorityLevel > requiredLevel; 
 	}
 }

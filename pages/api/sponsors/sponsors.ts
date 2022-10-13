@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Admin, Sponsor } from '../../src/models';
+import { Authentication } from '../../../src/auth/auth.js';
+import {  AuthorityLevel, Sponsor } from '../../../src/models/index.js';
 
 export default async function sponsorsHandler(
 	req: NextApiRequest,
@@ -7,10 +8,8 @@ export default async function sponsorsHandler(
 ): Promise<void> {
 	switch (req.method) {
 		case 'DELETE': {
-			const admin = await Admin.findOne({ email: req.session.user?.email });
-
-			if (!admin) {
-				return void res.status(403).json({
+			if (!Authentication.auth(AuthorityLevel.ADMIN,req )) {
+				return res.status(403).json({
 					error: true,
 					message: 'Forbidden access',
 				});
@@ -19,14 +18,14 @@ export default async function sponsorsHandler(
 			const sponsor = await Sponsor.findByIdAndDelete(req.query.pid);
 
 			if (!sponsor) {
-				return void res.status(404).json({
+				return res.status(404).json({
 					error: true,
 					message: 'Sponsor not found.',
 					data: null,
 				});
 			}
 
-			return void res.status(200).json({
+			return res.status(200).json({
 				error: false,
 				message: `Sponsor #${req.query.pid} successfully deleted.`,
 			});
@@ -37,13 +36,13 @@ export default async function sponsorsHandler(
 				const sponsor = await Sponsor.findById(req.query.pid);
 
 				if (!sponsor) {
-					return void res.status(404).json({
+					return res.status(404).json({
 						error: true,
 						message: 'Sponsor not found.',
 					});
 				}
 
-				return void res.status(200).json({
+				return res.status(200).json({
 					error: false,
 					message: 'Sponsor found.',
 					data: sponsor,
@@ -52,7 +51,7 @@ export default async function sponsorsHandler(
 
 			const sponsors = await Sponsor.find({});
 
-			return void res.status(200).json({
+			return res.status(200).json({
 				error: false,
 				message: 'All sponsors found',
 				data: sponsors,
@@ -60,10 +59,8 @@ export default async function sponsorsHandler(
 		}
 
 		case 'PATCH': {
-			const admin = await Admin.findOne({ email: req.session.user?.email });
-
-			if (!admin) {
-				return void res.status(403).json({
+			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+				return res.status(403).json({
 					error: true,
 					message: 'Forbidden access',
 				});
@@ -72,13 +69,13 @@ export default async function sponsorsHandler(
 			const sponsor = await Sponsor.findByIdAndUpdate(req.query.pid, { $set: req.body });
 
 			if (!sponsor) {
-				return void res.status(404).json({
+				return res.status(404).json({
 					error: true,
 					message: 'Sponsor not found.',
 				});
 			}
 
-			return void res.status(200).json({
+			return res.status(200).json({
 				error: false,
 				message: 'Sponsor successfully updated',
 				data: sponsor,
@@ -86,10 +83,8 @@ export default async function sponsorsHandler(
 		}
 
 		case 'POST': {
-			const admin = await Admin.findOne({ email: req.session.user?.email });
-
-			if (!admin) {
-				return void res.status(403).json({
+			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+				return res.status(403).json({
 					error: true,
 					message: 'Forbidden access',
 				});
@@ -102,7 +97,7 @@ export default async function sponsorsHandler(
 			} catch (error) {
 				console.log(error);
 
-				return void res.status(400).json({
+				return res.status(400).json({
 					error: true,
 					message: 'Error creating sponsor',
 				});

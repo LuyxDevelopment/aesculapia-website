@@ -1,50 +1,55 @@
-import { Admin, IEvent, Event } from '../../src/models';
+import { Event, EventDocument, AuthorityLevel } from '../../src/models/index.js';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ResponseData } from '../../index';
-import { Mongooseify } from '../../src/util/mongooseify';
+import { ResponseData } from '../../src/types/responseData.js';
+import { Authentication } from '../../src/auth/index.js';
+import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
 export default async function calendarHandler(
 	req: NextApiRequest & { body: number },
-	res: NextApiResponse<ResponseData<Mongooseify<IEvent>[] | IEvent>>,
+	res: NextApiResponse<ResponseData<EventDocument | EventDocument[]>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'DELETE': {
-			const admin = await Admin.findOne({ email: req.session.user?.email });
-
-			if (!admin) {
-				return void res.status(403).json({
+			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
-					message: 'Forbidden access',
+					message: getReasonPhrase(StatusCodes.FORBIDDEN),
 				});
-			}
 
-			const event = await Event.findByIdAndDelete(req.query.pid);
+				return;
+			}
+			
+			const event = await Event.findByIdAndDelete(req.query.);
 
 			if (!event) {
-				return void res.status(404).json({
+				res.status(404).json({
 					error: true,
 					message: 'Event not found.',
 				});
+				
+				return;
 			}
 
-			return void res.status(200).json({
+			res.status(200).json({
 				error: false,
 				message: `Event #${req.query.pid} successfully deleted.`,
 			});
-		}
+		} break;
 
 		case 'GET': {
 			if (req.query.pid) {
 				const event = await Event.findById(req.query.pid);
 
 				if (!event) {
-					return void res.status(404).json({
+					res.status(404).json({
 						error: true,
 						message: 'Event not found.',
 					});
+
+					return;
 				}
 
-				return void res.status(200).json({
+				res.status(200).json({
 					error: false,
 					message: 'Event found.',
 					data: event,
@@ -53,47 +58,46 @@ export default async function calendarHandler(
 
 			const events = await Event.find({});
 
-			return void res.status(200).json({
+			res.status(200).json({
 				error: false,
 				message: 'All events found',
 				data: events,
 			});
-		}
+		} break;
 
 		case 'PATCH': {
-			const admin = await Admin.findOne({ email: req.session.user?.email });
-
-			if (!admin) {
-				return void res.status(403).json({
+			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+				res.status(403).json({
 					error: true,
 					message: 'Forbidden access',
 				});
+
+				return;
 			}
 
 			const event = await Event.findByIdAndUpdate(req.query.pid, { $set: req.body });
 
 			if (!event) {
-				return void res.status(404).json({
+				res.status(404).json({
 					error: true,
 					message: 'Event not found.',
 				});
+				
+				return;
 			}
 
-			return void res.status(200).json({
+			res.status(200).json({
 				error: false,
 				message: 'Event successfully updated',
 				data: event,
 			});
-		}
+		} break;
 
 		case 'POST': {
-			const admin = await Admin.findOne({ email: req.session.user?.email });
+			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+				res.status(403).json(responses.forbiddenAccess);
 
-			if (!admin) {
-				return void res.status(403).json({
-					error: true,
-					message: 'Forbidden access',
-				});
+				return;
 			}
 
 			const event = new Event(req.body);
@@ -103,10 +107,12 @@ export default async function calendarHandler(
 			} catch (error) {
 				console.log(error);
 
-				return void res.status(400).json({
+				res.status(400).json({
 					error: true,
 					message: 'Error creating event',
 				});
+
+				return;
 			}
 		} break;
 	}

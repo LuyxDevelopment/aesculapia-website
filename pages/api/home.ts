@@ -4,5 +4,5 @@ export default function homeHandler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ): void {
-	return void res.status(200);
+	return res.status(200);
 }

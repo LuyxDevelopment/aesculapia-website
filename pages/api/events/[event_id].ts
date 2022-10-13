@@ -97,7 +97,7 @@ export default async function calendarHandler(
 			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
 				res.status(403).json({
 					error:true,
-					message:
+					message: 'Forbidden access',
 				});
 
 				return;

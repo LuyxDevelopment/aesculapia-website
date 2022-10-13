@@ -1,6 +1,6 @@
 import { Schema, Model, default as mongoose, HydratedDocument } from 'mongoose';
 
-enum AuthorityLevel {
+export enum AuthorityLevel {
 	ADMIN = 1,
 	MODERATOR,
 	MEMBER,

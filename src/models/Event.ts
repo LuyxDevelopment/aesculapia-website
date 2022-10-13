@@ -1,4 +1,5 @@
 import { Schema, Model, Types, default as mongoose, HydratedDocument } from 'mongoose';
+import { TicketDocument } from './Ticket.js';
 
 export interface IEvent {
 	title: string;
@@ -9,14 +10,18 @@ export interface IEvent {
 	entry: IEntry;
 }
 
+export interface EventMethods {
+	registerParticipant(firstName: string, lastName: string, email: string, membershipDiscount: boolean, membershipId?: string): TicketDocument;
+}
+
 export interface EventOverrides {
 	entry: Types.Subdocument & IEntry;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export type EventModel = Model<IEvent, {}, EventOverrides>;
+export type EventModel = Model<IEvent, {}, EventOverrides & EventMethods>;
 
-export type EventDocument = HydratedDocument<IEvent, EventOverrides>;
+export type EventDocument = HydratedDocument<IEvent, EventOverrides & EventMethods>;
 
 export interface IEntry {
 	paidEntry: boolean;
@@ -25,7 +30,7 @@ export interface IEntry {
 	eventCapacity: number;
 }
 
-export const eventSchema = new Schema<IEvent, EventModel>(
+export const eventSchema = new Schema<IEvent, EventModel, EventMethods>(
 	{
 		title: Schema.Types.String,
 		description: Schema.Types.String,
@@ -44,6 +49,11 @@ export const eventSchema = new Schema<IEvent, EventModel>(
 	},
 	{
 		collection: 'events',
+		methods: {
+			registerParticipant() {
+				
+			},
+		},
 	},
 );
 

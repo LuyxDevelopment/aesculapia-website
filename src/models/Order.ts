@@ -1,5 +1,5 @@
 import { Schema, Model, Types, default as mongoose, HydratedDocument } from 'mongoose';
-import { ProductDocument, productSchema } from './Product';
+import { ProductDocument } from './Product.js';
 
 export interface IOrder {
 	email: string;
@@ -13,14 +13,14 @@ export interface OrderPopulated {
 	product: ProductDocument;
 }
 
-export type OrderModel = Model<OrderDocument>;
-
 export type OrderDocument = HydratedDocument<IOrder>;
+
+export type OrderModel = Model<OrderDocument>;
 
 export const orderSchema = new Schema<IOrder, OrderModel>({
 	email: Schema.Types.String,
 	issuedAt: Schema.Types.Number,
-	product: productSchema,
+	product: { type: Schema.Types.ObjectId, ref: 'Product' },
 }, {
 	collection: 'orders',
 });

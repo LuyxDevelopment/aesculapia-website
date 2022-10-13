@@ -1,48 +1,48 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Admin, Product } from '../../src/models';
+import { Authentication } from '../../../src/auth/auth.js';
+import { AuthorityLevel } from '../../../src/models/Admin.js';
+import { IProduct, Product } from '../../../src/models/index.js';
 
 export default async function productsHandler(
-	req: NextApiRequest,
+	req: NextApiRequest & { body: IProduct } & { query: { product_id: string } },
 	res: NextApiResponse,
 ): Promise<void> {
 	switch (req.method) {
 		case 'DELETE': {
-			const admin = await Admin.findOne({ email: req.session.user?.email });
-
-			if (!admin) {
-				return void res.status(403).json({
+			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+				return res.status(403).json({
 					error: true,
 					message: 'Forbidden access',
 				});
 			}
 
-			const product = await Product.findByIdAndDelete(req.query.pid);
+			const product = await Product.findByIdAndDelete(req.query.product_id);
 
 			if (!product) {
-				return void res.status(404).json({
+				return res.status(404).json({
 					error: true,
 					message: 'Product not found.',
 				});
 			}
 
-			return void res.status(200).json({
+			return res.status(200).json({
 				error: false,
-				message: `Product #${req.query.pid} successfully deleted.`,
+				message: `Product #${req.query.product_id} successfully deleted.`,
 			});
 		}
 
 		case 'GET': {
-			if (req.query.pid) {
-				const product = await Product.findById(req.query.pid);
+			if (req.query.product_id) {
+				const product = await Product.findById(req.query.product_id);
 
 				if (!product) {
-					return void res.status(404).json({
+					return res.status(404).json({
 						error: true,
 						message: 'Product not found.',
 					});
 				}
 
-				return void res.status(200).json({
+				return res.status(200).json({
 					error: false,
 					message: 'Product found.',
 					data: product,
@@ -51,7 +51,7 @@ export default async function productsHandler(
 
 			const products = await Product.find({});
 
-			return void res.status(200).json({
+			return res.status(200).json({
 				error: false,
 				message: 'All products found',
 				data: products,
@@ -59,25 +59,23 @@ export default async function productsHandler(
 		}
 
 		case 'PATCH': {
-			const admin = await Admin.findOne({ email: req.session.user?.email });
-
-			if (!admin) {
-				return void res.status(403).json({
+			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+				return res.status(403).json({
 					error: true,
 					message: 'Forbidden access',
 				});
 			}
 
-			const product = await Product.findByIdAndUpdate(req.query.pid, { $set: req.body });
+			const product = await Product.findByIdAndUpdate(req.query.product_id, { $set: req.body });
 
 			if (!product) {
-				return void res.status(404).json({
+				return res.status(404).json({
 					error: true,
 					message: 'Product not found.',
 				});
 			}
 
-			return void res.status(200).json({
+			return res.status(200).json({
 				error: false,
 				message: 'Product successfully updated',
 				data: product,
@@ -85,10 +83,8 @@ export default async function productsHandler(
 		}
 
 		case 'POST': {
-			const admin = await Admin.findOne({ email: req.session.user?.email });
-
-			if (!admin) {
-				return void res.status(403).json({
+			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+				return res.status(403).json({
 					error: true,
 					message: 'Forbidden access',
 				});
@@ -101,7 +97,7 @@ export default async function productsHandler(
 			} catch (error) {
 				console.log(error);
 
-				return void res.status(400).json({
+				return res.status(400).json({
 					error: true,
 					message: 'Error creating product',
 				});
