@@ -1,23 +1,32 @@
-import mongoose from 'mongoose';
+import { Schema, Model, Types, default as mongoose, HydratedDocument } from 'mongoose';
+import { EventDocument } from './Event.js';
 
 export interface ITicket {
-	event: mongoose.Types.ObjectId;
+	event: Types.ObjectId;
 	firstName: string;
 	lastName: string;
 	email: string;
 	membershipDiscount: boolean;
-	membershipId: string;
+	membershipId: string | null;
 }
 
-export const ticketSchema = new mongoose.Schema<ITicket>({
-	event: mongoose.Schema.Types.ObjectId,
-	firstName: mongoose.Schema.Types.String,
-	lastName: mongoose.Schema.Types.String,
-	email: mongoose.Schema.Types.String,
-	membershipDiscount: { type: mongoose.Schema.Types.Boolean, default: false },
-	membershipId: { type: mongoose.Schema.Types.String, default: null },
+export interface TicketPopulated {
+	event: EventDocument;
+}
+
+export type TicketModel = Model<ITicket>;
+
+export type TicketDocument = HydratedDocument<ITicket>;
+
+export const ticketSchema = new Schema<ITicket, TicketModel>({
+	event: { type: Schema.Types.ObjectId, ref: 'Event' },
+	firstName: Schema.Types.String,
+	lastName: Schema.Types.String,
+	email: Schema.Types.String,
+	membershipDiscount: { type: Schema.Types.Boolean, default: false },
+	membershipId: { type: Schema.Types.String, default: null },
 }, {
 	collection: 'tickets',
 });
 
-export const Ticket = mongoose.models.Ticket as mongoose.Model<ITicket> || mongoose.model<ITicket>('Ticket', ticketSchema);
+export const Ticket = mongoose.models.Ticket as TicketModel || mongoose.model<ITicket, TicketModel>('Ticket', ticketSchema);

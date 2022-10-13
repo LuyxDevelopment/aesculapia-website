@@ -1,12 +1,22 @@
-import mongoose from 'mongoose';
+import { Schema, Model, Types, default as mongoose, HydratedDocument } from 'mongoose';
 
 export interface IEvent {
 	title: string;
 	description: string;
-	banner: string | null;
+	banner: string;
 	startsAtTimestamp: number;
 	endsAtTimestamp: number;
+	entry: IEntry;
 }
+
+export interface EventOverrides {
+	entry: Types.Subdocument & IEntry;
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type EventModel = Model<IEvent, {}, EventOverrides>;
+
+export type EventDocument = HydratedDocument<IEvent, EventOverrides>;
 
 export interface IEntry {
 	paidEntry: boolean;
@@ -15,24 +25,26 @@ export interface IEntry {
 	eventCapacity: number;
 }
 
-export const ticketsSchema = new mongoose.Schema<IEntry>({
-	paidEntry: mongoose.Schema.Types.Boolean,
-	entryCost: mongoose.Schema.Types.Number,
-	registeredCount: mongoose.Schema.Types.Number,
-	eventCapacity: mongoose.Schema.Types.Number,
-});
-
-export const eventSchema = new mongoose.Schema<IEvent>(
+export const eventSchema = new Schema<IEvent, EventModel>(
 	{
-		title: mongoose.Schema.Types.String,
-		description: mongoose.Schema.Types.String,
-		banner: { type: mongoose.Schema.Types.String, default: null },
-		startsAtTimestamp: mongoose.Schema.Types.Number,
-		endsAtTimestamp: { type: mongoose.Schema.Types.Number, default: null },
+		title: Schema.Types.String,
+		description: Schema.Types.String,
+		banner: Schema.Types.String,
+		startsAtTimestamp: Schema.Types.Number,
+		endsAtTimestamp: Schema.Types.Number,
+		entry: { 
+			type: new Schema<IEntry>({
+				paidEntry: { type: Schema.Types.Boolean, default: false },
+				entryCost: { type: Schema.Types.Number, default: 0 },
+				registeredCount: { type: Schema.Types.Number, default: 0 },
+				eventCapacity: { type: Schema.Types.Number, default: Infinity },
+			}),
+			default: {},
+		},
 	},
 	{
 		collection: 'events',
 	},
 );
 
-export const Event = mongoose.models.Event as mongoose.Model<IEvent> || mongoose.model<IEvent>('Event', eventSchema);
+export const Event = mongoose.models.Event as EventModel || mongoose.model<IEvent, EventModel>('Event', eventSchema);

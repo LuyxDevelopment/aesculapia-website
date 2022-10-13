@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import { Schema, Model, default as mongoose, HydratedDocument } from 'mongoose';
 
 export interface IProduct {
 	title: string;
@@ -8,14 +8,18 @@ export interface IProduct {
 	stock: number;
 }
 
-export const productSchema = new mongoose.Schema<IProduct>({
-	title: mongoose.Schema.Types.String,
-	description: mongoose.Schema.Types.String,
-	image: mongoose.Schema.Types.String,
-	cost: mongoose.Schema.Types.Number,
-	stock: { type: mongoose.Schema.Types.Number, default: 0 },
+export type ProductModel = Model<ProductDocument>;
+
+export type ProductDocument = HydratedDocument<IProduct>;
+
+export const productSchema = new Schema<IProduct, ProductModel>({
+	title: Schema.Types.String,
+	description: Schema.Types.String,
+	image: Schema.Types.String,
+	cost: Schema.Types.Number,
+	stock: { type: Schema.Types.Number, default: 0 },
 }, {
 	collection: 'products',
 });
 
-export const Product = mongoose.models.Product as mongoose.Model<IProduct> || mongoose.model<IProduct>('Product', productSchema);
+export const Product = mongoose.models.Product as ProductModel || mongoose.model<IProduct, ProductModel>('Product', productSchema);

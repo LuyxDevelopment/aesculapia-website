@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import { Schema, Model, default as mongoose, HydratedDocument } from 'mongoose';
 
 export interface INews {
 	title: string;
@@ -7,16 +7,20 @@ export interface INews {
 	hidden: boolean;
 }
 
-export const newsSchema = new mongoose.Schema<INews>(
+export type NewsModel = Model<NewsDocument>;
+
+export type NewsDocument = HydratedDocument<INews>;
+
+export const newsSchema = new Schema<INews, NewsModel>(
 	{
-		title: mongoose.Schema.Types.String,
-		description: mongoose.Schema.Types.String,
-		banner: { type: mongoose.Schema.Types.String, default: null },
-		hidden: { type: mongoose.Schema.Types.Boolean, default: false },
+		title: Schema.Types.String,
+		description: Schema.Types.String,
+		banner: { type: Schema.Types.String, default: null },
+		hidden: { type: Schema.Types.Boolean, default: false },
 	},
 	{
 		collection: 'news',
 	},
 );
 
-export const News = mongoose.models.News as mongoose.Model<INews> || mongoose.model<INews>('News', newsSchema);
+export const News = mongoose.models.News as NewsModel || mongoose.model<INews, NewsModel>('News', newsSchema);

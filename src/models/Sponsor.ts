@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import { Schema, Model, default as mongoose, HydratedDocument } from 'mongoose';
 
 export interface ISponsor {
 	name: string;
@@ -6,12 +6,16 @@ export interface ISponsor {
 	url: string;
 }
 
-export const sponsorSchema = new mongoose.Schema<ISponsor>({
-	name: mongoose.Schema.Types.String,
-	image: mongoose.Schema.Types.String,
-	url: mongoose.Schema.Types.String,
+export type SponsorModel = Model<ISponsor>;
+
+export type SponsorDocument = HydratedDocument<ISponsor>;
+
+export const sponsorSchema = new Schema<ISponsor, SponsorModel>({
+	name: Schema.Types.String,
+	image: Schema.Types.String,
+	url: Schema.Types.String,
 }, {
 	collection: 'sponsors',
 });
 
-export const Sponsor = mongoose.models.Sponsor as mongoose.Model<ISponsor> || mongoose.model<ISponsor>('Sponsor', sponsorSchema);
+export const Sponsor = mongoose.models.Sponsor as SponsorModel || mongoose.model<ISponsor, SponsorModel>('Sponsor', sponsorSchema);

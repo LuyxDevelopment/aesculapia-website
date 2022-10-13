@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import { Schema, Model, default as mongoose, HydratedDocument } from 'mongoose';
 
 enum AuthorityLevel {
 	ADMIN = 1,
@@ -14,20 +14,24 @@ export interface IAdmin {
 	secret: string;
 }
 
-export const adminSchema = new mongoose.Schema<IAdmin>(
+export type AdminModel = Model<IAdmin>;
+
+export type AdminDocument = HydratedDocument<IAdmin>;
+
+export const adminSchema = new Schema<IAdmin, AdminModel>(
 	{
-		email: { type: mongoose.Schema.Types.String, required: true },
-		password: { type: mongoose.Schema.Types.String, required: true },
-		createdAt: { type: mongoose.Schema.Types.Number, default: Date.now, required: true },
+		email: { type: Schema.Types.String, required: true },
+		password: { type: Schema.Types.String, required: true },
+		createdAt: { type: Schema.Types.Number, default: Date.now, required: true },
 		authorityLevel: {
-			type: mongoose.Schema.Types.Number,
+			type: Schema.Types.Number,
 			default: AuthorityLevel.MEMBER,
 		},
-		secret: { type: mongoose.Schema.Types.String, required: true },
+		secret: { type: Schema.Types.String, required: true },
 	},
 	{
 		collection: 'admins',
 	},
 );
 
-export const Admin = mongoose.models.Admin as mongoose.Model<IAdmin> || mongoose.model<IAdmin>('Admin', adminSchema);
+export const Admin = mongoose.models.Admin as AdminModel || mongoose.model<IAdmin, AdminModel>('Admin', adminSchema);
