@@ -11,7 +11,6 @@ export interface IAdmin {
 	password: string;
 	createdAt: number;
 	authorityLevel: AuthorityLevel;
-	has2faEnabled: boolean;
 	secret: string;
 }
 
@@ -24,7 +23,6 @@ export const adminSchema = new mongoose.Schema<IAdmin>(
 			type: mongoose.Schema.Types.Number,
 			default: AuthorityLevel.MEMBER,
 		},
-		has2faEnabled: { type: mongoose.Schema.Types.Boolean, required: true },
 		secret: { type: mongoose.Schema.Types.String, required: true },
 	},
 	{
