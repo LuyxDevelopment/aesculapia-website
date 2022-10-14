@@ -6,9 +6,9 @@ export interface ISponsor {
 	url: string;
 }
 
-export type SponsorModel = Model<ISponsor>;
-
 export type SponsorDocument = HydratedDocument<ISponsor>;
+
+export type SponsorModel = Model<ISponsor>;
 
 export const sponsorSchema = new Schema<ISponsor, SponsorModel>({
 	name: Schema.Types.String,

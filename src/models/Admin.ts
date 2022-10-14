@@ -12,11 +12,12 @@ export interface IAdmin {
 	createdAt: number;
 	authorityLevel: AuthorityLevel;
 	secret: string;
+	has2faEnabled: boolean;
 }
 
-export type AdminModel = Model<IAdmin>;
-
 export type AdminDocument = HydratedDocument<IAdmin>;
+
+export type AdminModel = Model<IAdmin>;
 
 export const adminSchema = new Schema<IAdmin, AdminModel>(
 	{
@@ -28,6 +29,7 @@ export const adminSchema = new Schema<IAdmin, AdminModel>(
 			default: AuthorityLevel.MEMBER,
 		},
 		secret: { type: Schema.Types.String, required: true },
+		has2faEnabled: { type: Schema.Types.Boolean, default: false },
 	},
 	{
 		collection: 'admins',

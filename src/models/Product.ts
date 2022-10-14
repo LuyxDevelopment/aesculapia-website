@@ -8,9 +8,9 @@ export interface IProduct {
 	stock: number;
 }
 
-export type ProductModel = Model<ProductDocument>;
-
 export type ProductDocument = HydratedDocument<IProduct>;
+
+export type ProductModel = Model<ProductDocument>;
 
 export const productSchema = new Schema<IProduct, ProductModel>({
 	title: Schema.Types.String,

@@ -9,13 +9,13 @@ export interface IOrder {
 	product: Types.ObjectId;
 }
 
-export interface OrderPopulated {
+export interface IOrderPopulated {
 	product: ProductDocument;
 }
 
 export type OrderDocument = HydratedDocument<IOrder>;
 
-export type OrderModel = Model<OrderDocument>;
+export type OrderModel = Model<IOrder>;
 
 export const orderSchema = new Schema<IOrder, OrderModel>({
 	email: Schema.Types.String,
