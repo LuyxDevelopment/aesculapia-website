@@ -14,9 +14,9 @@ export interface TicketPopulated {
 	event: EventDocument;
 }
 
-export type TicketModel = Model<ITicket>;
-
 export type TicketDocument = HydratedDocument<ITicket>;
+
+export type TicketModel = Model<ITicket>;
 
 export const ticketSchema = new Schema<ITicket, TicketModel>({
 	event: { type: Schema.Types.ObjectId, ref: 'Event' },

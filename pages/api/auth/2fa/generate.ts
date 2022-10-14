@@ -3,8 +3,8 @@ import { Admin } from '../../../../src/models/Admin';
 import dbConnect from '../../../../src/util/dbConnect';
 import { ironOptions } from '../../../../src/util/ironConfig';
 import { withIronSessionApiRoute } from 'iron-session/next';
-import { ResponseData } from '../../../../index';
-import { Authentication } from '../../../../src/auth';
+import { ResponseData } from '../../../../src/types/responseData';
+import { Authentication } from '../../../../src/auth/index';
 
 dbConnect();
 
@@ -54,8 +54,10 @@ export default withIronSessionApiRoute(async function loginHandler(
 			const secret = Authentication.generateSecret();
 
 			admin.secret = secret;
-			admin.has2faEnabled = true;
 			await admin.save();
+
+			req.session.user.has2faEnabled = true;
+			await req.session.save();
 
 			res.status(200).json({
 				error: false,

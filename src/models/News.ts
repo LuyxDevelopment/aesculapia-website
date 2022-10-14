@@ -7,9 +7,9 @@ export interface INews {
 	hidden: boolean;
 }
 
-export type NewsModel = Model<NewsDocument>;
-
 export type NewsDocument = HydratedDocument<INews>;
+
+export type NewsModel = Model<NewsDocument>;
 
 export const newsSchema = new Schema<INews, NewsModel>(
 	{

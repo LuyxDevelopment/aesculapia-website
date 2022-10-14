@@ -3,7 +3,7 @@ import { Admin } from '../../../../src/models/Admin';
 import dbConnect from '../../../../src/util/dbConnect';
 import { ironOptions } from '../../../../src/util/ironConfig';
 import { withIronSessionApiRoute } from 'iron-session/next';
-import { ResponseData } from '../../../../index';
+import { ResponseData } from '../../../../src/types/responseData';
 import { Authentication } from '../../../../src/auth/index';
 
 dbConnect();
@@ -33,9 +33,9 @@ export default withIronSessionApiRoute(async function twoFactorAuthenticationHan
 			}
 
 			if (!req.session.user.has2faEnabled) {
-				res.status(200).json({
-					error: false,
-					message: 'Logged in successfully.',
+				res.status(401).json({
+					error: true,
+					message: 'Unauthorized.',
 				});
 				return;
 			}
@@ -66,6 +66,9 @@ export default withIronSessionApiRoute(async function twoFactorAuthenticationHan
 				message: 'Code valid.',
 				data: true,
 			});
+
+			req.session.user.completed2fa = true;
+			await req.session.save();
 		}
 	}
 }, ironOptions);

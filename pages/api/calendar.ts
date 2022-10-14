@@ -1,7 +1,7 @@
-import { Event, EventDocument, AuthorityLevel } from '../../src/models/index.js';
+import { Event, EventDocument, AuthorityLevel } from '../../src/models/index';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ResponseData } from '../../src/types/responseData.js';
-import { Authentication } from '../../src/auth/index.js';
+import { ResponseData } from '../../src/types/responseData';
+import { Authentication } from '../../src/auth/index';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
 export default async function calendarHandler(
@@ -18,15 +18,15 @@ export default async function calendarHandler(
 
 				return;
 			}
-			
-			const event = await Event.findByIdAndDelete(req.query.);
+
+			const event = await Event.findByIdAndDelete(req.query.event_id);
 
 			if (!event) {
 				res.status(404).json({
 					error: true,
 					message: 'Event not found.',
 				});
-				
+
 				return;
 			}
 
@@ -82,7 +82,7 @@ export default async function calendarHandler(
 					error: true,
 					message: 'Event not found.',
 				});
-				
+
 				return;
 			}
 
@@ -95,7 +95,10 @@ export default async function calendarHandler(
 
 		case 'POST': {
 			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
-				res.status(403).json(responses.forbiddenAccess);
+				res.status(403).json({
+					error: true,
+					message: 'Forbidden access.',
+				});
 
 				return;
 			}
