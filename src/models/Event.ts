@@ -41,9 +41,9 @@ export const eventSchema = new Schema<IEvent, EventModel, IEventMethods>(
 		entry: {
 			type: new Schema<IEntry>({
 				paidEntry: { type: Schema.Types.Boolean, default: false },
-				entryCost: { type: Schema.Types.Number, default: 0 },
-				registeredCount: { type: Schema.Types.Number, default: 0 },
-				eventCapacity: { type: Schema.Types.Number, default: Infinity },
+				entryCost: { type: Schema.Types.Number, min: 0, default: 0 },
+				registeredCount: { type: Schema.Types.Number, min: 0, default: 0 },
+				eventCapacity: { type: Schema.Types.Number, min: 0, default: Infinity },
 			}),
 			default: {},
 		},
