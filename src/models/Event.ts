@@ -1,5 +1,6 @@
 import { Schema, Model, Types, default as mongoose, HydratedDocument } from 'mongoose';
-import { TicketDocument } from './Ticket.js';
+
+import { Ticket, TicketDocument } from './Ticket.js';
 
 export interface IEvent {
 	title: string;
@@ -10,18 +11,18 @@ export interface IEvent {
 	entry: IEntry;
 }
 
-export interface EventMethods {
-	registerParticipant(firstName: string, lastName: string, email: string, membershipDiscount: boolean, membershipId?: string): TicketDocument;
+export interface IEventMethods {
+	registerParticipant(this: EventDocument, firstName: string, lastName: string, email: string, membershipDiscount: boolean, membershipId?: string): Promise<TicketDocument>;
 }
 
-export interface EventOverrides {
+export interface IEventOverrides {
 	entry: Types.Subdocument & IEntry;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type EventModel = Model<IEvent, {}, EventOverrides & EventMethods>;
+export type EventDocument = HydratedDocument<IEvent, IEventOverrides & IEventMethods>;
 
-export type EventDocument = HydratedDocument<IEvent, EventOverrides & EventMethods>;
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type EventModel = Model<IEvent, {}, IEventOverrides & IEventMethods>;
 
 export interface IEntry {
 	paidEntry: boolean;
@@ -30,14 +31,14 @@ export interface IEntry {
 	eventCapacity: number;
 }
 
-export const eventSchema = new Schema<IEvent, EventModel, EventMethods>(
+export const eventSchema = new Schema<IEvent, EventModel, IEventMethods>(
 	{
 		title: Schema.Types.String,
 		description: Schema.Types.String,
 		banner: Schema.Types.String,
 		startsAtTimestamp: Schema.Types.Number,
 		endsAtTimestamp: Schema.Types.Number,
-		entry: { 
+		entry: {
 			type: new Schema<IEntry>({
 				paidEntry: { type: Schema.Types.Boolean, default: false },
 				entryCost: { type: Schema.Types.Number, default: 0 },
@@ -50,8 +51,22 @@ export const eventSchema = new Schema<IEvent, EventModel, EventMethods>(
 	{
 		collection: 'events',
 		methods: {
-			registerParticipant() {
-				
+			async registerParticipant(this: EventDocument, firstName: string, lastName: string, email: string, membershipDiscount: boolean, membershipId?: string): Promise<TicketDocument> {
+				this.entry.registeredCount++;
+
+				await this.save();
+
+				const ticket = new Ticket({
+					firstName,
+					lastName,
+					email,
+					membershipDiscount,
+					membershipId,
+				});
+
+				await ticket.save();
+
+				return ticket;
 			},
 		},
 	},
