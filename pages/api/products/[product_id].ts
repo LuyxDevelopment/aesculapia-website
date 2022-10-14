@@ -3,7 +3,7 @@ import { Authentication } from '../../../src/auth/auth.js';
 import { AuthorityLevel } from '../../../src/models/Admin.js';
 import { IProduct, Product } from '../../../src/models/index.js';
 
-export default async function productsHandler(
+export default async function handler(
 	req: NextApiRequest & { body: IProduct } & { query: { product_id: string } },
 	res: NextApiResponse,
 ): Promise<void> {

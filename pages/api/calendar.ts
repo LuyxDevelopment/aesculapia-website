@@ -4,7 +4,7 @@ import { ResponseData } from '../../src/types/responseData';
 import { Authentication } from '../../src/auth/index';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
-export default async function calendarHandler(
+export default async function handler(
 	req: NextApiRequest & { body: number },
 	res: NextApiResponse<ResponseData<EventDocument | EventDocument[]>>,
 ): Promise<void> {

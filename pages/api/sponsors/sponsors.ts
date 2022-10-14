@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth.js';
-import {  AuthorityLevel, Sponsor } from '../../../src/models/index.js';
+import { AuthorityLevel, Sponsor } from '../../../src/models/index.js';
 
-export default async function sponsorsHandler(
+export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ): Promise<void> {
