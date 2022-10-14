@@ -1,6 +1,6 @@
-import { IEvent, Event, EventDocument } from '../../src/models/index.js';
+import { IEvent, Event, EventDocument } from '../../src/models/index';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ResponseData } from '../../src/types/responseData.js';
+import { ResponseData } from '../../src/types/responseData';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
 export default async function handler(

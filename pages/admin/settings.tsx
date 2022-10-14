@@ -3,10 +3,15 @@ import type { NextPage } from 'next';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../src/util/ironConfig';
 import { useState } from 'react';
+import { mail } from '../../src/mail/index';
 
 const AdminSettings: NextPage<{ user: { email: string } , otpAuthUri: string }> = ({ otpAuthUri }) => {
 	const [qrCode] = useState(otpAuthUri);
 	const [qrCodeShown, showQrCode] = useState(false);
+
+	const sendMail = async (): Promise<void> => {
+		await mail.sendMail('53p.business@gmail.com', '1234567890');
+	};
 
 	return (
 		<>
@@ -25,6 +30,14 @@ const AdminSettings: NextPage<{ user: { email: string } , otpAuthUri: string }> 
 				<QRCode value={qrCode} size={256} />
 
 			)}
+
+			<button
+				type='submit'
+				className='w-20 h-10 bg-emerald-500 text-white font-bold text-md rounded-lg hover:bg-emerald-700'
+				onClick={(): Promise<void> => sendMail()}
+			>
+					Send mail
+			</button>
 		</>
 	);
 };

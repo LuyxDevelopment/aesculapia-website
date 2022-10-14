@@ -5,10 +5,14 @@ export interface INews {
 	description: string;
 	banner: string | null;
 	hidden: boolean;
+	publishedTimestamp: number;
+	createdTimestamp: number;
 }
 
 export interface NewsMethods {
 	edit(this: NewsDocument, data: Pick<INews, 'title' | 'description' | 'banner' | 'hidden'>): void;
+	publish(this: NewsDocument): void;
+	unpublish(this: NewsDocument): void;
 }
 
 export type NewsDocument = HydratedDocument<INews, NewsMethods>;
@@ -22,6 +26,8 @@ export const newsSchema = new Schema<INews, NewsModel, NewsMethods>(
 		description: Schema.Types.String,
 		banner: { type: Schema.Types.String, default: null },
 		hidden: { type: Schema.Types.Boolean, default: false },
+		publishedTimestamp: { type: Schema.Types.Number, default: Date.now },
+		createdTimestamp: { type: Schema.Types.Number, default: Date.now },
 	},
 	{
 		collection: 'news',
@@ -32,7 +38,12 @@ export const newsSchema = new Schema<INews, NewsModel, NewsMethods>(
 				if (data.banner !== undefined) this.banner = data.banner;
 				if (data.hidden !== undefined) this.hidden = data.hidden;
 			},
-
+			publish(this: NewsDocument): void {
+				this.hidden = false;
+			},
+			unpublish(this: NewsDocument): void {
+				this.hidden = true;
+			},
 		},
 	},
 );

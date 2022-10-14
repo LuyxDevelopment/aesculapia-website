@@ -8,6 +8,7 @@ declare global {
 			SALT_ROUNDS: string;
 			TWO_FACTOR_AUTHENTICATION_APP_NAME: string;
 			STRIPE_TEST_KEY: string;
+			POSTMARK_API_KEY: string;
 		}
 	}
 }

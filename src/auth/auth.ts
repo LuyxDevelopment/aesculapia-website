@@ -1,7 +1,7 @@
 import { NextApiRequest } from 'next';
 import { authenticator } from 'otplib';
-import { Admin, AuthorityLevel } from '../models/Admin.js';
-import { hasUserSession } from '../util/hasUserSession.js';
+import { Admin, AuthorityLevel } from '../models/Admin';
+import { hasUserSession } from '../util/hasUserSession';
 
 export class Authentication {
 	public static generateSecret(): string {

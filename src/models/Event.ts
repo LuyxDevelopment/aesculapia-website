@@ -1,6 +1,6 @@
 import { Schema, Model, Types, default as mongoose, HydratedDocument } from 'mongoose';
 
-import { Ticket, TicketDocument } from './Ticket.js';
+import { Ticket, TicketDocument } from './Ticket';
 
 export interface IEvent {
 	title: string;
@@ -12,7 +12,7 @@ export interface IEvent {
 }
 
 export interface EventMethods {
-	registerParticipant(this: EventDocument, firstName: string, lastName: string, email: string, membershipDiscount: boolean, membershipId?: string): Promise<TicketDocument>;
+	registerParticipant(this: EventDocument, firstName: string, lastName: string, email: string, membershipDiscount: boolean, membershipId?: string): TicketDocument;
 }
 
 export interface EventOverrides {
@@ -51,10 +51,8 @@ export const eventSchema = new Schema<IEvent, EventModel, EventMethods>(
 	{
 		collection: 'events',
 		methods: {
-			async registerParticipant(this: EventDocument, firstName: string, lastName: string, email: string, membershipDiscount: boolean, membershipId?: string): Promise<TicketDocument> {
+			registerParticipant(this: EventDocument, firstName: string, lastName: string, email: string, membershipDiscount: boolean, membershipId?: string): TicketDocument {
 				this.entry.registeredCount++;
-
-				await this.save();
 
 				const ticket = new Ticket({
 					firstName,
@@ -63,8 +61,6 @@ export const eventSchema = new Schema<IEvent, EventModel, EventMethods>(
 					membershipDiscount,
 					membershipId,
 				});
-
-				await ticket.save();
 
 				return ticket;
 			},

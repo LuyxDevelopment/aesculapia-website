@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Authentication } from '../../../src/auth/auth.js';
-import { AuthorityLevel } from '../../../src/models/Admin.js';
-import { IProduct, Product } from '../../../src/models/index.js';
+import { Authentication } from '../../../src/auth/auth';
+import { AuthorityLevel } from '../../../src/models/Admin';
+import { IProduct, Product } from '../../../src/models/index';
 
 export default async function handler(
 	req: NextApiRequest & { body: IProduct } & { query: { product_id: string } },
