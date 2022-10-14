@@ -30,46 +30,36 @@ export default async function calendarHandler(
 				return;
 			}
 
-			res.status(200).json({
+			res.status(StatusCodes.OK).json({
 				error: false,
-				message: `Event #${req.query.event_id} successfully deleted.`,
+				message: getReasonPhrase(StatusCodes.OK),
 			});
 		} break;
 
 		case 'GET': {
-			if (req.query.event_id) {
-				const event = await Event.findById(req.query.event_id);
+			const event = await Event.findById(req.query.event_id);
 
-				if (!event) {
-					res.status(404).json({
-						error: true,
-						message: 'Event not found.',
-					});
-
-					return;
-				}
-
-				res.status(200).json({
-					error: false,
-					message: 'Event found.',
-					data: event,
+			if (!event) {
+				res.status(StatusCodes.NOT_FOUND).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.NOT_FOUND),
 				});
+
+				return;
 			}
 
-			const events = await Event.find({});
-
-			res.status(200).json({
+			res.status(StatusCodes.OK).json({
 				error: false,
-				message: 'All events found',
-				data: events,
+				message: getReasonPhrase(StatusCodes.OK),
+				data: event,
 			});
 		} break;
 
 		case 'PATCH': {
 			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
-				res.status(403).json({
+				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
-					message: 'Forbidden access',
+					message: getReasonPhrase(StatusCodes.FORBIDDEN),
 				});
 
 				return;
@@ -78,26 +68,26 @@ export default async function calendarHandler(
 			const event = await Event.findByIdAndUpdate(req.query.event_id, { $set: req.body });
 
 			if (!event) {
-				res.status(404).json({
+				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
-					message: 'Event not found.',
+					message: getReasonPhrase(StatusCodes.NOT_FOUND),
 				});
 				
 				return;
 			}
 
-			res.status(200).json({
+			res.status(StatusCodes.OK).json({
 				error: false,
-				message: 'Event successfully updated',
+				message: getReasonPhrase(StatusCodes.OK),
 				data: event,
 			});
 		} break;
 
 		case 'POST': {
 			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
-				res.status(403).json({
+				res.status(StatusCodes.FORBIDDEN).json({
 					error:true,
-					message: 'Forbidden access',
+					message: getReasonPhrase(StatusCodes.FORBIDDEN),
 				});
 
 				return;
@@ -110,9 +100,9 @@ export default async function calendarHandler(
 			} catch (error) {
 				console.log(error);
 
-				res.status(400).json({
+				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
 					error: true,
-					message: 'Error creating event',
+					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
 				});
 
 				return;
