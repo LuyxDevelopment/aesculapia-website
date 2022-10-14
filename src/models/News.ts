@@ -7,11 +7,16 @@ export interface INews {
 	hidden: boolean;
 }
 
-export type NewsDocument = HydratedDocument<INews>;
+export interface NewsMethods {
+	edit(this: NewsDocument, data: Pick<INews, 'title' | 'description' | 'banner' | 'hidden'>): void;
+}
 
-export type NewsModel = Model<NewsDocument>;
+export type NewsDocument = HydratedDocument<INews, NewsMethods>;
 
-export const newsSchema = new Schema<INews, NewsModel>(
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type NewsModel = Model<NewsDocument, {}, NewsMethods>;
+
+export const newsSchema = new Schema<INews, NewsModel, NewsMethods>(
 	{
 		title: Schema.Types.String,
 		description: Schema.Types.String,
@@ -20,6 +25,15 @@ export const newsSchema = new Schema<INews, NewsModel>(
 	},
 	{
 		collection: 'news',
+		methods: {
+			edit(this: NewsDocument, data: Partial<Pick<INews, 'title' | 'description' | 'banner' | 'hidden'>>): void {
+				if (data.title !== undefined) this.title = data.title;
+				if (data.description !== undefined) this.description = data.description;
+				if (data.banner !== undefined) this.banner = data.banner;
+				if (data.hidden !== undefined) this.hidden = data.hidden;
+			},
+
+		},
 	},
 );
 

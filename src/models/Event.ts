@@ -11,18 +11,18 @@ export interface IEvent {
 	entry: IEntry;
 }
 
-export interface IEventMethods {
+export interface EventMethods {
 	registerParticipant(this: EventDocument, firstName: string, lastName: string, email: string, membershipDiscount: boolean, membershipId?: string): Promise<TicketDocument>;
 }
 
-export interface IEventOverrides {
+export interface EventOverrides {
 	entry: Types.Subdocument & IEntry;
 }
 
-export type EventDocument = HydratedDocument<IEvent, IEventOverrides & IEventMethods>;
+export type EventDocument = HydratedDocument<IEvent, EventOverrides & EventMethods>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export type EventModel = Model<IEvent, {}, IEventOverrides & IEventMethods>;
+export type EventModel = Model<IEvent, {}, EventOverrides & EventMethods>;
 
 export interface IEntry {
 	paidEntry: boolean;
@@ -31,7 +31,7 @@ export interface IEntry {
 	eventCapacity: number;
 }
 
-export const eventSchema = new Schema<IEvent, EventModel, IEventMethods>(
+export const eventSchema = new Schema<IEvent, EventModel, EventMethods>(
 	{
 		title: Schema.Types.String,
 		description: Schema.Types.String,

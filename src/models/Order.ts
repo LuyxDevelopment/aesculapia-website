@@ -9,7 +9,7 @@ export interface IOrder {
 	product: Types.ObjectId;
 }
 
-export interface IOrderPopulated {
+export interface OrderPopulated {
 	product: ProductDocument;
 }
 

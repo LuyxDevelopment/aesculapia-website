@@ -15,11 +15,17 @@ export interface IAdmin {
 	has2faEnabled: boolean;
 }
 
-export type AdminDocument = HydratedDocument<IAdmin>;
+export interface AdminMethods {
+	promote(this: AdminDocument): boolean;
+	demote(this: AdminDocument): boolean;
+}
 
-export type AdminModel = Model<IAdmin>;
+export type AdminDocument = HydratedDocument<IAdmin, AdminMethods>;
 
-export const adminSchema = new Schema<IAdmin, AdminModel>(
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type AdminModel = Model<IAdmin, {}, AdminMethods>;
+
+export const adminSchema = new Schema<IAdmin, AdminModel, AdminMethods>(
 	{
 		email: { type: Schema.Types.String, required: true },
 		password: { type: Schema.Types.String, required: true },
@@ -33,6 +39,22 @@ export const adminSchema = new Schema<IAdmin, AdminModel>(
 	},
 	{
 		collection: 'admins',
+		methods: {
+			promote(this: AdminDocument): boolean {
+				if (this.authorityLevel === AuthorityLevel.ADMIN)
+					return false;
+				
+				this.authorityLevel++;
+				return true;
+			},
+			demote(this: AdminDocument): boolean {
+				if (this.authorityLevel === AuthorityLevel.MEMBER)
+					return false;
+
+				this.authorityLevel--;
+				return true;
+			},
+		},
 	},
 );
 
