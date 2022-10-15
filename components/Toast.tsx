@@ -28,6 +28,7 @@ const Toast = ({ title, description, type }: ToastOptions): JSX.Element => {
 						alt="icon"
 						width="25"
 						height="25"
+						className={type === 'loading' ? 'animate-spin' : ''}
 					/>
 				</div>
 				{title}
