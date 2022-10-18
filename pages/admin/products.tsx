@@ -1,3 +1,9 @@
-export default function AdminProducts(): JSX.Element {
-	return (<></>);
-}
+import type { NextPage } from 'next';
+
+const AdminProducts: NextPage = () => {
+	return (
+		<></>
+	);
+};
+
+export default AdminProducts;

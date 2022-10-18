@@ -1,3 +1,9 @@
-export default function AdminSocials(): JSX.Element {
-	return (<></>);
-}
+import type { NextPage } from 'next';
+
+const AdminSocials: NextPage = () => {
+	return (
+		<></>
+	);
+};
+
+export default AdminSocials;

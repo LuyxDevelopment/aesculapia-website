@@ -1,3 +1,9 @@
-export default function AdminHome(): JSX.Element {
-	return (<></>);
-}
+import type { NextPage } from 'next';
+
+const AdminHome: NextPage = () => {
+	return (
+		<></>
+	);
+};
+
+export default AdminHome;
