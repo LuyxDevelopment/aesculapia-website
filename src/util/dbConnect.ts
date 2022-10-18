@@ -14,7 +14,7 @@ const dbConnect = async (): Promise<void> => {
 		return;
 	}
 
-	const db = await connect(process.env.MONGO_URI, { dbName: DB_NAME });
+	const db = await connect(MONGO_URI, { dbName: DB_NAME });
 
 	connection.state = db.connections[0].readyState;
 
