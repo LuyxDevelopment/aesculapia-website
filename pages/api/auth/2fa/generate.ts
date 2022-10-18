@@ -5,6 +5,7 @@ import { ironOptions } from '../../../../src/util/ironConfig';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ResponseData } from '../../../../src/types/responseData';
 import { Authentication } from '../../../../src/auth/index';
+import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
 dbConnect();
 
@@ -16,11 +17,13 @@ export default withIronSessionApiRoute(async function loginHandler(
 		case 'POST': {
 			req.session.user = req.body;
 			await req.session.save();
+
 			if (!req.session.user) {
-				res.status(401).json({
+				res.status(StatusCodes.UNAUTHORIZED).json({
 					error: true,
-					message: 'You must be logged in.',
+					message: getReasonPhrase(StatusCodes.UNAUTHORIZED),
 				});
+
 				return;
 			}
 
@@ -28,26 +31,29 @@ export default withIronSessionApiRoute(async function loginHandler(
 			const admin = await Admin.findOne({ email });
 
 			if (!admin) {
-				res.status(400).json({
+				res.status(StatusCodes.UNAUTHORIZED).json({
 					error: true,
-					message: 'Email not registered!',
+					message: getReasonPhrase(StatusCodes.UNAUTHORIZED),
 				});
+
 				return;
 			}
 
 			if (has2faEnabled) {
-				res.status(404).json({
+				res.status(StatusCodes.CONFLICT).json({
 					error: true,
-					message: '2FA is already enabled.',
+					message: getReasonPhrase(StatusCodes.CONFLICT),
 				});
+
 				return;
 			}
 
 			if (admin.secret) {
-				res.status(200).json({
+				res.status(StatusCodes.CONFLICT).json({
 					error: false,
-					message: '2FA is already enabled.',
+					message: getReasonPhrase(StatusCodes.CONFLICT),
 				});
+
 				return;
 			}
 
@@ -59,11 +65,11 @@ export default withIronSessionApiRoute(async function loginHandler(
 			req.session.user.has2faEnabled = true;
 			await req.session.save();
 
-			res.status(200).json({
+			res.status(StatusCodes.OK).json({
 				error: false,
-				message: 'Generated secret successfully.',
+				message: getReasonPhrase(StatusCodes.OK),
 				data: Authentication.sendOtpAuthUri(secret, admin.email),
 			});
-		}
+		} break;
 	}
 }, ironOptions);

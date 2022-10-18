@@ -3,6 +3,7 @@ import { Admin } from '../../../src/models/Admin';
 import dbConnect from '../../../src/util/dbConnect';
 import { genSalt, hash } from 'bcryptjs';
 import { ajv } from '../../../src/util/ajv';
+import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
 interface ResponseData {
 	error: boolean;
@@ -43,10 +44,10 @@ export default async function registerHandler(
 			const email = req.body.email;
 			const password = req.body.password;
 
-			if (await Admin.exists({ email: email })) {
-				res.status(400).json({
+			if (await Admin.exists({ email })) {
+				res.status(StatusCodes.CONFLICT).json({
 					error: true,
-					message: 'Email already in use!',
+					message: getReasonPhrase(StatusCodes.CONFLICT),
 				});
 
 				return;
@@ -67,13 +68,13 @@ export default async function registerHandler(
 						admin.password = hash;
 						await admin.save();
 
-						res.status(200).json({
+						res.status(StatusCodes.CREATED).json({
 							error: false,
-							message: 'Admin profile created successfully!',
+							message: getReasonPhrase(StatusCodes.CREATED),
 						});
 						// eslint-disable-next-line @typescript-eslint/no-explicit-any
 					} catch (error: any) {
-						res.status(400).json({
+						res.status(StatusCodes.BAD_REQUEST).json({
 							error: true,
 							message: `Failed to register admin due to the following error: ${error?.message}`,
 						});
@@ -82,6 +83,6 @@ export default async function registerHandler(
 					}
 				});
 			});
-		}
+		} break;
 	}
 }

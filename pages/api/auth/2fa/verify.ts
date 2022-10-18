@@ -5,6 +5,7 @@ import { ironOptions } from '../../../../src/util/ironConfig';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ResponseData } from '../../../../src/types/responseData';
 import { Authentication } from '../../../../src/auth/index';
+import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
 dbConnect();
 
@@ -15,28 +16,31 @@ export default withIronSessionApiRoute(async function twoFactorAuthenticationHan
 	switch (req.method) {
 		case 'POST': {
 			if (!req.session.user) {
-				res.status(401).json({
+				res.status(StatusCodes.UNAUTHORIZED).json({
 					error: true,
-					message: 'You must be logged in.',
+					message: getReasonPhrase(StatusCodes.UNAUTHORIZED),
 				});
+
 				return;
 			}
 
 			const code = req.body.code;
 
 			if (!code) {
-				res.status(403).json({
+				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
-					message: 'You must provide a code.',
+					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
 				});
+
 				return;
 			}
 
 			if (!req.session.user.has2faEnabled) {
-				res.status(401).json({
+				res.status(StatusCodes.UNAUTHORIZED).json({
 					error: true,
-					message: 'Unauthorized.',
+					message: getReasonPhrase(StatusCodes.UNAUTHORIZED),
 				});
+
 				return;
 			}
 
@@ -44,31 +48,32 @@ export default withIronSessionApiRoute(async function twoFactorAuthenticationHan
 			const admin = await Admin.findOne({ email });
 
 			if (!admin) {
-				res.status(400).json({
+				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
-					message: 'Email not registered.',
+					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
 				});
+
 				return;
 			}
 
 			const verified = Authentication.verifyCode(code, admin.secret);
 
 			if (!verified) {
-				res.status(401).json({
+				res.status(StatusCodes.UNAUTHORIZED).json({
 					error: true,
-					message: 'Code not valid.',
+					message: getReasonPhrase(StatusCodes.UNAUTHORIZED),
 				});
 				return;
 			}
 
-			res.status(200).json({
+			res.status(StatusCodes.OK).json({
 				error: false,
-				message: 'Code valid.',
+				message: getReasonPhrase(StatusCodes.OK),
 				data: true,
 			});
 
 			req.session.user.completed2fa = true;
 			await req.session.save();
-		}
+		} break;
 	}
 }, ironOptions);

@@ -1,14 +1,12 @@
-import { StatusCodes, getReasonPhrase } from 'http-status-codes';
+import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { Types } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
-import { AuthorityLevel } from '../../../src/models/Admin';
-import { IEvent, EventDocument, Event } from '../../../src/models/index';
-import { ResponseData } from '../../../src/types/responseData';
+import { AuthorityLevel, ISponsor, Sponsor } from '../../../src/models/index';
 
 export default async function handler(
-	req: NextApiRequest & { body: IEvent } & { query: { event_id: string } },
-	res: NextApiResponse<ResponseData<EventDocument | EventDocument[]>>,
+	req: NextApiRequest & { body: ISponsor } & { query: { sponsor_id: string } },
+	res: NextApiResponse,
 ): Promise<void> {
 	switch (req.method) {
 		case 'DELETE': {
@@ -21,26 +19,13 @@ export default async function handler(
 				return;
 			}
 
-			try {
-				new Types.ObjectId(req.query.event_id);
-			} catch (error) {
-				res.status(StatusCodes.BAD_REQUEST).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
-				});
+			const sponsor = await Sponsor.findByIdAndDelete(req.query.sponsor_id);
 
-				return;
-			}
-
-			const event = await Event.findByIdAndDelete(req.query.event_id);
-
-			if (!event) {
+			if (!sponsor) {
 				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
 				});
-
-				return;
 			}
 
 			res.status(StatusCodes.OK).json({
@@ -50,27 +35,34 @@ export default async function handler(
 		} break;
 
 		case 'GET': {
-			try {
-				new Types.ObjectId(req.query.event_id);
-			} catch (error) {
-				res.status(StatusCodes.BAD_REQUEST).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+			if (req.query.sponsor_id) {
+				const sponsor = await Sponsor.findById(req.query.sponsor_id);
+
+				if (!sponsor) {
+					res.status(StatusCodes.NOT_FOUND).json({
+						error: true,
+						message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					});
+
+					return;
+				}
+
+				res.status(StatusCodes.OK).json({
+					error: false,
+					message: getReasonPhrase(StatusCodes.OK),
+					data: sponsor,
 				});
 
 				return;
 			}
 
-			const event = await Event.findById(req.query.event_id);
+			const sponsors = await Sponsor.find({});
 
-			if (!event) {
-				res.status(StatusCodes.NOT_FOUND).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.NOT_FOUND),
-				});
-
-				return;
-			}
+			res.status(StatusCodes.OK).json({
+				error: false,
+				message: getReasonPhrase(StatusCodes.OK),
+				data: sponsors,
+			});
 		} break;
 
 		case 'PATCH': {
@@ -84,7 +76,7 @@ export default async function handler(
 			}
 
 			try {
-				new Types.ObjectId(req.query.event_id);
+				new Types.ObjectId(req.query.sponsor_id);
 			} catch (error) {
 				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
@@ -94,9 +86,9 @@ export default async function handler(
 				return;
 			}
 
-			const event = await Event.findById(req.query.event_id);
+			const sponsor = await Sponsor.findById(req.query.sponsor_id);
 
-			if (!event) {
+			if (!sponsor) {
 				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
@@ -106,13 +98,13 @@ export default async function handler(
 			}
 
 			try {
-				event.set(req.body);
-				await event.save();
+				sponsor.set(req.body);
+				await sponsor.save();
 
 				res.status(StatusCodes.OK).json({
 					error: false,
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
-					data: event,
+					data: sponsor,
 				});
 			} catch (error) {
 				console.log(error);
@@ -134,21 +126,22 @@ export default async function handler(
 				return;
 			}
 
-			const event = new Event(req.body);
+			const sponsor = new Sponsor(req.body);
 
 			try {
-				await event.save();
+				await sponsor.save();
 
 				res.status(StatusCodes.CREATED).json({
 					error: false,
 					message: getReasonPhrase(StatusCodes.CREATED),
 				});
+
 			} catch (error) {
 				console.log(error);
 
-				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
-					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
+					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
 				});
 			}
 		} break;

@@ -4,7 +4,8 @@ import dbConnect from '../../../src/util/dbConnect';
 import { compare } from 'bcryptjs';
 import { ironOptions } from '../../../src/util/ironConfig';
 import { withIronSessionApiRoute } from 'iron-session/next';
-import { ResponseData } from '../../../index';
+import { getReasonPhrase, StatusCodes } from 'http-status-codes';
+import { ResponseData } from '../../../src/types/responseData';
 
 dbConnect();
 
@@ -19,10 +20,11 @@ export default withIronSessionApiRoute(async function loginHandler(
 			const admin = await Admin.findOne({ email: email });
 
 			if (!admin) {
-				res.status(400).json({
+				res.status(StatusCodes.UNAUTHORIZED).json({
 					error: true,
-					message: 'Email not registered.',
+					message: getReasonPhrase(StatusCodes.UNAUTHORIZED),
 				});
+
 				return;
 			}
 
@@ -32,9 +34,9 @@ export default withIronSessionApiRoute(async function loginHandler(
 				}
 
 				if (!isMatch) {
-					res.status(400).json({
+					res.status(StatusCodes.BAD_REQUEST).json({
 						error: true,
-						message: 'Password does not match.',
+						message: getReasonPhrase(StatusCodes.BAD_REQUEST),
 					});
 
 					return;
@@ -48,14 +50,11 @@ export default withIronSessionApiRoute(async function loginHandler(
 
 				await req.session.save();
 
-
-				res.status(200).json({
+				res.status(StatusCodes.OK).json({
 					error: false,
-					message: 'Logged in successfully.',
+					message: getReasonPhrase(StatusCodes.OK),
 				});
-
-
 			});
-		}
+		} break;
 	}
 }, ironOptions);

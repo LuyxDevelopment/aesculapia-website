@@ -1,7 +1,8 @@
+import { getReasonPhrase, StatusCodes } from 'http-status-codes';
+import { Types } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
-import { AuthorityLevel } from '../../../src/models/Admin';
-import { IProduct, Product } from '../../../src/models/index';
+import { AuthorityLevel, IProduct, Product } from '../../../src/models/index';
 
 export default async function handler(
 	req: NextApiRequest & { body: IProduct } & { query: { product_id: string } },
@@ -10,98 +11,156 @@ export default async function handler(
 	switch (req.method) {
 		case 'DELETE': {
 			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
-				return res.status(403).json({
+				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
-					message: 'Forbidden access',
+					message: getReasonPhrase(StatusCodes.FORBIDDEN),
 				});
+
+				return;
+			}
+
+			try {
+				new Types.ObjectId(req.query.product_id);
+			} catch (error) {
+				res.status(StatusCodes.BAD_REQUEST).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+				});
+
+				return;
 			}
 
 			const product = await Product.findByIdAndDelete(req.query.product_id);
 
 			if (!product) {
-				return res.status(404).json({
+				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
-					message: 'Product not found.',
+					message: getReasonPhrase(StatusCodes.NOT_FOUND),
 				});
+
+				return;
 			}
 
-			return res.status(200).json({
+			res.status(StatusCodes.OK).json({
 				error: false,
-				message: `Product #${req.query.product_id} successfully deleted.`,
+				message: getReasonPhrase(StatusCodes.OK),
 			});
-		}
+		} break;
 
 		case 'GET': {
-			if (req.query.product_id) {
-				const product = await Product.findById(req.query.product_id);
-
-				if (!product) {
-					return res.status(404).json({
-						error: true,
-						message: 'Product not found.',
-					});
-				}
-
-				return res.status(200).json({
-					error: false,
-					message: 'Product found.',
-					data: product,
+			try {
+				new Types.ObjectId(req.query.product_id);
+			} catch (error) {
+				res.status(StatusCodes.BAD_REQUEST).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
 				});
+
+				return;
 			}
 
-			const products = await Product.find({});
+			const product = await Product.findById(req.query.product_id);
 
-			return res.status(200).json({
+			if (!product) {
+				res.status(StatusCodes.NOT_FOUND).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+				});
+
+				return;
+			}
+
+			res.status(StatusCodes.OK).json({
 				error: false,
-				message: 'All products found',
-				data: products,
+				message: getReasonPhrase(StatusCodes.OK),
+				data: product,
 			});
-		}
+		} break;
 
 		case 'PATCH': {
 			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
-				return res.status(403).json({
+				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
-					message: 'Forbidden access',
+					message: getReasonPhrase(StatusCodes.FORBIDDEN),
+				});
+
+				return;
+			}
+
+			try {
+				new Types.ObjectId(req.query.product_id);
+			} catch (error) {
+				res.status(StatusCodes.BAD_REQUEST).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
 				});
 			}
 
-			const product = await Product.findByIdAndUpdate(req.query.product_id, { $set: req.body });
+			const product = await Product.findById(req.query.product_id);
 
 			if (!product) {
-				return res.status(404).json({
+				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
-					message: 'Product not found.',
+					message: getReasonPhrase(StatusCodes.NOT_FOUND),
 				});
+
+				return;
 			}
 
-			return res.status(200).json({
-				error: false,
-				message: 'Product successfully updated',
-				data: product,
-			});
-		}
+			try {
+				product.set(req.body);
+				await product.save();
+
+				res.status(StatusCodes.OK).json({
+					error: false,
+					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: product,
+				});
+			} catch (error) {
+				console.log(error);
+
+				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
+				});
+			}
+		} break;
 
 		case 'POST': {
 			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
-				return res.status(403).json({
+				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
-					message: 'Forbidden access',
+					message: getReasonPhrase(StatusCodes.FORBIDDEN),
 				});
+
+				return;
 			}
 
 			const product = new Product(req.body);
 
 			try {
 				await product.save();
+
+				res.status(StatusCodes.CREATED).json({
+					error: false,
+					message: getReasonPhrase(StatusCodes.CREATED),
+				});
+
 			} catch (error) {
 				console.log(error);
 
-				return res.status(400).json({
+				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
 					error: true,
-					message: 'Error creating product',
+					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
 				});
 			}
+		} break;
+
+		default: {
+			res.status(StatusCodes.NOT_FOUND).json({
+				error: false,
+				message: getReasonPhrase(StatusCodes.NOT_FOUND),
+			});
 		} break;
 	}
 }
