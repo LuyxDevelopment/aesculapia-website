@@ -66,14 +66,22 @@ export default withIronSessionApiRoute(async function twoFactorAuthenticationHan
 				return;
 			}
 
-			res.status(StatusCodes.OK).json({
-				error: false,
-				message: getReasonPhrase(StatusCodes.OK),
-				data: true,
-			});
+			if (verified === 0) {
+				req.session.user.completed2fa = true;
+				await req.session.save();
 
-			req.session.user.completed2fa = true;
-			await req.session.save();
-		} break;
+				res.status(StatusCodes.OK).json({
+					error: false,
+					message: getReasonPhrase(StatusCodes.OK),
+					data: true,
+				});
+				return;
+			}
+
+			res.status(StatusCodes.UNAUTHORIZED).json({
+				error: true,
+				message: getReasonPhrase(StatusCodes.UNAUTHORIZED),
+			});
+		}
 	}
 }, ironOptions);
