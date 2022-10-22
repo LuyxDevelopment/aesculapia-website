@@ -8,13 +8,18 @@ export class Mail {
 		this.postmark = new ServerClient('');
 	}
 
-	public async sendMail(to: string, orderId: string): Promise<void> {
-		await this.postmark.sendEmail({
-			'From': 'contact@luyx.dev',
-			'To': 'contact@luyx.dev',
-			'Subject': 'Hello from Postmark',
-			'HtmlBody': '<strong>Hello</strong> dear Postmark user.',
-			'TextBody': 'Hello from Postmark!',
+	public async sendConfirmationMail(to: string, orderId: string, name: string): Promise<void> {
+		await this.postmark.sendEmailWithTemplate({
+			'TemplateId': 29486543,
+			'TemplateModel': {
+				'name': name,
+				'product_name': 'Aesculapia',
+				'product_id': orderId,
+				'company_name': 'Aesculapia',
+				'company_address': '123 Burn Street',
+			},
+			'From': 'no-reply@aesculapia-vzw.be',
+			'To': to,
 			'MessageStream': 'test',
 		});
 	}
