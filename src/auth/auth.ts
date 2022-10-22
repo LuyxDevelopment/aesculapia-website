@@ -10,11 +10,12 @@ export class Authentication {
 		return secret;
 	}
 
-	public static verifyCode(code: string, secret: string): boolean {
-		return authenticator.verify({
-			token: code,
-			secret: secret,
-		});
+	public static verifyCode(code: string, secret: string): number | null {
+		authenticator.options = {
+			window: [2, 2],
+		};
+
+		return authenticator.checkDelta(code, secret);
 	}
 
 	public static sendOtpAuthUri(secret: string, email: string): string {
@@ -23,11 +24,11 @@ export class Authentication {
 		return otp;
 	}
 
-	public static async auth(requiredLevel: AuthorityLevel, req: NextApiRequest): Promise<boolean>  {
+	public static async auth(requiredLevel: AuthorityLevel, req: NextApiRequest): Promise<boolean> {
 		if (!hasUserSession(req)) return false;
 
 		const admin = await Admin.findOne({ email: req.session.user!.email });
 
-		return admin !== null && admin.authorityLevel > requiredLevel; 
+		return admin !== null && admin.authorityLevel > requiredLevel;
 	}
 }
