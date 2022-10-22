@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { BaseSyntheticEvent, useState } from 'react';
 import Layout from '../../components/Layout';
 import Toast from '../../components/Toast';
 import { useMetaData } from '../../lib/hooks/useMetaData';
 import { useForm } from 'react-hook-form';
+import QRCode from 'qrcode.react';
+import { withIronSessionSsr } from 'iron-session/next';
+import { ironOptions } from '../../src/util/ironConfig';
+import { useRouter } from 'next/router';
 
 type FieldValues = {
 	email: string;
@@ -14,12 +18,14 @@ export default function AdminLogin(): JSX.Element {
 	const [twoFactorAuthCode, setTwoFactorAuthCode] = useState('');
 	const [message, setMessage] = useState<{ type: 'success' | 'error' | 'info', text: string }>({ type: 'success', text: '' });
 	const [isVisible, setIsVisible] = useState(false);
+	const router = useRouter();
 
 	const [twoFactorAuthValid, setTwoFactorAuthValid] = useState(false);
 
 	const { register, handleSubmit, formState: { errors }} = useForm();
 
-	const onSubmit = async (data: FieldValues): Promise<void> => {
+	const onSubmit = async (data: FieldValues, event?: BaseSyntheticEvent): Promise<void> => {
+		event?.preventDefault();
 		try {
 			const req = await fetch('/api/auth/login', {
 				method: 'POST',
@@ -31,6 +37,9 @@ export default function AdminLogin(): JSX.Element {
 			if (req.ok) {
 				setIsAllowed(true);
 				setMessage({ type: 'info', text: 'Please put in your 2FA code!' });
+			} else if (req.status === 401) {
+				await router.push('/admin/settings');
+				setMessage({ type: 'info', text: 'You must enable 2FA to login!' });
 			}
 		} catch (error) {
 			// for debugging purposes
@@ -49,7 +58,8 @@ export default function AdminLogin(): JSX.Element {
 
 		const data = await req.json();
 
-		if (data.data) setTwoFactorAuthValid(true);
+		if (data.data) return setTwoFactorAuthValid(true);
+		setTwoFactorAuthValid(false);
 	};
 	
 	const clearMessage = (): NodeJS.Timeout =>
@@ -64,7 +74,7 @@ export default function AdminLogin(): JSX.Element {
 				<div className='select-none'>
 
 					{!isAllowed && (
-						<form onSubmit={handleSubmit(onSubmit)}>
+						<form onSubmit={handleSubmit((data, event) => onSubmit(data, event))}>
 							<div className='flex flex-col items-center text-center font-bold'>
 								<div className='pb-3'>
 									<label className='font-bold text-2xl'>Email</label>
@@ -125,9 +135,10 @@ export default function AdminLogin(): JSX.Element {
 							<br />
 							<input type="text" onChange={(e): void => setTwoFactorAuthCode(e.target.value)} />
 							<button className='bg-green-500' onClick={submit2FA}>enter</button>
-							<p className='text-black'>{twoFactorAuthValid ? 'yes' : 'no'}</p>
+							<p className='text-black'>{twoFactorAuthValid ? 'Valid code.' : 'Invalid code.'}</p>
 						</div>
 					)}
+					
 				</div>
 				{message.text !== '' && (
 					<Toast type={message.type} title={message.type[0].toUpperCase() + message.type.slice(1)} description={message.text} />
@@ -136,3 +147,20 @@ export default function AdminLogin(): JSX.Element {
 		</>
 	);
 }
+
+export const getServerSideProps = withIronSessionSsr(function ({ req }) {
+	const user = req.session.user;
+
+	if (user?.email) {
+		return {
+			redirect: {
+				destination: '/admin/',
+				permanent: false,
+			},
+		};
+	}
+
+	return {
+		props: {  },
+	};
+}, ironOptions);
