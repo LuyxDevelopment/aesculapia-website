@@ -42,9 +42,25 @@ export default withIronSessionApiRoute(async function loginHandler(
 					return;
 				}
 
+				if (!admin.has2faEnabled) {
+					req.session.user = {
+						email,
+						has2faEnabled: false,
+						completed2fa: false,
+					};
+					await req.session.save();
+
+					res.status(401).json({
+						error: true,
+						message: 'User must enable 2FA.',
+					});
+
+					return;
+				}
+
 				req.session.user = {
 					email,
-					has2faEnabled: admin.has2faEnabled,
+					has2faEnabled: true,
 					completed2fa: false,
 				};
 
