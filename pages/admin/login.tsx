@@ -3,7 +3,6 @@ import Layout from '../../components/Layout';
 import Toast from '../../components/Toast';
 import { useMetaData } from '../../lib/hooks/useMetaData';
 import { useForm } from 'react-hook-form';
-import QRCode from 'qrcode.react';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../src/util/ironConfig';
 import { useRouter } from 'next/router';

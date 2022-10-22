@@ -4,7 +4,6 @@ import dbConnect from '../../../../src/util/dbConnect';
 import { ironOptions } from '../../../../src/util/ironConfig';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ResponseData } from '../../../../src/types/responseData';
-import { Authentication } from '../../../../src/auth/index';
 
 dbConnect();
 
