@@ -1,4 +1,6 @@
 import { FC, ReactNode } from 'react';
+import Footer from './Footer';
+import Navbar from './Navbar';
 
 interface Props {
 	children: ReactNode;
@@ -7,9 +9,9 @@ interface Props {
 const Layout: FC<Props> = ({ children }) => {
 	return (
 		<div className="flex flex-col h-screen">
-			{/* <Navbar /> */}
+			<Navbar />
 			<div className="flex-grow">{children}</div>
-			{/* <Footer /> */}
+			<Footer />
 		</div>
 	);
 };
