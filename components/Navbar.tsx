@@ -10,7 +10,13 @@ const Navbar: FC = () => {
 				height="70"
 				onClick={() => (window.location.href = '/')}
 			/>
-			<span className="sm:hidden block float-right">hamburger</span>
+			<span className="sm:hidden block float-right">
+				<Image
+					src="/assets/icons/hamburger.svg"
+					width={160}
+					height={87}
+				/>
+			</span>
 			<div className="hidden sm:block">
 				<h1>Heading</h1>
 				<div>
