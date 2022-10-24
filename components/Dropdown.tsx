@@ -29,10 +29,10 @@ const Dropdown = ({
 				direction === 'right'
 					? 'flex flex-row'
 					: direction === 'left'
-					? 'flex flex-row-reverse'
-					: direction === 'bottom'
-					? 'relative inline-block'
-					: ''
+						? 'flex flex-row-reverse'
+						: direction === 'bottom'
+							? 'relative inline-block'
+							: ''
 			}`}
 			ref={dropdownRef}
 		>

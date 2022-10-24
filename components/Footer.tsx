@@ -31,21 +31,25 @@ const Footer: FC = () => {
 					src="/assets/icons/facebook.svg"
 					width={50}
 					height={50}
+					alt="Facebook"
 				/>
 				<Image
 					src="/assets/icons/linkedin.svg"
 					width={50}
 					height={50}
+					alt="LinkedIn"
 				/>
 				<Image
 					src="/assets/icons/youtube.svg"
 					width={50}
 					height={50}
+					alt="YouTube"
 				/>
 				<Image
 					src="/assets/icons/instagram.svg"
 					width={50}
 					height={50}
+					alt="Instagram"
 				/>
 			</div>
 			<h1 className="text-center pb-6">Aesculapia</h1>
