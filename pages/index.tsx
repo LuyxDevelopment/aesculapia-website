@@ -1,27 +1,16 @@
-import Head from 'next/head';
+import Layout from '../components/Layout';
+import { useMetaData } from '../lib/hooks/useMetaData';
+import type { NextPage } from 'next';
 
-export default function Home(): JSX.Element {
+const Home: NextPage = () => {
 	return (
-		<div>
-			<Head>
-				<title>Aesculapia</title>
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
-
-			<main >
-				<h1 >
-					Aesculapia
-				</h1>
-			</main>
-
-			<footer >
-				<a
-					href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-				</a>
-			</footer>
-		</div>
+		<>
+			{useMetaData('Aesculapia', 'Home Page', '/')}
+			<Layout>
+				<h1>Hello men</h1>
+			</Layout>
+		</>
 	);
-}
+};
+
+export default Home;
