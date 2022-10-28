@@ -1,3 +1,5 @@
+//TODO: Make hamburger icon work
+
 import { FC } from 'react';
 import Image from 'next/image';
 
