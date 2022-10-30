@@ -11,8 +11,9 @@ declare global {
 			POSTMARK_API_KEY: string;
 			NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: string;
 			STRIPE_SECRET_KEY: string;
+			NEXT_PUBLIC_DOMAIN: string;
 		}
 	}
 }
 
-export { };
+export {};
