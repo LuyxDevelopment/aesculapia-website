@@ -18,10 +18,10 @@ export const useMetaData = (
 	}, []);
 	return (
 		<Head>
-			<title>{title} | Aesculapia</title>
+			<title>{title}</title>
 			<link
 				rel="shortcut icon"
-				href=""
+				href="/assets/logo.png"
 				type="image/png"
 			/>
 

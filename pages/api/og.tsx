@@ -1,13 +1,12 @@
 import { ImageResponse } from '@vercel/og';
-import type { NextApiRequest } from 'next';
-import Image from 'next/image';
+import type { NextRequest } from 'next/server';
 
 export const config = {
 	runtime: 'experimental-edge',
 };
 
-export default function ogHandler(req: NextApiRequest) {
-	const { searchParams } = new URL(req.url!);
+export default function ogHandler(req: NextRequest) {
+	const { searchParams } = req.nextUrl;
 	const description = searchParams.get('description') ?? 'Aesculapia';
 
 	return new ImageResponse(
@@ -25,8 +24,10 @@ export default function ogHandler(req: NextApiRequest) {
 					borderRadius: 25,
 				}}
 			>
-				<Image
-					src="/public/assets/logo.png"
+				<img
+					src={`${
+						process.env.NEXT_PUBLIC_DOMAIN ?? 'http://localhost:3000'
+					}/assets/logo.png`}
 					alt="aesculapia-logo"
 					width="150"
 					tw="pb-3"
