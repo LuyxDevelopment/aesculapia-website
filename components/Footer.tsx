@@ -26,31 +26,39 @@ const Footer: FC = () => {
 					<h2>4</h2>
 				</div>
 			</div>
-			<div className="py-8 flex flex-row items-center justify-center space-x-5">
-				<Image
-					src="/assets/icons/facebook.svg"
-					width={50}
-					height={50}
-					alt="Facebook"
-				/>
-				<Image
-					src="/assets/icons/linkedin.svg"
-					width={50}
-					height={50}
-					alt="LinkedIn"
-				/>
-				<Image
-					src="/assets/icons/youtube.svg"
-					width={50}
-					height={50}
-					alt="YouTube"
-				/>
-				<Image
-					src="/assets/icons/instagram.svg"
-					width={50}
-					height={50}
-					alt="Instagram"
-				/>
+			<div className="py-8 flex flex-row items-center justify-center">
+				<span className="px-1">
+					<Image
+						src="/assets/icons/facebook.svg"
+						width={50}
+						height={50}
+						alt="Facebook"
+					/>
+				</span>
+				<span className="px-1">
+					<Image
+						src="/assets/icons/linkedin.svg"
+						width={50}
+						height={50}
+						alt="LinkedIn"
+					/>
+				</span>
+				<span className="px-1">
+					<Image
+						src="/assets/icons/youtube.svg"
+						width={50}
+						height={50}
+						alt="YouTube"
+					/>
+				</span>
+				<span className="px-1">
+					<Image
+						src="/assets/icons/instagram.svg"
+						width={50}
+						height={50}
+						alt="Instagram"
+					/>
+				</span>
 			</div>
 			<h1 className="text-center pb-6">Aesculapia</h1>
 		</footer>
