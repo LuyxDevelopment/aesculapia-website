@@ -94,6 +94,19 @@ body {
 	opacity: 1;
 }
 
+.hidden-aos {
+	opacity: 0;
+	filter: blur(5px);
+	transform: translateX(-100%);
+	transition: all 1s;
+}
+
+.show-aos {
+	opacity: 1;
+	filter: blur(0);
+	transform: translateX(0);
+}
+
 @layer components {
 	.f-header {
 		@apply text-xl underline font-bold cursor-pointer hover:no-underline hover:-translate-y-1 transition ease-in-out duration-150;
