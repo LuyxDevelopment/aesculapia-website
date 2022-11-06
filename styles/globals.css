@@ -16,6 +16,7 @@ body {
 
 body {
 	font-family: 'Raleway', sans-serif;
+	overflow-x: hidden;
 }
 
 .container {
@@ -94,14 +95,27 @@ body {
 	opacity: 1;
 }
 
-.hidden-aos {
+.hidden-aos-lr {
 	opacity: 0;
 	filter: blur(5px);
 	transform: translateX(-100%);
 	transition: all 1s;
 }
 
-.show-aos {
+.show-aos-lr {
+	opacity: 1;
+	filter: blur(0);
+	transform: translateX(0);
+}
+
+.hidden-aos-rl {
+	opacity: 0;
+	filter: blur(5px);
+	transform: translateX(100%);
+	transition: all 1s;
+}
+
+.show-aos-rl {
 	opacity: 1;
 	filter: blur(0);
 	transform: translateX(0);
