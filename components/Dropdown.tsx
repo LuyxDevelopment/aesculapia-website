@@ -5,7 +5,7 @@ import { useOutsideAlerter } from '../lib/hooks/useOutsideAlerter';
 interface DropdownItem {
 	text: string;
 	href?: string;
-	style?: CSSProperties;
+	tw?: string;
 }
 
 interface DropdownProps {
@@ -13,8 +13,7 @@ interface DropdownProps {
 	children: ReactNode;
 	items: DropdownItem[];
 	newSpace?: boolean;
-	style?: CSSProperties;
-	itemStyle?: CSSProperties;
+	tw?: string;
 }
 
 const Dropdown = ({
@@ -22,8 +21,7 @@ const Dropdown = ({
 	children,
 	items,
 	newSpace,
-	style,
-	itemStyle,
+	tw,
 }: DropdownProps): JSX.Element => {
 	const dropdownRef = useRef(null);
 	const [isVisible, setIsVisible] = useState(false);
@@ -48,8 +46,7 @@ const Dropdown = ({
 				<div
 					className={`${
 						newSpace ? 'relative' : 'absolute'
-					} flex flex-col rounded-md drop-shadow-lg child-xl cursor-pointer`}
-					style={style}
+					} ${tw} flex flex-col rounded-md drop-shadow-lg child-xl cursor-pointer`}
 				>
 					{items.map((item, i) => {
 						return (
@@ -57,7 +54,7 @@ const Dropdown = ({
 								href={item.href}
 								text={item.text}
 								key={i}
-								style={itemStyle}
+								tw={item.tw}
 							/>
 						);
 					})}
@@ -67,11 +64,11 @@ const Dropdown = ({
 	);
 };
 
-const DropdownItem = ({ text, href, style }: DropdownItem): JSX.Element => {
+const DropdownItem = ({ text, href, tw }: DropdownItem): JSX.Element => {
 	return (
 		<>
 			<p
-				className="py-2 w-28 flex flex-wrap pl-2 border-gray-200 border-b-2 bg-white text-black"
+				className={`${tw} py-2 w-28 flex flex-wrap pl-2 border-gray-200 border-b-2 bg-white text-black`}
 				onClick={
 					href !== undefined
 						? (): string => (window.location.href = href)
@@ -79,7 +76,6 @@ const DropdownItem = ({ text, href, style }: DropdownItem): JSX.Element => {
 								return false;
 						  }
 				}
-				style={style}
 			>
 				{href !== undefined && <Link href={href!}>{text}</Link>}
 				{href === undefined && <p>{text}</p>}
