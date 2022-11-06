@@ -1,7 +1,8 @@
 import { useEffect, ReactNode, FC } from 'react';
 
 export interface Props {
-	dir: 'lr' | 'rl';
+	// left-right | right-left | top-bottom | bottom-top
+	dir: 'lr' | 'rl' | 'tb' | 'bt';
 	children: ReactNode;
 }
 
