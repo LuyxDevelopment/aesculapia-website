@@ -10,11 +10,11 @@ const Navbar: FC = () => {
 
 	return (
 		<>
-			<nav className="bg-white text-black shadow-lg p-5 flex flex-row justify-between sm:justify-evenly items-center">
+			<nav className="bg-white text-black shadow-lg p-3 flex flex-row justify-between sm:justify-evenly items-center">
 				<Image
 					src="/assets/logo.png"
-					width="70"
-					height="70"
+					width="60"
+					height="60"
 					alt="Logo"
 					onClick={() => (window.location.href = '/')}
 				/>
