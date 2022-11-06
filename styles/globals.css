@@ -99,7 +99,7 @@ body {
 	opacity: 0;
 	filter: blur(5px);
 	transform: translateX(-100%);
-	transition: all 1s;
+	transition: all 1.5s;
 }
 
 .show-aos-lr {
@@ -112,13 +112,39 @@ body {
 	opacity: 0;
 	filter: blur(5px);
 	transform: translateX(100%);
-	transition: all 1s;
+	transition: all 1.5s;
 }
 
 .show-aos-rl {
 	opacity: 1;
 	filter: blur(0);
 	transform: translateX(0);
+}
+
+.hidden-aos-tb {
+	opacity: 0;
+	filter: blur(5px);
+	transform: translateY(-100%);
+	transition: all 1.5s;
+}
+
+.show-aos-tb {
+	opacity: 1;
+	filter: blur(0);
+	transform: translateY(0);
+}
+
+.hidden-aos-bt {
+	opacity: 0;
+	filter: blur(5px);
+	transform: translateY(100%);
+	transition: all 1.5s;
+}
+
+.show-aos-bt {
+	opacity: 1;
+	filter: blur(0);
+	transform: translateY(0);
 }
 
 @layer components {
