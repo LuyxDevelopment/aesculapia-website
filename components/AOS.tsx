@@ -18,7 +18,7 @@ const AOS: FC<Props> = ({ dir, children }) => {
 		});
 		const hidden = document.querySelectorAll(`.hidden-aos-${dir}`);
 		hidden.forEach((el) => observer.observe(el));
-	});
+	}, []);
 
 	return <div className={`hidden-aos-${dir}`}>{children}</div>;
 };
