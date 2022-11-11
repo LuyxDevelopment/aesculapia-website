@@ -1,4 +1,4 @@
-import { useState, useRef, ReactNode, CSSProperties } from 'react';
+import { useState, useRef, ReactNode } from 'react';
 import Link from 'next/link';
 import { useOutsideAlerter } from '../lib/hooks/useOutsideAlerter';
 
