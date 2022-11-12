@@ -113,7 +113,7 @@ const Home: NextPage = () => {
 							<div className="flex flex-col sm:flex-row items-center justify-evenly mb-5 text-white">
 								{events.map((event, i) => {
 									return (
-										<div>
+										<div key={i}>
 											<Dropdown
 												direction="bottom"
 												items={[
