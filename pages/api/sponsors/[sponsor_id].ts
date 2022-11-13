@@ -3,6 +3,9 @@ import { Types } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
 import { AuthorityLevel, ISponsor, Sponsor } from '../../../src/models/index';
+import dbConnect from '../../../src/util/dbConnect';
+
+dbConnect();
 
 export default async function handler(
 	req: NextApiRequest & { body: ISponsor; } & { query: { sponsor_id: string; }; },
@@ -10,7 +13,7 @@ export default async function handler(
 ): Promise<void> {
 	switch (req.method) {
 		case 'DELETE': {
-			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
@@ -66,7 +69,7 @@ export default async function handler(
 		} break;
 
 		case 'PATCH': {
-			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
@@ -117,7 +120,7 @@ export default async function handler(
 		} break;
 
 		case 'POST': {
-			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),

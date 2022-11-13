@@ -2,6 +2,9 @@ import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { News, NewsDocument } from '../../../src/models/index';
 import { ResponseData } from '../../../src/types/responseData';
+import dbConnect from '../../../src/util/dbConnect';
+
+dbConnect();
 
 export default async function handler(
 	req: NextApiRequest,

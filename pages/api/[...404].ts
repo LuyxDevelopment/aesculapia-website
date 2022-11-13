@@ -1,6 +1,9 @@
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ResponseData } from '../../src/types/responseData';
+import dbConnect from '../../src/util/dbConnect';
+
+dbConnect();
 
 export default function handler(
 	req: NextApiRequest,

@@ -3,6 +3,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
 import { AuthorityLevel, Order, OrderDocument, Product } from '../../../src/models/index';
 import { ResponseData } from '../../../src/types/responseData';
+import dbConnect from '../../../src/util/dbConnect';
+
+dbConnect();
 
 export default async function handler(
 	req: NextApiRequest & { query: { default: boolean; }; },
@@ -43,7 +46,7 @@ export default async function handler(
 				return;
 			}
 
-			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),

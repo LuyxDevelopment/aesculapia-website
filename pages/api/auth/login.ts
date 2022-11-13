@@ -5,7 +5,9 @@ import { ironOptions } from '../../../src/util/ironConfig';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { ResponseData } from '../../../src/types/responseData';
+import dbConnect from '../../../src/util/dbConnect';
 
+dbConnect();
 
 export default withIronSessionApiRoute(async function loginHandler(
 	req: NextApiRequest,

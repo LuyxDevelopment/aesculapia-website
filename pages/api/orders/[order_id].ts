@@ -2,6 +2,9 @@ import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { Types } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { IOrder, Order } from '../../../src/models/index';
+import dbConnect from '../../../src/util/dbConnect';
+
+dbConnect();
 
 export default async function handler(
 	req: NextApiRequest & { body: IOrder; } & { query: { order_id: string; }; },
