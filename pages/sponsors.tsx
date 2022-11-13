@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
-import ProgressPage from '../src/util/inProgress';
+import InProgress from '../components/InProgress';
 
-const Sponsors: NextPage = ProgressPage;
+const Sponsors: NextPage = InProgress;
 
 export default Sponsors;

@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
-import ProgressPage from '../src/util/inProgress';
+import InProgress from '../components/InProgress';
 
-const Song: NextPage = ProgressPage;
+const Song: NextPage = InProgress;
 
 export default Song;
