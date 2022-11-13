@@ -7,7 +7,8 @@ export interface IOrder {
 	lastName: string;
 	issuedAt: number;
 	receivedAt: number | null;
-	product: Types.ObjectId;
+	product: Types.ObjectId[];
+	delivered: boolean;
 }
 
 export interface OrderMethods {
@@ -29,7 +30,8 @@ export const orderSchema = new Schema<IOrder, OrderModel, OrderMethods>({
 	lastName: Schema.Types.String,
 	issuedAt: { type: Schema.Types.Number, default: Date.now },
 	receivedAt: { type: Schema.Types.Number, default: null },
-	product: { type: Schema.Types.ObjectId, ref: 'Product' },
+	product: { type: [Schema.Types.ObjectId], ref: 'Product' },
+	delivered: { type: Schema.Types.Boolean, default: false },
 }, {
 	collection: 'orders',
 	methods: {

@@ -1,28 +1,57 @@
 import { withIronSessionSsr } from 'iron-session/next';
-import { ironOptions } from '../../src/util/ironConfig';
 import { NextPage } from 'next';
-import Layout from '../../components/Layout';
+import { ironOptions } from '../../../src/util/ironConfig';
+import { useMetaData } from '../../../lib/hooks/useMetaData';
+import Layout from '../../../components/Layout';
+import { useEffect, useState } from 'react';
+import LoadingPage from '../../../src/util/loading';
+import ErrorPage from '../../../src/util/error';
+import { OrderDocument } from '../../../src/models/Order.js';
+import OrderCard from '../../../components/OrderCard';
 
-const AdminHome: NextPage = () => {
+const AdminOrders: NextPage = () => {
+	useMetaData('Admin', 'Admin Orders', '/admin');
+
+	const [data, setData] = useState(null);
+	const [isLoading, setLoading] = useState(false);
+
+	useEffect(() => {
+		setLoading(true);
+		fetch('/api/orders')
+			.then((res) => res.json())
+			.then((data) => {
+				setData(data.data);
+				setLoading(false);
+			});
+	}, []);
+
+	if (isLoading) {
+		return <LoadingPage />;
+	}
+
+	if (!data) {
+		return <ErrorPage />;
+	}
+
 	return (
 		<>
 			<Layout>
-				<div className="relative">
-					<div className="absolute top-10 left-14 sm:left-20 text-white">
-						<div className="flex flex-wrap w-56 sm:w-96">
-							<h1 className="text-3xl pb-2 font-bold text-black">
-								Admin home.
-							</h1>
-							<p className="text-xl text-black">
-								Welcome to the admin page.
-							</p>
-						</div>
+				<div className="container">
+					<h1 className="text-4xl font-bold mb-5">All Orders</h1>
+					<div className="grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+						{(data as OrderDocument[]).map((order, i) => {
+							return (
+								<OrderCard order={order} key={i} />
+							);
+						})}
 					</div>
 				</div>
 			</Layout>
 		</>
 	);
 };
+
+export default AdminOrders;
 
 // @ts-ignore
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
@@ -81,5 +110,3 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 		props: { user: req.session.user },
 	};
 }, ironOptions);
-
-export default AdminHome;

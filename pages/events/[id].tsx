@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import ProgressPage from '../../src/util/inProgress';
 
-const ProductOne: NextPage = ProgressPage;
+const EventOne: NextPage = ProgressPage;
 
-export default ProductOne;
+export default EventOne;

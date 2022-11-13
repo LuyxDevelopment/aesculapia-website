@@ -2,7 +2,6 @@
 
 import { FC } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
 
 const Navbar: FC = () => {
@@ -11,30 +10,32 @@ const Navbar: FC = () => {
 	return (
 		<>
 			<nav className="bg-white text-black shadow-lg p-3 flex flex-row justify-between sm:justify-evenly items-center">
-				<Image
-					src="/assets/logo.png"
-					width="60"
-					height="60"
-					alt="Logo"
-					onClick={() => (window.location.href = '/')}
-				/>
+				<div className='cursor-pointer'>
+					<Image
+						src="/assets/logo.png"
+						width="60"
+						height="60"
+						alt="Logo"
+						onClick={(): string => (window.location.href = '/')}
+					/>
+				</div>
 				<div className="hidden sm:flex sm:flex-row sm:space-x-10 font-extrabold">
-					<h1 className="cursor-pointer hover:underline transition-all duration-300 ease-in-out">
+					<h1 className="cursor-pointer hover:underline transition-all duration-300 ease-in-out" onClick={(): string => (window.location.href = '/song')}>
 						Song
 					</h1>
-					<h1 className="cursor-pointer hover:underline transition-all duration-300 ease-in-out">
+					<h1 className="cursor-pointer hover:underline transition-all duration-300 ease-in-out" onClick={(): string => (window.location.href = '/products')}>
 						Products
 					</h1>
-					<h1 className="cursor-pointer hover:underline transition-all duration-300 ease-in-out">
+					<h1 className="cursor-pointer hover:underline transition-all duration-300 ease-in-out" onClick={(): string => (window.location.href = '/events')}>
 						Calendar
 					</h1>
-					<h1 className="cursor-pointer hover:underline transition-all duration-300 ease-in-out">
+					<h1 className="cursor-pointer hover:underline transition-all duration-300 ease-in-out" onClick={(): string => (window.location.href = '/sponsors')}>
 						Sponsors
 					</h1>
 				</div>
 				<span
 					className="block float-right sm:hidden cursor-pointer hover:scale-90 transition-all duration-300 ease-in-out"
-					onClick={() => setShowMenu(!showMenu)}
+					onClick={(): void => setShowMenu(!showMenu)}
 				>
 					<Image
 						src="/assets/icons/hamburger.svg"

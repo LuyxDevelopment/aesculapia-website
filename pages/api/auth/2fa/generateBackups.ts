@@ -8,7 +8,7 @@ import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
 export default withIronSessionApiRoute(async function loginHandler(
 	req: NextApiRequest,
-	res: NextApiResponse<ResponseData<string>>,
+	res: NextApiResponse<ResponseData<string[]>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'POST': {
@@ -54,18 +54,15 @@ export default withIronSessionApiRoute(async function loginHandler(
 				return;
 			}
 
-			const secret = Authentication.generateSecret();
+			const backupCodes = Authentication.generateBackupCodes();
 
-			admin.secret = secret;
+			admin.backupCodes = backupCodes;
 			await admin.save();
-
-			req.session.user.has2faEnabled = true;
-			await req.session.save();
 
 			res.status(StatusCodes.OK).json({
 				error: false,
 				message: getReasonPhrase(StatusCodes.OK),
-				data: Authentication.sendOtpAuthUri(secret, admin.email),
+				data: backupCodes,
 			});
 		} break;
 	}

@@ -1,3 +1,6 @@
-export default function Sponsors(): JSX.Element {
-	return (<></>);
-}
+import { NextPage } from 'next';
+import ProgressPage from '../src/util/inProgress';
+
+const Sponsors: NextPage = ProgressPage;
+
+export default Sponsors;

@@ -2,10 +2,10 @@ import { Schema, Model, default as mongoose, HydratedDocument } from 'mongoose';
 import { Order, OrderDocument } from './Order';
 
 export interface IProduct {
-	title: string;
+	name: string;
 	description: string;
-	image: string;
-	cost: number;
+	imageURL: string;
+	price: number;
 	stock: number;
 }
 
@@ -16,13 +16,13 @@ export interface ProductMethods {
 export type ProductDocument = HydratedDocument<IProduct, ProductMethods>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export type ProductModel = Model<ProductDocument, {}, ProductMethods>;
+export type ProductModel = Model<IProduct, {}, ProductMethods>;
 
 export const productSchema = new Schema<IProduct, ProductModel, ProductMethods>({
-	title: Schema.Types.String,
-	description: Schema.Types.String,
-	image: Schema.Types.String,
-	cost: Schema.Types.Number,
+	name: { type: Schema.Types.String, minlength: 1, maxLength: 64, required: true },
+	description: { type: Schema.Types.String, minLength: 1, maxLength: 512, required: true },
+	imageURL: { type: Schema.Types.String, minLength: 1, required: true },
+	price: { type: Schema.Types.Number, min: 0, required: true },
 	stock: { type: Schema.Types.Number, default: 0 },
 }, {
 	collection: 'products',

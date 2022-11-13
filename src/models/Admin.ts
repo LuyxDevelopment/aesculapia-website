@@ -13,6 +13,7 @@ export interface IAdmin {
 	authorityLevel: AuthorityLevel;
 	secret: string;
 	has2faEnabled: boolean;
+	backupCodes: string[];
 }
 
 export interface AdminMethods {
@@ -36,6 +37,7 @@ export const adminSchema = new Schema<IAdmin, AdminModel, AdminMethods>(
 		},
 		secret: { type: Schema.Types.String, required: true },
 		has2faEnabled: { type: Schema.Types.Boolean, default: false },
+		backupCodes: { type: [Schema.Types.String] },
 	},
 	{
 		collection: 'admins',
@@ -43,7 +45,7 @@ export const adminSchema = new Schema<IAdmin, AdminModel, AdminMethods>(
 			promote(this: AdminDocument): boolean {
 				if (this.authorityLevel === AuthorityLevel.ADMIN)
 					return false;
-				
+
 				this.authorityLevel++;
 				return true;
 			},

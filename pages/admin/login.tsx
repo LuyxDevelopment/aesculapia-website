@@ -10,18 +10,18 @@ import { useRouter } from 'next/router';
 type FieldValues = {
 	email: string;
 	password: string;
-} | { [x: string]: unknown };
+} | { [x: string]: unknown; };
 
 export default function AdminLogin(): JSX.Element {
 	const [isAllowed, setIsAllowed] = useState(false);
 	const [twoFactorAuthCode, setTwoFactorAuthCode] = useState('');
-	const [message, setMessage] = useState<{ type: 'success' | 'error' | 'info', text: string }>({ type: 'success', text: '' });
+	const [message, setMessage] = useState<{ type: 'success' | 'error' | 'info', text: string; }>({ type: 'success', text: '' });
 	const [isVisible, setIsVisible] = useState(false);
 	const router = useRouter();
 
 	const [twoFactorAuthValid, setTwoFactorAuthValid] = useState(false);
 
-	const { register, handleSubmit, formState: { errors }} = useForm();
+	const { register, handleSubmit, formState: { errors } } = useForm();
 
 	const onSubmit = async (data: FieldValues, event?: BaseSyntheticEvent): Promise<void> => {
 		event?.preventDefault();
@@ -60,12 +60,12 @@ export default function AdminLogin(): JSX.Element {
 		if (data.data) return setTwoFactorAuthValid(true);
 		setTwoFactorAuthValid(false);
 	};
-	
+
 	const clearMessage = (): NodeJS.Timeout =>
 		setTimeout(() => {
 			setMessage({ type: 'success', text: '' });
 		}, 3000);
-	
+
 	return (
 		<>
 			{useMetaData('Login', 'nonstop language', '/admin/login')}
@@ -90,7 +90,7 @@ export default function AdminLogin(): JSX.Element {
 									/>
 									{errors.email && (
 										<p className='font-semibold text-red-600'>
-										Email is required.
+											Email is required.
 										</p>
 									)}
 								</div>
@@ -111,11 +111,11 @@ export default function AdminLogin(): JSX.Element {
 										className='-ml-6 cursor-pointer'
 										onClick={(): void => setIsVisible(!isVisible)}
 									>
-										{isVisible ? '😑' : '👁'}
+										{isVisible ? '👁' : '👁'}
 									</span>
 									{errors.password && (
 										<p className='font-semibold text-red-600'>
-										Password is required.
+											Password is required.
 										</p>
 									)}
 								</div>
@@ -137,7 +137,7 @@ export default function AdminLogin(): JSX.Element {
 							<p className='text-black'>{twoFactorAuthValid ? 'Valid code.' : 'Invalid code.'}</p>
 						</div>
 					)}
-					
+
 				</div>
 				{message.text !== '' && (
 					<Toast type={message.type} title={message.type[0].toUpperCase() + message.type.slice(1)} description={message.text} />
@@ -160,6 +160,6 @@ export const getServerSideProps = withIronSessionSsr(function ({ req }) {
 	}
 
 	return {
-		props: {  },
+		props: {},
 	};
 }, ironOptions);

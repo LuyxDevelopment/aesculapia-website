@@ -5,12 +5,12 @@ import { Authentication } from '../../../src/auth/auth';
 import { AuthorityLevel, IProduct, Product } from '../../../src/models/index';
 
 export default async function handler(
-	req: NextApiRequest & { body: IProduct } & { query: { product_id: string } },
+	req: NextApiRequest & { body: IProduct; } & { query: { product_id: string; }; },
 	res: NextApiResponse,
 ): Promise<void> {
 	switch (req.method) {
 		case 'DELETE': {
-			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
@@ -78,7 +78,7 @@ export default async function handler(
 		} break;
 
 		case 'PATCH': {
-			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
@@ -116,36 +116,6 @@ export default async function handler(
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
 					data: product,
 				});
-			} catch (error) {
-				console.log(error);
-
-				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
-				});
-			}
-		} break;
-
-		case 'POST': {
-			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
-				res.status(StatusCodes.FORBIDDEN).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.FORBIDDEN),
-				});
-
-				return;
-			}
-
-			const product = new Product(req.body);
-
-			try {
-				await product.save();
-
-				res.status(StatusCodes.CREATED).json({
-					error: false,
-					message: getReasonPhrase(StatusCodes.CREATED),
-				});
-
 			} catch (error) {
 				console.log(error);
 

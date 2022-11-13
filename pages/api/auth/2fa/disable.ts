@@ -1,11 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Admin } from '../../../../src/models/Admin';
-import dbConnect from '../../../../src/util/dbConnect';
 import { ironOptions } from '../../../../src/util/ironConfig';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ResponseData } from '../../../../src/types/responseData';
-
-dbConnect();
 
 export default withIronSessionApiRoute(async function loginHandler(
 	req: NextApiRequest,

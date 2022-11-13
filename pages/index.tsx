@@ -4,7 +4,6 @@ import { useMetaData } from '../lib/hooks/useMetaData';
 import Carousel, { ImageData } from '../components/Carousel';
 import AOS from '../components/AOS';
 import Dropdown from '../components/Dropdown';
-import { Types } from 'mongoose';
 
 const images: ImageData[] = [
 	{
@@ -85,6 +84,7 @@ const Home: NextPage = () => {
 							<img
 								src="http://localhost:3000/api/og?description=group%20photo%201"
 								className="w-60 sm:w-72"
+								alt='Alt'
 							/>
 						</div>
 					</AOS>
@@ -94,6 +94,7 @@ const Home: NextPage = () => {
 								<img
 									src="http://localhost:3000/api/og?description=group%20photo%202"
 									className="w-60 sm:w-72"
+									alt='Alt'
 								/>
 								<div className="px-5"></div>
 								<div>

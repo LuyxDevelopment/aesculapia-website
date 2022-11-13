@@ -1,9 +1,13 @@
 import { withIronSessionSsr } from 'iron-session/next';
-import { ironOptions } from '../../src/util/ironConfig';
 import { NextPage } from 'next';
-import Layout from '../../components/Layout';
+import Layout from '../../../components/Layout';
+import { useMetaData } from '../../../lib/hooks/useMetaData';
+import { ironOptions } from '../../../src/util/ironConfig';
 
-const AdminHome: NextPage = () => {
+const AdminCreateProducts: NextPage = () => {
+
+	useMetaData('Aesculapia', 'Products', '/admin');
+
 	return (
 		<>
 			<Layout>
@@ -11,14 +15,42 @@ const AdminHome: NextPage = () => {
 					<div className="absolute top-10 left-14 sm:left-20 text-white">
 						<div className="flex flex-wrap w-56 sm:w-96">
 							<h1 className="text-3xl pb-2 font-bold text-black">
-								Admin home.
+								Create a Product.
 							</h1>
 							<p className="text-xl text-black">
-								Welcome to the admin page.
+								Create a product to sell here.
 							</p>
 						</div>
 					</div>
 				</div>
+				<div className='container relative'>
+					<form name='product' method='post'>
+						<div>
+							<label>Product Name</label>
+							<input type='text' name='name' className='shadow-md' required />
+						</div>
+						<div>
+							<label>Product Description</label>
+							<input type='text' name='description' className='shadow-md' required />
+						</div>
+						<div>
+							<label>Product Image URL</label>
+							<input type='text' name='imageURL' className='shadow-md' required />
+						</div>
+						<div>
+							<label>Product Price</label>
+							<input type='number' name='price' className='shadow-md' required />
+						</div>
+						<div>
+							<label>Product Stock</label>
+							<input type='number' name='stock' className='shadow-md' required />
+						</div>
+						<div>
+							<input type="submit" value="Create" formAction='http://localhost:3000/api/products' formTarget='_parent'></input>
+						</div>
+					</form>
+				</div>
+
 			</Layout>
 		</>
 	);
@@ -82,4 +114,4 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 	};
 }, ironOptions);
 
-export default AdminHome;
+export default AdminCreateProducts;

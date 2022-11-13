@@ -1,5 +1,4 @@
-import { useState, FC, useEffect } from 'react';
-import Image from 'next/image';
+import { useState, FC } from 'react';
 
 export interface ImageData {
 	name: string;
@@ -20,9 +19,7 @@ const Carousel: FC<Props> = ({ images, fullScreen }) => {
 
 	return (
 		<div
-			className={`py-5 flex flex-row items-stretch justify-center text-white ${
-				fullScreen ? 'h-screen' : ''
-			}`}
+			className={`py-5 flex flex-row items-stretch justify-center text-white ${fullScreen ? 'h-screen' : ''}`}
 		>
 			<button
 				onClick={prev}
@@ -34,6 +31,7 @@ const Carousel: FC<Props> = ({ images, fullScreen }) => {
 				src={images[current].url}
 				width="90%"
 				height="100vh"
+				alt='Alternative'
 			/>
 			<button
 				onClick={next}

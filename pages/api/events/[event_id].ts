@@ -7,12 +7,12 @@ import { IEvent, EventDocument, Event } from '../../../src/models/index';
 import { ResponseData } from '../../../src/types/responseData';
 
 export default async function handler(
-	req: NextApiRequest & { body: IEvent } & { query: { event_id: string } },
+	req: NextApiRequest & { body: IEvent; } & { query: { event_id: string; }; },
 	res: NextApiResponse<ResponseData<EventDocument | EventDocument[]>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'DELETE': {
-			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
@@ -74,7 +74,7 @@ export default async function handler(
 		} break;
 
 		case 'PATCH': {
-			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
@@ -122,42 +122,6 @@ export default async function handler(
 					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
 				});
 			}
-		} break;
-
-		case 'POST': {
-			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
-				res.status(StatusCodes.FORBIDDEN).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.FORBIDDEN),
-				});
-
-				return;
-			}
-
-			const event = new Event(req.body);
-
-			try {
-				await event.save();
-
-				res.status(StatusCodes.CREATED).json({
-					error: false,
-					message: getReasonPhrase(StatusCodes.CREATED),
-				});
-			} catch (error) {
-				console.log(error);
-
-				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
-				});
-			}
-		} break;
-
-		default: {
-			res.status(StatusCodes.NOT_FOUND).json({
-				error: false,
-				message: getReasonPhrase(StatusCodes.NOT_FOUND),
-			});
 		} break;
 	}
 }

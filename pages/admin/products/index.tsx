@@ -1,22 +1,49 @@
 import { withIronSessionSsr } from 'iron-session/next';
-import { ironOptions } from '../../src/util/ironConfig';
 import { NextPage } from 'next';
-import Layout from '../../components/Layout';
+import { useState, useEffect } from 'react';
+import Layout from '../../../components/Layout';
+import ProductCard from '../../../components/ProductCard';
+import { useMetaData } from '../../../lib/hooks/useMetaData';
+import { ProductDocument } from '../../../src/models/Product.js';
+import ErrorPage from '../../../src/util/error';
+import { ironOptions } from '../../../src/util/ironConfig';
+import LoadingPage from '../../../src/util/loading';
 
-const AdminHome: NextPage = () => {
+const AdminProducts: NextPage = () => {
+	useMetaData('Admin', 'Admin products', '/admin');
+
+	const [data, setData] = useState(null);
+	const [isLoading, setLoading] = useState(false);
+
+	useEffect(() => {
+		setLoading(true);
+		fetch('/api/products')
+			.then((res) => res.json())
+			.then((data) => {
+				setData(data.data);
+				setLoading(false);
+			});
+	}, []);
+
+	if (isLoading) {
+		return <LoadingPage />;
+	}
+
+	if (!data) {
+		return <ErrorPage />;
+	}
+
 	return (
 		<>
 			<Layout>
-				<div className="relative">
-					<div className="absolute top-10 left-14 sm:left-20 text-white">
-						<div className="flex flex-wrap w-56 sm:w-96">
-							<h1 className="text-3xl pb-2 font-bold text-black">
-								Admin home.
-							</h1>
-							<p className="text-xl text-black">
-								Welcome to the admin page.
-							</p>
-						</div>
+				<div className="container">
+					<h1 className="text-4xl font-bold mb-5">All Products</h1>
+					<div className="grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+						{(data as ProductDocument[]).map((product, i) => {
+							return (
+								<ProductCard product={product} key={i} />
+							);
+						})}
 					</div>
 				</div>
 			</Layout>
@@ -82,4 +109,4 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 	};
 }, ironOptions);
 
-export default AdminHome;
+export default AdminProducts;

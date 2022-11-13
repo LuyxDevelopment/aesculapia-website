@@ -5,12 +5,12 @@ import { Authentication } from '../../../src/auth/auth';
 import { AuthorityLevel, ISponsor, Sponsor } from '../../../src/models/index';
 
 export default async function handler(
-	req: NextApiRequest & { body: ISponsor } & { query: { sponsor_id: string } },
+	req: NextApiRequest & { body: ISponsor; } & { query: { sponsor_id: string; }; },
 	res: NextApiResponse,
 ): Promise<void> {
 	switch (req.method) {
 		case 'DELETE': {
-			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
@@ -66,7 +66,7 @@ export default async function handler(
 		} break;
 
 		case 'PATCH': {
-			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
@@ -117,7 +117,7 @@ export default async function handler(
 		} break;
 
 		case 'POST': {
-			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),

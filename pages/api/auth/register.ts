@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Admin } from '../../../src/models/Admin';
-import dbConnect from '../../../src/util/dbConnect';
 import { genSalt, hash } from 'bcryptjs';
 import { ajv } from '../../../src/util/ajv';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
@@ -17,8 +16,6 @@ interface RegisterNextApiRequest extends NextApiRequest {
 	};
 	method: 'POST';
 }
-
-dbConnect();
 
 const validateRegisterBody = ajv.compile<RegisterNextApiRequest['body']>({
 	type: 'object',

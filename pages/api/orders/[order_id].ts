@@ -1,11 +1,10 @@
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { Types } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Authentication } from '../../../src/auth/auth';
-import { AuthorityLevel, IOrder, Order } from '../../../src/models/index';
+import { IOrder, Order } from '../../../src/models/index';
 
 export default async function handler(
-	req: NextApiRequest & { body: IOrder } & { query: { order_id: string } },
+	req: NextApiRequest & { body: IOrder; } & { query: { order_id: string; }; },
 	res: NextApiResponse,
 ): Promise<void> {
 	switch (req.method) {
@@ -36,35 +35,6 @@ export default async function handler(
 				data: order,
 			});
 
-		} break;
-
-		case 'POST': {
-			if (!Authentication.auth(AuthorityLevel.ADMIN, req)) {
-				res.status(StatusCodes.FORBIDDEN).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.FORBIDDEN),
-				});
-
-				return;
-			}
-
-			const order = new Order(req.body);
-
-			try {
-				await order.save();
-
-				res.status(StatusCodes.CREATED).json({
-					error: false,
-					message: getReasonPhrase(StatusCodes.CREATED),
-				});
-			} catch (error) {
-				console.log(error);
-
-				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
-				});
-			}
 		} break;
 
 		default: {
