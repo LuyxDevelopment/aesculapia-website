@@ -2,6 +2,7 @@ import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../src/util/ironConfig';
 import { NextPage } from 'next';
 import Layout from '../../components/Layout';
+import dbConnect from '../../src/util/dbConnect';
 
 const AdminHome: NextPage = () => {
 	return (
@@ -26,6 +27,8 @@ const AdminHome: NextPage = () => {
 
 // @ts-ignore
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
+	dbConnect();
+
 	const user = req.session.user;
 
 	if (user?.email) {

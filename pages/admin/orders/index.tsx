@@ -4,10 +4,10 @@ import { ironOptions } from '../../../src/util/ironConfig';
 import { useMetaData } from '../../../lib/hooks/useMetaData';
 import Layout from '../../../components/Layout';
 import { useEffect, useState } from 'react';
-import LoadingPage from '../../../src/util/loading';
-import ErrorPage from '../../../src/util/error';
 import { OrderDocument } from '../../../src/models/Order.js';
 import OrderCard from '../../../components/OrderCard';
+import Loader from '../../../components/Loader';
+import ErrorPage from '../../../components/Error';
 
 const AdminOrders: NextPage = () => {
 	useMetaData('Admin', 'Admin Orders', '/admin');
@@ -26,7 +26,7 @@ const AdminOrders: NextPage = () => {
 	}, []);
 
 	if (isLoading) {
-		return <LoadingPage />;
+		return <Loader />;
 	}
 
 	if (!data) {

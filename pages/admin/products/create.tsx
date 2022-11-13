@@ -27,23 +27,23 @@ const AdminCreateProducts: NextPage = () => {
 					<form name='product' method='post'>
 						<div>
 							<label>Product Name</label>
-							<input type='text' name='name' className='shadow-md' required />
+							<input type='text' name='name' className='shadow-md' minLength={1} maxLength={64} required />
 						</div>
 						<div>
 							<label>Product Description</label>
-							<input type='text' name='description' className='shadow-md' required />
+							<input type='text' name='description' className='shadow-md' minLength={1} maxLength={512} required />
 						</div>
 						<div>
 							<label>Product Image URL</label>
-							<input type='text' name='imageURL' className='shadow-md' required />
+							<input type='text' name='imageURL' className='shadow-md' minLength={1} maxLength={1024} required />
 						</div>
 						<div>
 							<label>Product Price</label>
-							<input type='number' name='price' className='shadow-md' required />
+							<input type='number' name='price' className='shadow-md' min={0} required />
 						</div>
 						<div>
 							<label>Product Stock</label>
-							<input type='number' name='stock' className='shadow-md' required />
+							<input type='number' name='stock' className='shadow-md' defaultValue={0} />
 						</div>
 						<div>
 							<input type="submit" value="Create" formAction='http://localhost:3000/api/products' formTarget='_parent'></input>
