@@ -34,10 +34,10 @@ const Dropdown = ({
 				direction === 'right'
 					? 'flex flex-row'
 					: direction === 'left'
-					? 'flex flex-row-reverse'
-					: direction === 'bottom'
-					? 'relative inline-block'
-					: ''
+						? 'flex flex-row-reverse'
+						: direction === 'bottom'
+							? 'relative inline-block'
+							: ''
 			}`}
 			ref={dropdownRef}
 		>
@@ -72,9 +72,9 @@ const DropdownItem = ({ text, href, tw }: DropdownItem): JSX.Element => {
 				onClick={
 					href !== undefined
 						? (): string => (window.location.href = href)
-						: () => {
-								return false;
-						  }
+						: (): boolean => {
+							return false;
+						}
 				}
 			>
 				{href !== undefined && <Link href={href!}>{text}</Link>}

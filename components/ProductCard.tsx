@@ -4,15 +4,16 @@ import { FC } from 'react';
 import { IProduct } from '../src/models/Product.js';
 
 interface Props {
-	product: IProduct;
+	product: IProduct & {_id: string};
 }
 
 const ProductCard: FC<Props> = ({ product }) => {
 	return <>
-		<div className='bg-slate-300 p-4 rounded-lg shadow-md'>
-			<Image src={product.imageURL} alt='Alt' />
+		<div className='bg-gray-300 p-4 rounded-lg shadow-md cursor-pointer' onClick={(): string => (window.location.href = `/products/${product._id}`)}>
+			<Image className="rounded-lg" src={product.imageURL} alt='Alt' width="256" height="256" />
 			<h1>{product.name}</h1>
-			<p>{product.description}</p>
+			<p>€{product.price}</p>
+			<p>Stock: {product.stock}</p>
 		</div>
 	</>;
 };

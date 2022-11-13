@@ -14,8 +14,8 @@ interface Props {
 const Carousel: FC<Props> = ({ images, fullScreen }) => {
 	const [current, setCurrent] = useState(0);
 
-	const next = () => setCurrent((current + 1) % images.length);
-	const prev = () => setCurrent((current - 1 + images.length) % images.length);
+	const next = (): void => setCurrent((current + 1) % images.length);
+	const prev = (): void => setCurrent((current - 1 + images.length) % images.length);
 
 	return (
 		<div
