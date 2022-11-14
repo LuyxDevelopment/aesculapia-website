@@ -1,61 +1,62 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { NextPage } from 'next';
+import { NextPage, NextPageContext } from 'next';
 import ProductCard from '../../components/ProductCard';
 import { IProduct } from '../../src/models/Product';
 import { useMetaData } from '../../lib/hooks/useMetaData';
 import Layout from '../../components/Layout';
-import { useEffect, useState } from 'react';
-import Loader from '../../components/Loader';
 import ErrorPage from '../../components/Error';
+import { useLocalStorage } from '../../lib/hooks/useLocalStorage';
 
-const index: NextPage = () => {
-	useMetaData('Products', 'Products Page', '/products');
+interface Props {
+	data: (IProduct & { _id: string })[];
+}
 
-	const [data, setData] = useState(null);
-	const [isLoading, setLoading] = useState(false);
-
-	useEffect(() => {
-		setLoading(true);
-		async function fetchData():Promise<void> {
-			const req = await fetch('/api/products', {
-				method: 'GET',
-				headers: { 'Content-Type': 'application/json' },
-			});
+const ProductsIndex: NextPage<Props> = ({ data }) => {
+	const [cart, setCart, addCart] = useLocalStorage('cart', []);
 	
-			const data = await req.json();
-	
-			if (data.data) {
-				setData(data.data);
-				setLoading(false);
-			}
-		}
-		fetchData();
-	}, []);
-
-	if (isLoading) {
-		return <Loader />;
-	}
-
-	if (!data) {
-		return <ErrorPage />;
-	}
-
 	return (
 		<>
+			{useMetaData('Products', 'Products Page', '/products')}
 			<Layout>
-				<div className='container'>
-					<h1 className='text-4xl font-bold mb-5'>Products</h1>
-					<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-						{(data as (IProduct & { _id: string })[]).map((product, i) => {
-							return (
-								<ProductCard product={product}  key={i} />
-							);
-						})}
+				{!data && (
+					<ErrorPage />
+				)}
+				{data && (
+					<div className='container mb-12'>
+						<h1 className='text-4xl font-bold mb-5'>Products</h1>
+						<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+							{data.map((product, i) => {
+								return (
+									// @ts-ignore
+									<ProductCard handleClick={(() => addCart({ name: product.name, amount: 1 }))} product={product} cartable={2} cart={cart} key={i} />
+								);
+							})}
+						</div>
 					</div>
-				</div>
+				)}
 			</Layout>
 		</>
 	);
 };
 
-export default index;
+export const getServerSideProps = async (context: NextPageContext): Promise<{ props: unknown }> => {
+
+	
+	context.res?.setHeader(
+		'Cache-Control',
+		'public, s-maxage=10, stale-while-revalidate=59',
+	);
+	const req = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/products`, {
+		method: 'GET',
+		headers: { 'Content-Type': 'application/json' },
+	});
+
+	const data = await req.json();
+
+	return {
+		props: {
+			data: data.data,
+		},
+	};
+};
+
+export default ProductsIndex;

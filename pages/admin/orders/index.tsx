@@ -9,7 +9,7 @@ import OrderCard from '../../../components/OrderCard';
 import Loader from '../../../components/Loader';
 import ErrorPage from '../../../components/Error';
 
-const AdminOrders: NextPage = () => {
+const AdminOrderIndex: NextPage = () => {
 	useMetaData('Admin', 'Admin Orders', '/admin');
 
 	const [data, setData] = useState(null);
@@ -36,9 +36,9 @@ const AdminOrders: NextPage = () => {
 	return (
 		<>
 			<Layout>
-				<div className="container">
-					<h1 className="text-4xl font-bold mb-5">All Orders</h1>
-					<div className="grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+				<div className='container'>
+					<h1 className='text-4xl font-bold mb-5'>All Orders</h1>
+					<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
 						{(data as OrderDocument[]).map((order, i) => {
 							return (
 								<OrderCard order={order} key={i} />
@@ -51,7 +51,7 @@ const AdminOrders: NextPage = () => {
 	);
 };
 
-export default AdminOrders;
+export default AdminOrderIndex;
 
 // @ts-ignore
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {

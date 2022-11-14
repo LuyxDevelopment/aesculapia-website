@@ -1,10 +1,11 @@
 import { withIronSessionSsr } from 'iron-session/next';
 import type { NextPage } from 'next';
+import InProgress from '../../components/InProgress';
 import { ironOptions } from '../../src/util/ironConfig';
 
-const AdminNews: NextPage = () => {
-	return (<></>);
-};
+const Index: NextPage = InProgress;
+
+export default Index;
 
 // @ts-ignore
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
@@ -63,5 +64,3 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 		props: { user: req.session.user },
 	};
 }, ironOptions);
-
-export default AdminNews;

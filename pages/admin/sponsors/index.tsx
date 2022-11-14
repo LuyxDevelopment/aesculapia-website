@@ -1,36 +1,35 @@
 import { withIronSessionSsr } from 'iron-session/next';
 import { NextPage } from 'next';
 import Layout from '../../../components/Layout';
-import AdminProductCard from '../../../components/AdminProductCard';
 import { useMetaData } from '../../../lib/hooks/useMetaData';
 import ErrorPage from '../../../components/Error';
 import { ironOptions } from '../../../src/util/ironConfig';
-import { IProduct } from '../../../src/models/Product.js';
+import { ISponsor } from '../../../src/models/Sponsor';
+import SponsorCard from '../../../components/SponsorCard';
 
 interface Props {
-	data: (IProduct & { _id: string })[];
+	data: (ISponsor & { _id: string })[];
 }
 
-const AdminProductsIndex: NextPage<Props> = ({ data }) => {
+const AdminSponsorsIndex: NextPage<Props> = ({ data }) => {
+
 	return (
 		<>
-			{useMetaData('Products', 'Products Page', '/products')}
+			{useMetaData('Admin', 'Admin products', '/admin')}
 			<Layout>
 				{!data && (
 					<ErrorPage />
 				)}
-				{data && (
-					<div className='container mb-12'>
-						<h1 className='text-4xl font-bold mb-5'>Products</h1>
-						<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-							{data.map((product, i) => {
-								return (
-									<AdminProductCard product={product} key={i} />
-								);
-							})}
-						</div>
+				<div className='container'>
+					<h1 className='text-4xl font-bold mb-5'>Sponsors</h1>
+					<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+						{(data as ISponsor[]).map((sponsor, i) => {
+							return (
+								<SponsorCard sponsor={sponsor as (ISponsor & { _id: string })} key={i} />
+							);
+						})}
 					</div>
-				)}
+				</div>
 			</Layout>
 		</>
 	);
@@ -44,14 +43,13 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ne
 		'Cache-Control',
 		'public, s-maxage=10, stale-while-revalidate=59',
 	);
-	
-	const request = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/products`, {
+
+	const request = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/sponsors`, {
 		method: 'GET',
 		headers: { 'Content-Type': 'application/json' },
 	});
 
 	const data = await request.json();
-
 
 	if (user?.email) {
 		const request = await fetch('http://localhost:3000/api/auth/2fa/generate', {
@@ -70,13 +68,12 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ne
 				otpAuthUri: json.data,
 			},
 		};
-
 		return {
 			props: {
-				user: { 
+				user: {
 					email: user.email,
-					has2faEnabled: false,
-					completed2fa: false,
+					has2faEnabled: false, 
+					completed2fa: false, 
 				},
 				otpAuthUri: '',
 				data: data.data,
@@ -99,11 +96,7 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ne
 	if (!user.has2faEnabled) {
 		return {
 			props: {
-				user: {
-					email: user.email,
-					has2faEnabled: false,
-					completed2fa: false,
-				},
+				user: { email: user.email, has2faEnabled: false, completed2fa: false },
 			},
 			redirect: {
 				destination: '/admin/settings',
@@ -113,11 +106,11 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ne
 	}
 
 	return {
-		props: {
+		props: { 
 			user: context.req.session.user,
 			data: data.data,
 		},
 	};
 }, ironOptions);
 
-export default AdminProductsIndex;
+export default AdminSponsorsIndex;

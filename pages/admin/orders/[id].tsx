@@ -1,9 +1,10 @@
-import { withIronSessionSsr } from 'iron-session/next';
-import { ironOptions } from '../../src/util/ironConfig';
+import { NextPage } from 'next';
+import InProgress from '../../../components/InProgress';
+import { ironOptions } from '../../../src/util/ironConfig';
 
-function AdminCalendar(): JSX.Element {
-	return (<></>);
-}
+const Index: NextPage = InProgress;
+
+export default Index;
 
 // @ts-ignore
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
@@ -62,5 +63,3 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 		props: { user: req.session.user },
 	};
 }, ironOptions);
-
-export default AdminCalendar;

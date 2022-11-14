@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import { BaseSyntheticEvent, useState } from 'react';
 import Layout from '../../components/Layout';
 import Toast from '../../components/Toast';
@@ -12,7 +13,7 @@ type FieldValues = {
 	password: string;
 } | { [x: string]: unknown; };
 
-export default function AdminLogin(): JSX.Element {
+const Index: NextPage = () => {
 	const [isAllowed, setIsAllowed] = useState(false);
 	const [twoFactorAuthCode, setTwoFactorAuthCode] = useState('');
 	const [message, setMessage] = useState<{ type: 'success' | 'error' | 'info', text: string; }>({ type: 'success', text: '' });
@@ -132,7 +133,7 @@ export default function AdminLogin(): JSX.Element {
 						<div>
 							<label className='font-bold text-2xl'>2FA Code</label>
 							<br />
-							<input type="text" onChange={(e): void => setTwoFactorAuthCode(e.target.value)} />
+							<input type='text' onChange={(e): void => setTwoFactorAuthCode(e.target.value)} />
 							<button className='bg-green-500' onClick={submit2FA}>enter</button>
 							<p className='text-black'>{twoFactorAuthValid ? 'Valid code.' : 'Invalid code.'}</p>
 						</div>
@@ -145,7 +146,9 @@ export default function AdminLogin(): JSX.Element {
 			</Layout>
 		</>
 	);
-}
+};
+
+export default Index;
 
 export const getServerSideProps = withIronSessionSsr(function ({ req }) {
 	const user = req.session.user;

@@ -4,17 +4,24 @@ import { NextPage } from 'next';
 import Layout from '../../components/Layout';
 import dbConnect from '../../src/util/dbConnect';
 
-const AdminHome: NextPage = () => {
+const adminPages = [
+	{
+		name:'Products',
+		url: '/admin/products',
+	},
+];
+
+const Index: NextPage = () => {
 	return (
 		<>
 			<Layout>
-				<div className="relative">
-					<div className="absolute top-10 left-14 sm:left-20 text-white">
-						<div className="flex flex-wrap w-56 sm:w-96">
-							<h1 className="text-3xl pb-2 font-bold text-black">
+				<div className='relative'>
+					<div className='absolute top-10 left-14 sm:left-20 text-white'>
+						<div className='flex flex-wrap w-56 sm:w-96'>
+							<h1 className='text-3xl pb-2 font-bold text-black'>
 								Admin home.
 							</h1>
-							<p className="text-xl text-black">
+							<p className='text-xl text-black'>
 								Welcome to the admin page.
 							</p>
 						</div>
@@ -27,8 +34,6 @@ const AdminHome: NextPage = () => {
 
 // @ts-ignore
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
-	dbConnect();
-
 	const user = req.session.user;
 
 	if (user?.email) {
@@ -85,4 +90,4 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 	};
 }, ironOptions);
 
-export default AdminHome;
+export default Index;

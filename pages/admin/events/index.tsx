@@ -1,11 +1,11 @@
 import { NextPage } from 'next';
 import { withIronSessionSsr } from 'iron-session/next';
-import InProgress from '../../components/InProgress';
-import { ironOptions } from '../../src/util/ironConfig';
+import { ironOptions } from '../../../src/util/ironConfig';
+import InProgress from '../../../components/InProgress';
 
-const Index: NextPage = InProgress;
+const AdminEventsIndex: NextPage = InProgress;
 
-export default Index;
+export default AdminEventsIndex;
 
 // @ts-ignore
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {

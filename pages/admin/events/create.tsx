@@ -8,7 +8,7 @@ import { ironOptions } from '../../../src/util/ironConfig';
 
 const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: boolean }}> = ({ user }) => {
 
-	useMetaData('Aesculapia', 'Products', '/admin');
+	useMetaData('Aesculapia', 'Events', '/admin');
 
 	const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -16,16 +16,13 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 		event?.preventDefault();
 		console.log(data);
 		try {
-			const req = await fetch('/api/products', {
+			const req = await fetch('/api/events', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					imageURL: data.imageurl,
-					name: data.name,
-					price: data.price,
-					stock: data.stock,
+					// stuff
 					user,
 				}),
 			});
@@ -47,10 +44,10 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 					<div className='top-10 left-14 sm:left-20 text-white'>
 						<div className='flex flex-wrap w-56 sm:w-96'>
 							<h1 className='text-3xl pb-2 font-bold text-black'>
-								Create a Product.
+								Create an Event.
 							</h1>
 							<p className='text-xl text-black'>
-								Create a product to sell here.
+								Create an event for customers to attend.
 							</p>
 						</div>
 						<div className='flex flex-wrap h-auto text-xl mt-3'>
@@ -58,7 +55,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 								<div className="flex flex-wrap -mx-3">
 									<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 										<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-product-name">
-									Product Name
+									Event Name
 										</label>
 										<input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-name" type="text" placeholder="Chocolate" minLength={1} maxLength={64} required {...register('name', { required: true })} />
 									</div>
@@ -74,7 +71,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 										<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-image-url">
 									Image URL
 										</label>
-										<input className="appearance-none block w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-image-url" type="text" placeholder="https://example.com/image.png (square images recommended)" minLength={1} maxLength={1024} required {...register('imageurl', { required: true })} />
+										<input className="appearance-none block w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-image-url" type="text" placeholder="https://example.com/image.png" minLength={1} maxLength={1024} required {...register('imageurl', { required: true })} />
 									</div>
 								</div>
 								<div className="flex flex-wrap -mx-3 mb-6">

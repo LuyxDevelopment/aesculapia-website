@@ -4,7 +4,7 @@ import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../src/util/ironConfig';
 import { useState } from 'react';
 
-const AdminSettings: NextPage<{ user: { email: string, has2faEnabled: boolean } , otpAuthUri: string }> = ({ user, otpAuthUri }) => {
+const Index: NextPage<{ user: { email: string, has2faEnabled: boolean } , otpAuthUri: string }> = ({ user, otpAuthUri }) => {
 	const [qrCode] = useState(otpAuthUri);
 	const [qrCodeShown, showQrCode] = useState(false);
 	const [twoFactorAuthValid, setTwoFactorAuthValid] = useState(false);
@@ -60,7 +60,7 @@ const AdminSettings: NextPage<{ user: { email: string, has2faEnabled: boolean } 
 				<div>
 					<label className='font-bold text-2xl'>2FA Code</label>
 					<br />
-					<input type="text" onChange={(e): void => setTwoFactorAuthCode(e.target.value)} />
+					<input type='text' onChange={(e): void => setTwoFactorAuthCode(e.target.value)} />
 					<button className='bg-green-500' onClick={submit2FA}>enter</button>
 					<p className='text-black'>{twoFactorAuthValid ? 'Code is valid.' : 'Code is invalid.'}</p>
 					<QRCode value={qrCode} size={256} />
@@ -69,6 +69,8 @@ const AdminSettings: NextPage<{ user: { email: string, has2faEnabled: boolean } 
 		</>
 	);
 };
+
+export default Index;
 
 // @ts-ignore
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
@@ -115,5 +117,3 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 		props: { user: req.session.user },
 	};
 }, ironOptions);
-
-export default AdminSettings;
