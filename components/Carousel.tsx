@@ -23,19 +23,19 @@ const Carousel: FC<Props> = ({ images, fullScreen }) => {
 		>
 			<button
 				onClick={prev}
-				className="text-4xl font-bold bg-red-400 w-12 rounded-l-lg"
+				className='text-4xl font-bold bg-red-400 w-12 rounded-l-lg'
 			>
 				{'<'}
 			</button>
 			<img
 				src={images[current].url}
-				width="90%"
-				height="100vh"
+				width='90%'
+				height='100vh'
 				alt='Alternative'
 			/>
 			<button
 				onClick={next}
-				className="text-4xl font-bold bg-red-400 w-12 rounded-r-lg"
+				className='text-4xl font-bold bg-red-400 w-12 rounded-r-lg'
 			>
 				{'>'}
 			</button>

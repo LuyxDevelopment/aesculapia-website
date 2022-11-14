@@ -18,16 +18,16 @@ const Toast = ({ title, description, type }: ToastOptions): JSX.Element => {
 	}, []);
 
 	return (
-		<div id="toast" className={'toast show toast-' + type}>
-			<h6 className="inline-block align-middle">
-				<div className="inline-block align-middle mr-2">
+		<div id='toast' className={'toast show toast-' + type}>
+			<h6 className='inline-block align-middle'>
+				<div className='inline-block align-middle mr-2'>
 					<Image
 						src={
 							'/assets/icons/' + type + '.svg'
 						}
-						alt="icon"
-						width="25"
-						height="25"
+						alt='icon'
+						width='25'
+						height='25'
 						className={type === 'loading' ? 'animate-spin' : ''}
 					/>
 				</div>
