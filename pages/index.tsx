@@ -165,14 +165,4 @@ const Home: NextPage = () => {
 	);
 };
 
-// @ts-ignore
-export const getServerSideProps = withIronSessionSsr(	function (context: NextPageContext) {
-
-	return {
-		props: {
-			user: context.req.session.user,
-		},
-	};
-}, ironOptions);
-
 export default Home;
