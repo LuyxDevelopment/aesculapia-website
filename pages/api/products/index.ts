@@ -1,13 +1,16 @@
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
+import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
 import { AuthorityLevel, Product, ProductDocument } from '../../../src/models/index';
 import { ResponseData } from '../../../src/types/responseData';
 import dbConnect from '../../../src/util/dbConnect';
+import { ironOptions } from '../../../src/util/ironConfig';
 
 dbConnect();
 
-export default async function handler(
+// @ts-ignore
+export default withIronSessionApiRoute(async function loginHandler(
 	req: NextApiRequest & { query: { default: boolean; }; },
 	res: NextApiResponse<ResponseData<ProductDocument | ProductDocument[]>>,
 ): Promise<void> {
@@ -24,7 +27,6 @@ export default async function handler(
 			if (req.query.default) {
 
 				const product = new Product({
-					description: 'Test description',
 					imageURL: 'https://avatars.githubusercontent.com/u/96552233',
 					name: 'Test Product',
 					price: 500,
@@ -51,7 +53,12 @@ export default async function handler(
 				return;
 			}
 
-			const product = new Product(req.body);
+			const product = new Product({
+				imageURL: req.body.imageURL,
+				name: req.body.name,
+				price: req.body.price * 100,
+				stock: req.body.stock,
+			});
 
 			try {
 				await product.save();
@@ -78,4 +85,4 @@ export default async function handler(
 			});
 		} break;
 	}
-}
+}, ironOptions);

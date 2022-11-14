@@ -4,10 +4,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
 import { AuthorityLevel, ISponsor, Sponsor } from '../../../src/models/index';
 import dbConnect from '../../../src/util/dbConnect';
+import { ironOptions } from '../../../src/util/ironConfig';
 
 dbConnect();
 
-export default async function handler(
+// @ts-ignore
+export default withIronSessionApiRoute(async function loginHandler(
 	req: NextApiRequest & { body: ISponsor; } & { query: { sponsor_id: string; }; },
 	res: NextApiResponse,
 ): Promise<void> {
@@ -119,36 +121,6 @@ export default async function handler(
 			}
 		} break;
 
-		case 'POST': {
-			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
-				res.status(StatusCodes.FORBIDDEN).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.FORBIDDEN),
-				});
-
-				return;
-			}
-
-			const sponsor = new Sponsor(req.body);
-
-			try {
-				await sponsor.save();
-
-				res.status(StatusCodes.CREATED).json({
-					error: false,
-					message: getReasonPhrase(StatusCodes.CREATED),
-				});
-
-			} catch (error) {
-				console.log(error);
-
-				res.status(StatusCodes.BAD_REQUEST).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
-				});
-			}
-		} break;
-
 		default: {
 			res.status(StatusCodes.NOT_FOUND).json({
 				error: false,
@@ -156,4 +128,4 @@ export default async function handler(
 			});
 		} break;
 	}
-}
+}, ironOptions);

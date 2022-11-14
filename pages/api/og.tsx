@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { ImageResponse } from '@vercel/og';
 import type { NextRequest } from 'next/server';
 
@@ -28,11 +29,11 @@ export default function ogHandler(req: NextRequest) {
 					src={`${
 						process.env.NEXT_PUBLIC_DOMAIN ?? 'http://localhost:3000'
 					}/assets/logo.png`}
-					alt="aesculapia-logo"
-					width="150"
-					tw="pb-3"
+					alt='aesculapia-logo'
+					width='150'
+					tw='pb-3'
 				/>
-				<p tw="text-3xl font-bold">{description}</p>
+				<p tw='text-3xl font-bold'>{description}</p>
 			</div>
 		),
 		{

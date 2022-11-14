@@ -4,10 +4,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
 import { AuthorityLevel, IProduct, Product } from '../../../src/models/index';
 import dbConnect from '../../../src/util/dbConnect';
+import { ironOptions } from '../../../src/util/ironConfig';
 
 dbConnect();
 
-export default async function handler(
+// @ts-ignore
+export default withIronSessionApiRoute(async function loginHandler(
 	req: NextApiRequest & { body: IProduct; } & { query: { product_id: string; }; },
 	res: NextApiResponse,
 ): Promise<void> {
@@ -136,4 +138,4 @@ export default async function handler(
 			});
 		} break;
 	}
-}
+}, ironOptions);
