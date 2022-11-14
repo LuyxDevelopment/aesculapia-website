@@ -7,7 +7,7 @@ if (!MONGO_URI || !DB_NAME) {
 	throw new Error('MONGO_URI variable must be defined in the .env.local file!');
 }
 
-const connection: { state?: ConnectionStates } = {};
+const connection: { state?: ConnectionStates; } = {};
 
 const dbConnect = async (): Promise<void> => {
 	if (connection.state) {
