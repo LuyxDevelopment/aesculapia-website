@@ -15,7 +15,7 @@ export const formatAmountForStripe = (amount: number, currency: string) => {
 	});
 	const parts = numberFormat.formatToParts(amount);
 	let zeroDecimalCurrency = true;
-	for (let part of parts) {
+	for (const part of parts) {
 		if (part.type === 'decimal') {
 			zeroDecimalCurrency = false;
 		}
@@ -31,7 +31,7 @@ export const formatAmountFromStripe = (amount: number, currency: string) => {
 	});
 	const parts = numberFormat.formatToParts(amount);
 	let zeroDecimalCurrency = true;
-	for (let part of parts) {
+	for (const part of parts) {
 		if (part.type === 'decimal') {
 			zeroDecimalCurrency = false;
 		}

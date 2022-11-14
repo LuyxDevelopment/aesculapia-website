@@ -3,7 +3,6 @@ import { Order, OrderDocument } from './Order';
 
 export interface IProduct {
 	name: string;
-	description: string;
 	imageURL: string;
 	price: number;
 	stock: number;
@@ -20,7 +19,6 @@ export type ProductModel = Model<IProduct, {}, ProductMethods>;
 
 export const productSchema = new Schema<IProduct, ProductModel, ProductMethods>({
 	name: { type: Schema.Types.String, minlength: 1, maxLength: 64, required: true },
-	description: { type: Schema.Types.String, minLength: 1, maxLength: 512, required: true },
 	imageURL: { type: Schema.Types.String, minLength: 1, maxLength: 1024, required: true },
 	price: { type: Schema.Types.Number, min: 0, required: true },
 	stock: { type: Schema.Types.Number, default: 0 },
