@@ -2,29 +2,46 @@ import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../src/util/ironConfig';
 import { NextPage } from 'next';
 import Layout from '../../components/Layout';
-import dbConnect from '../../src/util/dbConnect';
+import AdminPageCard from '../../components/AdminPageCard';
 
-const adminPages = [
+const pages: { name: string, url: string, svg: string; }[] = [
 	{
-		name:'Products',
+		name: 'Events',
+		url: '/admin/events',
+		svg: '/assets/icons/events',
+	},
+	{
+		name: 'Orders',
+		svg: '/assets/icons/orders',
+		url: '/admin/orders',
+	},
+	{
+		name: 'Products',
+		svg: '/assets/icons/products',
 		url: '/admin/products',
+	},
+	{
+		name: 'Sponsors',
+		svg: '/assets/icons/sponsors',
+		url: '/admin/sponsors',
 	},
 ];
 
-const Index: NextPage = () => {
+const AdminIndex: NextPage = () => {
 	return (
 		<>
 			<Layout>
-				<div className='relative'>
-					<div className='absolute top-10 left-14 sm:left-20 text-white'>
-						<div className='flex flex-wrap w-56 sm:w-96'>
-							<h1 className='text-3xl pb-2 font-bold text-black'>
-								Admin home.
-							</h1>
-							<p className='text-xl text-black'>
-								Welcome to the admin page.
-							</p>
-						</div>
+				<div className='container mb-12'>
+					<h1 className='text-4xl font-bold mb-5'>Admin Menu</h1>
+					<p className='text-xl'>
+						Select a panel to edit.
+					</p>
+					<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+						{pages.map(({ name, svg, url }, i) => {
+							return (
+								<AdminPageCard name={name} svg={svg} url={url} key={i} />
+							);
+						})}
 					</div>
 				</div>
 			</Layout>
@@ -90,4 +107,4 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 	};
 }, ironOptions);
 
-export default Index;
+export default AdminIndex;

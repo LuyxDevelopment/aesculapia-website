@@ -6,7 +6,7 @@ import Layout from '../../../components/Layout';
 import { useMetaData } from '../../../lib/hooks/useMetaData';
 import { ironOptions } from '../../../src/util/ironConfig';
 
-const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: boolean }}> = ({ user }) => {
+const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: boolean; }; }> = ({ user }) => {
 
 	useMetaData('Aesculapia', 'Products', '/admin');
 
@@ -58,13 +58,13 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 								<div className="flex flex-wrap -mx-3">
 									<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 										<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-product-name">
-									Product Name
+											Product Name
 										</label>
 										<input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-name" type="text" placeholder="Chocolate" minLength={1} maxLength={64} required {...register('name', { required: true })} />
 									</div>
 									<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 										<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-product-price">
-									Product Price
+											Product Price
 										</label>
 										<input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-price" type="text" placeholder="5.31" {...register('price', { required: true })} />
 									</div>
@@ -72,7 +72,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 								<div className="flex flex-wrap -mx-3 mb-2">
 									<div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
 										<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-image-url">
-									Image URL
+											Image URL
 										</label>
 										<input className="appearance-none block w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-image-url" type="text" placeholder="https://example.com/image.png (square images recommended)" minLength={1} maxLength={1024} required {...register('imageurl', { required: true })} />
 									</div>
@@ -80,7 +80,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 								<div className="flex flex-wrap -mx-3 mb-6">
 									<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 										<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-stock">
-									Product Stock
+											Product Stock
 										</label>
 										<input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight border-2 focus:border-rose-500 focus:bg-white" id="grid-stock" type="text" placeholder="10" defaultValue={0} min={0} required {...register('stock', { required: true })} />
 									</div>

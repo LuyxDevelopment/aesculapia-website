@@ -5,7 +5,6 @@ import { useMetaData } from '../lib/hooks/useMetaData';
 import Carousel, { ImageData } from '../components/Carousel';
 import AOS from '../components/AOS';
 import Dropdown from '../components/Dropdown';
-import { ironOptions } from '../src/util/ironConfig';
 
 const images: ImageData[] = [
 	{
@@ -49,7 +48,7 @@ const events = [
 	},
 ];
 
-const Home: NextPage = () => {
+const Index: NextPage = () => {
 	return (
 		<>
 			{useMetaData('Aesculapia', 'Home Page', '/')}
@@ -165,4 +164,4 @@ const Home: NextPage = () => {
 	);
 };
 
-export default Home;
+export default Index;

@@ -6,7 +6,7 @@ import Layout from '../components/Layout';
 import ErrorPage from '../components/Error';
 
 interface Props {
-	data: (ISponsor & { _id: string })[];
+	data: (ISponsor & { _id: string; })[];
 }
 
 const Index: NextPage<Props> = ({ data }) => {
@@ -20,6 +20,9 @@ const Index: NextPage<Props> = ({ data }) => {
 				{data && (
 					<div className='container mb-12'>
 						<h1 className='text-4xl font-bold mb-5'>Sponsors</h1>
+						<p className='text-xl'>
+							These sponsors help fund our mission.
+						</p>
 						<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
 							{data.map((sponsor, i) => {
 								return (
@@ -34,7 +37,7 @@ const Index: NextPage<Props> = ({ data }) => {
 	);
 };
 
-export const getServerSideProps = async (context: NextPageContext): Promise<{ props: unknown }> => {
+export const getServerSideProps = async (context: NextPageContext): Promise<{ props: unknown; }> => {
 	context.res?.setHeader(
 		'Cache-Control',
 		'public, s-maxage=10, stale-while-revalidate=59',
