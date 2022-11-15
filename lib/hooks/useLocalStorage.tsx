@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Product } from '../../components/ProductCard';
 
-export const useLocalStorage = <T,>(key: string, initialValue: T): readonly [T, Dispatch<SetStateAction<T>>, (value: T) => void] => {
+export const useLocalStorage = <T extends object,>(key: string, initialValue: T): readonly [T, Dispatch<SetStateAction<T>>, (value: T) => void, () => string | null] => {
 	const [storedValue, setStoredValue] = useState<T>(() => {
 		if (typeof window === 'undefined') {
 			return initialValue;
@@ -18,49 +19,40 @@ export const useLocalStorage = <T,>(key: string, initialValue: T): readonly [T, 
 		}
 	});
 
-	const addValue = (value: T): T | void => {
-		if ((storedValue as []).constructor !== Array) {
+	const getStorage = (): string | null => {
+		if (typeof window === 'undefined') {
+			return null;
+		}
+
+		return window.localStorage.getItem(key);
+	};
+
+	const addValue = (value: T): T | number | undefined => {
+		if (storedValue.constructor !== Array) {
 			return value;
 		}
 		try {
+			const index = (storedValue as []).findIndex((o: Product) => o.name === (value as Product).name);
 
-			// const f = storedValue;
-			// const index = (storedValue as []).findIndex(o => Object.keys(o)[0] === Object.keys(value!)[0]);
-
-			// if (index > -1) {
-			// 	const newAmount = (Object.values((f as []).find(o => Object.keys(o)[0] === Object.keys(value!)[0])!)![0] as number) + 1;
-			// 	(f as []).splice(index, 1, { [Object.keys(value!)[0]]: newAmount } as never);
-			// 	setStoredValue(f);
-			// } else {
-			// 	// @ts-ignore
-			// 	setStoredValue(arr => [...arr, value]);
-			// }
-
-			// if (typeof window !== 'undefined') {
-			// 	window.localStorage.setItem(key, JSON.stringify(storedValue));
-			// }
-
-			const index = (storedValue as []).findIndex(o => (o as Record<string, unknown>).name === (value as Record<string, unknown>).name);
-
-			if (index > -1) {
-				setStoredValue((storedValue as []).filter(p => (p as Record<string, unknown>).name !== (value as Record<string, unknown>).name) as never);
-				console.log((value as Record<string, unknown>).amount);
-				// @ts-ignore
-				setStoredValue(arr => [...arr, { name: value.name, amount: storedValue[index].amount + 1 }]);
-			} else {
-				// @ts-ignore
-				setStoredValue(arr => [...arr, value]);
-			}
+			if (index !== -1) {
+				if ((value as Product).stock === 0) return undefined;
+				if ((value as Product).amount + (storedValue as Product[])[index].amount > (value as Product).stock) return undefined;
+				if ((value as Product).amount + (storedValue as Product[])[index].amount < 0) return undefined;
+				setStoredValue((storedValue as Product[]).filter(p => p.name !== (value as Product).name));
+				setStoredValue(arr => [...arr, { name: (value as Product).name, amount: (storedValue as Product[])[index].amount + (value as Product).amount }]);
+				return (value as Product).amount + (storedValue as Product[])[index].amount;
+			} 
+			setStoredValue(arr => [...arr, value]);
+			return (value as Product).amount;
+			
 		} catch (error) {
 			console.log(error);
 		}
-
-
 	};
 
 	useEffect(() => {
 		window.localStorage.setItem(key, JSON.stringify(storedValue));
 	}, [key, storedValue]);
   
-	return [initialValue, setStoredValue, addValue] as const;
+	return [initialValue, setStoredValue, addValue, getStorage] as const;
 };
