@@ -3,7 +3,7 @@ import { Schema, Model, Types, default as mongoose, HydratedDocument } from 'mon
 import { Ticket, TicketDocument } from './Ticket';
 
 export interface IEvent {
-	title: string;
+	name: string;
 	description: string;
 	bannerURL: string;
 	startsAtTimestamp: number;
@@ -33,7 +33,7 @@ export interface IEntry {
 
 export const eventSchema = new Schema<IEvent, EventModel, EventMethods>(
 	{
-		title: { type: Schema.Types.String, minLength: 1, maxLength: 64, required: true },
+		name: { type: Schema.Types.String, minLength: 1, maxLength: 64, required: true },
 		description: { type: Schema.Types.String, minLength: 1, maxLength: 512, required: true },
 		bannerURL: { type: Schema.Types.String, minLength: 1, maxLength: 1024, required: true },
 		startsAtTimestamp: { type: Schema.Types.Number, required: true },
