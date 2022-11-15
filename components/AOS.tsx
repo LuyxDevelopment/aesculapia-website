@@ -19,6 +19,7 @@ const AOS: FC<Props> = ({ dir, children }) => {
 		});
 		const hidden = document.querySelectorAll(`.hidden-aos-${dir}`);
 		hidden.forEach((el) => observer.observe(el));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return <div className={`hidden-aos-${dir}`}>{children}</div>;

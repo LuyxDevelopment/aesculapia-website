@@ -41,10 +41,10 @@ export const useLocalStorage = <T extends object,>(key: string, initialValue: T)
 				setStoredValue((storedValue as Product[]).filter(p => p.name !== (value as Product).name));
 				setStoredValue(arr => [...arr, { name: (value as Product).name, amount: (storedValue as Product[])[index].amount + (value as Product).amount }]);
 				return (value as Product).amount + (storedValue as Product[])[index].amount;
-			} 
+			}
 			setStoredValue(arr => [...arr, value]);
 			return (value as Product).amount;
-			
+
 		} catch (error) {
 			console.log(error);
 		}
@@ -53,6 +53,6 @@ export const useLocalStorage = <T extends object,>(key: string, initialValue: T)
 	useEffect(() => {
 		window.localStorage.setItem(key, JSON.stringify(storedValue));
 	}, [key, storedValue]);
-  
+
 	return [initialValue, setStoredValue, addValue, getStorage] as const;
 };

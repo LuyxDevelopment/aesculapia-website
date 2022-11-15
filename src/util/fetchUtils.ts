@@ -1,4 +1,5 @@
-export const postJSON = async (url: string, body: {}) => {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const postJSON = async (url: string, body: {}): Promise<unknown> => {
 	try {
 		const response = await fetch(url, {
 			method: 'POST',

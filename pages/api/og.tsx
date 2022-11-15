@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { ImageResponse } from '@vercel/og';
 import type { NextRequest } from 'next/server';
 
@@ -6,7 +5,7 @@ export const config = {
 	runtime: 'experimental-edge',
 };
 
-export default function ogHandler(req: NextRequest) {
+export default function ogHandler(req: NextRequest): ImageResponse {
 	const { searchParams } = req.nextUrl;
 	const description = searchParams.get('description') ?? 'Aesculapia';
 
