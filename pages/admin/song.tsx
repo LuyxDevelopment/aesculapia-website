@@ -3,9 +3,9 @@ import { withIronSessionSsr } from 'iron-session/next';
 import InProgress from '../../components/InProgress';
 import { ironOptions } from '../../src/util/ironConfig';
 
-const AdminSocialsIndex: NextPage = InProgress;
+const AdminSongIndex: NextPage = InProgress;
 
-export default AdminSocialsIndex;
+export default AdminSongIndex;
 
 // @ts-ignore
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {

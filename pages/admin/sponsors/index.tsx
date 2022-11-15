@@ -1,39 +1,9 @@
 import { withIronSessionSsr } from 'iron-session/next';
 import { NextPage } from 'next';
-import Layout from '../../../components/Layout';
-import { useMetaData } from '../../../lib/hooks/useMetaData';
-import ErrorPage from '../../../components/Error';
 import { ironOptions } from '../../../src/util/ironConfig';
-import { ISponsor } from '../../../src/models/Sponsor';
-import SponsorCard from '../../../components/SponsorCard';
+import InProgress from '../../../components/InProgress';
 
-interface Props {
-	data: (ISponsor & { _id: string })[];
-}
-
-const AdminSponsorsIndex: NextPage<Props> = ({ data }) => {
-
-	return (
-		<>
-			{useMetaData('Admin', 'Admin products', '/admin')}
-			<Layout>
-				{!data && (
-					<ErrorPage />
-				)}
-				<div className='container'>
-					<h1 className='text-4xl font-bold mb-5'>Sponsors</h1>
-					<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-						{(data as ISponsor[]).map((sponsor, i) => {
-							return (
-								<SponsorCard sponsor={sponsor as (ISponsor & { _id: string })} key={i} />
-							);
-						})}
-					</div>
-				</div>
-			</Layout>
-		</>
-	);
-};
+const AdminSponsorsIndex: NextPage = InProgress;
 
 // @ts-ignore
 export const getServerSideProps = withIronSessionSsr(async function (context: NextPageContext) {
@@ -72,8 +42,8 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ne
 			props: {
 				user: {
 					email: user.email,
-					has2faEnabled: false, 
-					completed2fa: false, 
+					has2faEnabled: false,
+					completed2fa: false,
 				},
 				otpAuthUri: '',
 				data: data.data,
@@ -106,7 +76,7 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ne
 	}
 
 	return {
-		props: { 
+		props: {
 			user: context.req.session.user,
 			data: data.data,
 		},

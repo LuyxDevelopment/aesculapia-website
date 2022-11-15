@@ -8,7 +8,7 @@ import { ironOptions } from '../../../src/util/ironConfig';
 import { IProduct } from '../../../src/models/Product.js';
 
 interface Props {
-	data: (IProduct & { _id: string })[];
+	data: (IProduct & { _id: string; })[];
 }
 
 const AdminProductsIndex: NextPage<Props> = ({ data }) => {
@@ -44,14 +44,13 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ne
 		'Cache-Control',
 		'public, s-maxage=10, stale-while-revalidate=59',
 	);
-	
+
 	const request = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/products`, {
 		method: 'GET',
 		headers: { 'Content-Type': 'application/json' },
 	});
 
 	const data = await request.json();
-
 
 	if (user?.email) {
 		const request = await fetch('http://localhost:3000/api/auth/2fa/generate', {
@@ -73,7 +72,7 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ne
 
 		return {
 			props: {
-				user: { 
+				user: {
 					email: user.email,
 					has2faEnabled: false,
 					completed2fa: false,

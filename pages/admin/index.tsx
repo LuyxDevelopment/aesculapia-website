@@ -11,6 +11,11 @@ const pages: { name: string, url: string, svg: string; }[] = [
 		svg: '/assets/icons/events',
 	},
 	{
+		name: 'News',
+		svg: '/assets/icons/news',
+		url: '/admin/news',
+	},
+	{
 		name: 'Orders',
 		svg: '/assets/icons/orders',
 		url: '/admin/orders',
@@ -21,9 +26,19 @@ const pages: { name: string, url: string, svg: string; }[] = [
 		url: '/admin/products',
 	},
 	{
+		name: 'Song',
+		svg: '/assets/icons/song',
+		url: '/admin/song',
+	},
+	{
 		name: 'Sponsors',
 		svg: '/assets/icons/sponsors',
 		url: '/admin/sponsors',
+	},
+	{
+		name: 'Settings',
+		svg: '/assets/icons/settings',
+		url: '/admin/settings',
 	},
 ];
 

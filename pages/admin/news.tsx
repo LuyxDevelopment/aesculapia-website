@@ -3,9 +3,9 @@ import type { NextPage } from 'next';
 import InProgress from '../../components/InProgress';
 import { ironOptions } from '../../src/util/ironConfig';
 
-const Index: NextPage = InProgress;
+const AdminNewsIndex: NextPage = InProgress;
 
-export default Index;
+export default AdminNewsIndex;
 
 // @ts-ignore
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
@@ -19,17 +19,17 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 			},
 			body: JSON.stringify(user),
 		});
-	
+
 		const json = await request.json();
 
 		if (json.data) return {
-			props: { 
+			props: {
 				user: { email: user.email, has2faEnabled: true, completed2fa: false },
 				otpAuthUri: json.data,
 			},
 		};
 		return {
-			props: { 
+			props: {
 				user: { email: user.email, has2faEnabled: false, completed2fa: false },
 				otpAuthUri: '',
 			},

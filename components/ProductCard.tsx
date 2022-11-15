@@ -2,7 +2,7 @@ import { FC, MouseEventHandler, useEffect, useState } from 'react';
 import { IProduct } from '../src/models/Product';
 
 interface Props {
-	product: IProduct & { _id: string };
+	product: IProduct & { _id: string; };
 	cartable: number;
 	addCart: (value: Product) => undefined;
 	getStorage: () => string | null;
@@ -12,10 +12,10 @@ interface Props {
 export interface Product {
 	name: string,
 	amount: number,
-	stock: number
+	stock: number;
 }
 
-const ProductCard: FC<Props> = ({ product, cartable, addCart, getStorage: storage }) => { 
+const ProductCard: FC<Props> = ({ product, cartable, addCart, getStorage: storage }) => {
 	const [ar, setAr] = useState(0);
 	const [amount, setAmount] = useState(0);
 	const [cartData, setCartData] = useState([]);
@@ -40,19 +40,19 @@ const ProductCard: FC<Props> = ({ product, cartable, addCart, getStorage: storag
 			event?.stopPropagation();
 			setAr(1);
 		}) : undefined}>
-			<img className={(product.stock === 0 ? 'grayscale ' : '') + 'w-52 rounded-lg transition-all duration-[400ms] ease-in-out group-hover:shadow-md group-hover:scale-[0.96]'} draggable={false} src={product.imageURL} alt='Alt' width='256' height='256' />
+			<img className={(product.stock === 0 ? 'grayscale ' : '') + 'w-52 rounded-lg transition-all duration-[400ms] ease-in-out group-hover:shadow-md group-hover:scale-[0.96]'} draggable={false} src={product.imageURL} alt={product.name} width='256' height='256' />
 			<h1 className='text-xl font-bold'>{product.name}</h1>
 			<p className='text-lg absolute bottom-10 right-5 h-auto'>€{(product.price / 100).toFixed(2)}</p>
 			<p className={product.stock === 0 ? 'text-red-700' : 'text-stone-700'}>{product.stock === 0 ? 'Out of stock' : `${product.stock} left`}</p>
 			{
-				cartData && cartData.find((e: Product) => e.name === product.name) 
-				&& (amount || (cartData.find((e: Product) => e.name === product.name)! as Product).amount > 0) && product.stock > 0 ? 
+				cartData && cartData.find((e: Product) => e.name === product.name)
+					&& (amount || (cartData.find((e: Product) => e.name === product.name)! as Product).amount > 0) && product.stock > 0 ?
 					<>
 						<button className='absolute -bottom-3 -right-3 h-10 w-10 bg-red-500 shadow-md flex items-center justify-center rounded-full p-4 hover:bg-red-700 transition-all duration-300 ease-in-out' onClick={cartable ? ((event): void => {
 							event?.stopPropagation();
 							setAr(-1);
 						}) : undefined}>
-							<img src='/assets/icons/remove.svg' width={35} height={35} alt='Remove'/>
+							<img src='/assets/icons/remove.svg' width={35} height={35} alt='Remove' />
 						</button>
 						<div className='absolute -top-3 -right-3 h-10 w-10 bg-gray-300 shadow-md flex items-center justify-center rounded-full p-4 transition-all duration-300 ease-in-out'>
 							<p>{amount !== 0 ? amount : (cartData.find((e: Product) => e.name === product.name)! as Product).amount}</p>
