@@ -10,7 +10,7 @@ interface Props {
 
 const Navbar: FC<Props> = ({ isAdmin }) => {
 	const [showMenu, setShowMenu] = useState(false);
-	console.log(isAdmin);
+
 	return (
 		<>
 			<nav className={(isAdmin ? 'bg-red-500 ' : 'bg-white ') + 'text-black shadow-lg p-3 flex flex-row justify-between sm:justify-evenly items-center'} >
@@ -24,7 +24,7 @@ const Navbar: FC<Props> = ({ isAdmin }) => {
 					/>
 				</div>
 				<div className='hidden sm:flex sm:flex-row sm:space-x-10 font-extrabold'>
-					<h1 className='cursor-pointer hover:underline transition-all duration-300 ease-in-out' onClick={(): string => (window.location.href =  '/')}>
+					<h1 className='cursor-pointer hover:underline transition-all duration-300 ease-in-out' onClick={(): string => (window.location.href = '/')}>
 						Home
 					</h1>
 					<h1 className='cursor-pointer hover:underline transition-all duration-300 ease-in-out' onClick={(): string => (window.location.href = isAdmin ? '/admin/products' : '/products')}>
