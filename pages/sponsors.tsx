@@ -9,7 +9,7 @@ interface Props {
 	data: (ISponsor & { _id: string; })[];
 }
 
-const Index: NextPage<Props> = ({ data }) => {
+const SponsorsIndex: NextPage<Props> = ({ data }) => {
 	return (
 		<>
 			{useMetaData('Sponsors', 'Sponsors Page', '/sponsors')}
@@ -56,4 +56,4 @@ export const getServerSideProps = async (context: NextPageContext): Promise<{ pr
 	};
 };
 
-export default Index;
+export default SponsorsIndex;
