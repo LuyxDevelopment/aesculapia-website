@@ -11,7 +11,7 @@ interface Props {
 }
 
 const ProductsIndex: NextPage<Props> = ({ data }) => {
-	const [cart, setCart, addCart] = useLocalStorage('cart', []);
+	const [,,addCart, getStorage] = useLocalStorage('cart', []);
 	
 	return (
 		<>
@@ -27,7 +27,7 @@ const ProductsIndex: NextPage<Props> = ({ data }) => {
 							{data.map((product, i) => {
 								return (
 									// @ts-ignore
-									<ProductCard handleClick={(() => addCart({ name: product.name, amount: 1 }))} product={product} cartable={2} cart={cart} key={i} />
+									<ProductCard addCart={addCart} getStorage={getStorage} product={product} cartable={2} key={i} />
 								);
 							})}
 						</div>
