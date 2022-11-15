@@ -24,8 +24,15 @@ const AdminProductCard: FC<Props> = ({ product }) => {
 						<button className='absolute -bottom-3 -right-3 h-10 w-10 bg-red-500 shadow-md flex items-center justify-center rounded-full p-2 hover:bg-red-700 transition-all duration-300 ease-in-out' >
 							<img src='/assets/icons/trashcan.svg' width={900} height={900} alt='Navbar' />
 						</button>
-						<div className='absolute -top-3 -right-3 h-10 w-10 bg-gray-300 shadow-md flex items-center justify-center rounded-full p-4 transition-all duration-300 ease-in-out'>
-						</div>
+						<button className='absolute -top-3 -left-3 h-10 w-10 bg-gray-300 shadow-md flex items-center justify-center rounded-full p-2 transition-all duration-300 ease-in-out'>
+							<p>-</p>
+						</button>
+						<button className='absolute -top-3 -right-3 h-10 w-10 bg-gray-300 shadow-md flex items-center justify-center rounded-full p-2 transition-all duration-300 ease-in-out'>
+							<p>+</p>
+						</button>
+						<button className='absolute -bottom-3 -left-3 h-10 w-10 bg-gray-300 shadow-md flex items-center justify-center rounded-full p-2 transition-all duration-300 ease-in-out'>
+							<p>Save</p>
+						</button>
 					</>
 				}
 			</form>
