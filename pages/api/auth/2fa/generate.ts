@@ -12,8 +12,10 @@ export default withIronSessionApiRoute(async function loginHandler(
 ): Promise<void> {
 	switch (req.method) {
 		case 'POST': {
-			req.session.user = req.body;
-			await req.session.save();
+			// req.session.user = req.body;
+			// await req.session.save();
+
+			console.log(req.session.user);
 
 			if (!req.session.user) {
 				res.status(StatusCodes.UNAUTHORIZED).json({
