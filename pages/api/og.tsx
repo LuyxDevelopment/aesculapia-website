@@ -25,7 +25,7 @@ export default function ogHandler(req: NextRequest): ImageResponse {
 				}}
 			>
 				<img
-					src={`${process.env.NEXT_PUBLIC_DOMAIN ?? 'http://localhost:3000'}/assets/logo.png`}
+					src={`${process.env.NEXT_PUBLIC_DOMAIN}/assets/logo.png`}
 					alt='Aesculapia Logo'
 					width='150'
 					tw='pb-3'

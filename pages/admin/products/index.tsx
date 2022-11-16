@@ -53,7 +53,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
 	const productData = await productRequest.json() as ResponseData<ProductDocument | ProductDocument[]>;
 
 	if (user?.email) {
-		const request2FA = await fetch('http://localhost:3000/api/auth/2fa/generate', {
+		const request2FA = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/2fa/generate`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

@@ -4,7 +4,8 @@ const nextConfig = {
 	swcMinify: true,
 	images: {
 		domains: [
-			'localhost', 
+			'aesculapia-vzw.be',
+			'localhost',
 			'avatars.githubusercontent.com',
 			'i.imgur.com',
 		],

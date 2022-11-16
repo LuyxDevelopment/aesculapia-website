@@ -10,17 +10,17 @@ const images: ImageData[] = [
 	{
 		name: 'hello',
 		id: 1,
-		url: 'http://localhost:3000/api/og?description=1',
+		url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=1`,
 	},
 	{
 		name: 'hello',
 		id: 2,
-		url: 'http://localhost:3000/api/og?description=2',
+		url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=2`,
 	},
 	{
 		name: 'hello',
 		id: 3,
-		url: 'http://localhost:3000/api/og?description=3',
+		url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=3`,
 	},
 ];
 
@@ -29,21 +29,21 @@ const events = [
 		_id: '1',
 		title: 'Event 1',
 		description: 'A Charity live event with many famous singers!',
-		banner: 'http://localhost:3000/api/og?description=Event',
+		banner: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=Event`,
 		endsAtTimestamp: Date.now() + 1000,
 	},
 	{
 		_id: '2',
 		title: 'Event 2',
 		description: 'Longer Event Description',
-		banner: 'http://localhost:3000/api/og?description=Event',
+		banner: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=Event`,
 		endsAtTimestamp: Date.now() + 2000,
 	},
 	{
 		_id: '3',
 		title: 'Event 3',
 		description: 'Even Longer Event Description',
-		banner: 'http://localhost:3000/api/og?description=Event',
+		banner: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=Event`,
 		endsAtTimestamp: Date.now() + 3000,
 	},
 ];
@@ -83,7 +83,7 @@ const Index: NextPage = () => {
 							</div>
 							<div className='px-5'></div>
 							<Image
-								src='http://localhost:3000/api/og?description=group%20photo%201'
+								src={process.env.NEXT_PUBLIC_DOMAIN + '/api/og?description=group%20photo%201'}
 								width={1200}
 								height={630}
 								className='w-60 sm:w-72'
@@ -95,7 +95,7 @@ const Index: NextPage = () => {
 						<AOS dir='lr'>
 							<div className='flex flex-col-reverse sm:flex-row justify-between items-center'>
 								<Image
-									src='http://localhost:3000/api/og?description=group%20photo%202'
+									src={process.env.NEXT_PUBLIC_DOMAIN + '/api/og?description=group%20photo%202'}
 									width={1200}
 									height={630}
 									className='w-60 sm:w-72'
