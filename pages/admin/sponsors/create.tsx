@@ -90,8 +90,8 @@ const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: bool
 	);
 };
 
-export const getServerSideProps = withIronSessionSsr(async function (context: GetServerSidePropsContext): Promise<AdminProps> {
-	const user = context.req?.session.user;
+export const getServerSideProps = withIronSessionSsr(async function ({ req }): Promise<AdminProps> {
+	const user = req?.session.user;
 
 	if (user?.email) {
 		const request = await fetch('http://localhost:3000/api/auth/2fa/generate', {
@@ -143,7 +143,7 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ge
 	}
 
 	return {
-		props: { user: context.req.session.user },
+		props: { user: req.session.user },
 	};
 }, ironOptions);
 

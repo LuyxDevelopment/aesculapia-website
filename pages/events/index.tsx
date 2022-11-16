@@ -35,17 +35,18 @@ const EventsIndex: NextPage<Props> = ({ data }) => {
 	);
 };
 
-export const getServerSideProps = async (context: NextPageContext): Promise<BaseProps<EventDocument>> => {
-	context.res?.setHeader(
+export const getServerSideProps = async ({ res }: NextPageContext): Promise<BaseProps<EventDocument>> => {
+	res?.setHeader(
 		'Cache-Control',
 		'public, s-maxage=10, stale-while-revalidate=59',
 	);
-	const req = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/events`, {
+
+	const request = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/events`, {
 		method: 'GET',
 		headers: { 'Content-Type': 'application/json' },
 	});
 
-	const data = await req.json() as ResponseData<EventDocument | EventDocument[]>;
+	const data = await request.json() as ResponseData<EventDocument | EventDocument[]>;
 
 	return {
 		props: {

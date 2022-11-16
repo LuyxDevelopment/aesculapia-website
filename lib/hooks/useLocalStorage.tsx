@@ -40,9 +40,12 @@ export const useLocalStorage = <T extends object,>(key: string, initialValue: T)
 				if ((value as Product).amount + (storedValue as Product[])[index].amount < 0) return undefined;
 				setStoredValue((storedValue as Product[]).filter(p => p.name !== (value as Product).name) as SetStateAction<T>);
 				const amount = (storedValue as Product[])[index].amount + (value as Product).amount;
+				// @ts-ignore
 				setStoredValue(arr => [...arr, { name: (value as Product).name, price: value.price * amount, amount, stock: value.stock, imageURL: value.imageURL }]);
 				return (value as Product).amount + (storedValue as Product[])[index].amount;
 			}
+
+			// @ts-ignore
 			setStoredValue(arr => [...arr, value]);
 			return (value as Product).amount;
 

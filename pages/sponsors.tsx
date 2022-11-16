@@ -1,4 +1,4 @@
-import { NextPage, NextPageContext } from 'next';
+import { GetServerSidePropsContext, NextPage, NextPageContext } from 'next';
 import SponsorCard from '../components/SponsorCard';
 import { ISponsor, SponsorDocument } from '../src/models/Sponsor';
 import { useMetaData } from '../lib/hooks/useMetaData';
@@ -38,8 +38,8 @@ const SponsorsIndex: NextPage<Props> = ({ data }) => {
 	);
 };
 
-export const getServerSideProps = async (context: NextPageContext): Promise<BaseProps<SponsorDocument>> => {
-	context.res?.setHeader(
+export const getServerSideProps = async ({ res }: GetServerSidePropsContext): Promise<BaseProps<SponsorDocument>> => {
+	res?.setHeader(
 		'Cache-Control',
 		'public, s-maxage=10, stale-while-revalidate=59',
 	);

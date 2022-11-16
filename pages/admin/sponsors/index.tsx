@@ -1,5 +1,5 @@
 import { withIronSessionSsr } from 'iron-session/next';
-import { GetServerSidePropsContext, NextPage } from 'next';
+import { NextPage } from 'next';
 import { ironOptions } from '../../../src/util/ironConfig';
 import InProgress from '../../../components/InProgress';
 import { AdminProps } from '../../../src/types/index';
@@ -7,10 +7,10 @@ import { SponsorDocument } from '../../../src/models/Sponsor';
 
 const AdminSponsorsIndex: NextPage = InProgress;
 
-export const getServerSideProps = withIronSessionSsr(async function (context: GetServerSidePropsContext): Promise<AdminProps<SponsorDocument>> {
-	const user = context.req?.session.user;
+export const getServerSideProps = withIronSessionSsr(async function ({ req, res }): Promise<AdminProps<SponsorDocument>> {
+	const user = req?.session.user;
 
-	context.res?.setHeader(
+	res?.setHeader(
 		'Cache-Control',
 		'public, s-maxage=10, stale-while-revalidate=59',
 	);
@@ -78,7 +78,7 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ge
 
 	return {
 		props: {
-			user: context.req.session.user,
+			user: req.session.user,
 			data: data.data,
 		},
 	};

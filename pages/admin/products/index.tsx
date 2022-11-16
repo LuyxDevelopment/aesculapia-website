@@ -1,5 +1,5 @@
 import { withIronSessionSsr } from 'iron-session/next';
-import { GetServerSidePropsContext, NextPage } from 'next';
+import { NextPage } from 'next';
 import Layout from '../../../components/Layout';
 import AdminProductCard from '../../../components/AdminProductCard';
 import { useMetaData } from '../../../lib/hooks/useMetaData';
@@ -37,10 +37,10 @@ const AdminProductsIndex: NextPage<Props> = ({ data }) => {
 	);
 };
 
-export const getServerSideProps = withIronSessionSsr(async function (context: GetServerSidePropsContext): Promise<AdminProps<ProductDocument>> {
-	const user = context.req?.session.user;
+export const getServerSideProps = withIronSessionSsr(async function ({ req, res }): Promise<AdminProps<ProductDocument>> {
+	const user = req?.session.user;
 
-	context.res?.setHeader(
+	res?.setHeader(
 		'Cache-Control',
 		'public, s-maxage=10, stale-while-revalidate=59',
 	);
@@ -113,7 +113,7 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ge
 
 	return {
 		props: {
-			user: context.req.session.user,
+			user: req.session.user,
 			data: productData.data,
 		},
 	};
