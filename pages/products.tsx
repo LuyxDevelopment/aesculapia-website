@@ -45,7 +45,7 @@ export const getServerSideProps = async ({ res }: NextPageContext): Promise<Base
 		'public, s-maxage=10, stale-while-revalidate=59',
 	);
 
-	const request = await fetch('/api/products', {
+	const request = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/products`, {
 		method: 'GET',
 		headers: { 'Content-Type': 'application/json' },
 	});
