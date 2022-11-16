@@ -1,14 +1,15 @@
 import { withIronSessionSsr } from 'iron-session/next';
 import type { NextPage } from 'next';
 import InProgress from '../../components/InProgress';
+import { NewsDocument } from '../../src/models/News';
+import { AdminProps } from '../../src/types/index';
 import { ironOptions } from '../../src/util/ironConfig';
 
 const AdminNewsIndex: NextPage = InProgress;
 
 export default AdminNewsIndex;
 
-// @ts-ignore
-export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
+export const getServerSideProps = withIronSessionSsr(async function ({ req }): Promise<AdminProps<NewsDocument>> {
 	const user = req.session.user;
 
 	if (user?.email) {

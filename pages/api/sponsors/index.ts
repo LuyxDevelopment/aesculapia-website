@@ -2,16 +2,15 @@ import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
-import { AuthorityLevel, Sponsor, SponsorDocument } from '../../../src/models/index';
-import { ResponseData } from '../../../src/types/responseData';
+import { AuthorityLevel, ISponsor, Sponsor, SponsorDocument } from '../../../src/models/index';
+import { ResponseData } from '../../../src/types';
 import dbConnect from '../../../src/util/dbConnect';
 import { ironOptions } from '../../../src/util/ironConfig';
 
 dbConnect();
 
-// @ts-ignore
 export default withIronSessionApiRoute(async function loginHandler(
-	req: NextApiRequest & { query: { default: boolean; }; },
+	req: Omit<NextApiRequest, 'body'> & { body: ISponsor; } & { query: { default?: boolean; } & Partial<ISponsor>; },
 	res: NextApiResponse<ResponseData<SponsorDocument | SponsorDocument[]>>,
 ): Promise<void> {
 	switch (req.method) {
@@ -19,16 +18,17 @@ export default withIronSessionApiRoute(async function loginHandler(
 			res.status(StatusCodes.OK).json({
 				error: false,
 				message: getReasonPhrase(StatusCodes.OK),
-				data: await Sponsor.find({}),
+				data: await Sponsor.find({ ...req.query }),
 			});
 
 		} break;
 
 		case 'POST': {
-			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
+					data: null,
 				});
 
 				return;
@@ -42,6 +42,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.CREATED).json({
 					error: false,
 					message: getReasonPhrase(StatusCodes.CREATED),
+					data: null,
 				});
 
 			} catch (error) {
@@ -50,6 +51,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
 				});
 			}
 		} break;
@@ -58,6 +60,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 			res.status(StatusCodes.NOT_FOUND).json({
 				error: false,
 				message: getReasonPhrase(StatusCodes.NOT_FOUND),
+				data: null,
 			});
 		} break;
 	}

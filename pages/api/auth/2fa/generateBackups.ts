@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Admin } from '../../../../src/models/Admin';
 import { ironOptions } from '../../../../src/util/ironConfig';
 import { withIronSessionApiRoute } from 'iron-session/next';
-import { ResponseData } from '../../../../src/types/responseData';
+import { ResponseData } from '../../../../src/types';
 import { Authentication } from '../../../../src/auth/index';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
@@ -19,6 +19,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.UNAUTHORIZED).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.UNAUTHORIZED),
+					data: null,
 				});
 
 				return;
@@ -31,6 +32,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.UNAUTHORIZED).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.UNAUTHORIZED),
+					data: null,
 				});
 
 				return;
@@ -40,6 +42,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.CONFLICT).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.CONFLICT),
+					data: null,
 				});
 
 				return;
@@ -49,6 +52,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.CONFLICT).json({
 					error: false,
 					message: getReasonPhrase(StatusCodes.CONFLICT),
+					data: null,
 				});
 
 				return;

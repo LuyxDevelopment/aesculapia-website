@@ -1,35 +1,36 @@
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
-import { Types } from 'mongoose';
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { isValidObjectId } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
-import { AuthorityLevel, IProduct, Product } from '../../../src/models/index';
+import { AuthorityLevel, IProduct, Product, ProductDocument } from '../../../src/models/index';
+import { ResponseData } from '../../../src/types/index';
 import dbConnect from '../../../src/util/dbConnect';
 import { ironOptions } from '../../../src/util/ironConfig';
 
 dbConnect();
 
-// @ts-ignore
 export default withIronSessionApiRoute(async function loginHandler(
-	req: NextApiRequest & { body: IProduct; } & { query: { product_id: string; }; },
-	res: NextApiResponse,
+	req: Omit<NextApiRequest, 'body'> & { body: IProduct; } & { query: { product_id?: string; }; },
+	res: NextApiResponse<ResponseData<ProductDocument | ProductDocument[]>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'DELETE': {
-			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
+					data: null,
 				});
 
 				return;
 			}
 
-			try {
-				new Types.ObjectId(req.query.product_id);
-			} catch (error) {
+			if (!isValidObjectId(req.query.product_id)) {
 				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
 				});
 
 				return;
@@ -41,6 +42,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: null,
 				});
 
 				return;
@@ -49,16 +51,16 @@ export default withIronSessionApiRoute(async function loginHandler(
 			res.status(StatusCodes.OK).json({
 				error: false,
 				message: getReasonPhrase(StatusCodes.OK),
+				data: null,
 			});
 		} break;
 
 		case 'GET': {
-			try {
-				new Types.ObjectId(req.query.product_id);
-			} catch (error) {
+			if (!isValidObjectId(req.query.product_id)) {
 				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
 				});
 
 				return;
@@ -70,6 +72,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: null,
 				});
 
 				return;
@@ -83,22 +86,24 @@ export default withIronSessionApiRoute(async function loginHandler(
 		} break;
 
 		case 'PATCH': {
-			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
+					data: null,
 				});
 
 				return;
 			}
 
-			try {
-				new Types.ObjectId(req.query.product_id);
-			} catch (error) {
+			if (!isValidObjectId(req.query.product_id)) {
 				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
 				});
+
+				return;
 			}
 
 			const product = await Product.findById(req.query.product_id);
@@ -107,6 +112,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: null,
 				});
 
 				return;
@@ -127,6 +133,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
+					data: null,
 				});
 			}
 		} break;
@@ -135,6 +142,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 			res.status(StatusCodes.NOT_FOUND).json({
 				error: false,
 				message: getReasonPhrase(StatusCodes.NOT_FOUND),
+				data: null,
 			});
 		} break;
 	}

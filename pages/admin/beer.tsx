@@ -1,15 +1,14 @@
-import { NextPage } from 'next';
 import { withIronSessionSsr } from 'iron-session/next';
-import { ironOptions } from '../../../src/util/ironConfig';
-import InProgress from '../../../components/InProgress';
-import { AdminProps } from '../../../src/types/index';
-import { EventDocument } from '../../../src/models/Event';
+import type { NextPage } from 'next';
+import InProgress from '../../components/InProgress';
+import { AdminProps } from '../../src/types/index';
+import { ironOptions } from '../../src/util/ironConfig';
 
-const AdminEventsIndex: NextPage = InProgress;
+const AdminBeerIndex: NextPage = InProgress;
 
-export default AdminEventsIndex;
+export default AdminBeerIndex;
 
-export const getServerSideProps = withIronSessionSsr(async function ({ req }): Promise<AdminProps<EventDocument>> {
+export const getServerSideProps = withIronSessionSsr(async function ({ req }): Promise<AdminProps> {
 	const user = req.session.user;
 
 	if (user?.email) {
@@ -62,6 +61,8 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }): P
 	}
 
 	return {
-		props: { user: req.session.user },
+		props: {
+			user: req.session.user,
+		},
 	};
 }, ironOptions);

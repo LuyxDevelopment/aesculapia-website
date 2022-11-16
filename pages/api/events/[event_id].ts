@@ -1,35 +1,37 @@
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
-import { Types } from 'mongoose';
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { isValidObjectId } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
 import { AuthorityLevel } from '../../../src/models/Admin';
 import { IEvent, EventDocument, Event } from '../../../src/models/index';
-import { ResponseData } from '../../../src/types/responseData';
+import { ResponseData } from '../../../src/types';
 import dbConnect from '../../../src/util/dbConnect';
+import { ironOptions } from '../../../src/util/ironConfig';
 
 dbConnect();
 
-export default async function handler(
-	req: NextApiRequest & { body: IEvent; } & { query: { event_id: string; }; },
+export default withIronSessionApiRoute(async function loginHandler(
+	req: NextApiRequest & { body: IEvent; } & { query: { event_id?: string; }; },
 	res: NextApiResponse<ResponseData<EventDocument | EventDocument[]>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'DELETE': {
-			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
+					data: null,
 				});
 
 				return;
 			}
 
-			try {
-				new Types.ObjectId(req.query.event_id);
-			} catch (error) {
+			if (!isValidObjectId(req.query.sponsor_id)) {
 				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
 				});
 
 				return;
@@ -41,6 +43,7 @@ export default async function handler(
 				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: null,
 				});
 
 				return;
@@ -49,16 +52,16 @@ export default async function handler(
 			res.status(StatusCodes.OK).json({
 				error: false,
 				message: getReasonPhrase(StatusCodes.OK),
+				data: event,
 			});
 		} break;
 
 		case 'GET': {
-			try {
-				new Types.ObjectId(req.query.event_id);
-			} catch (error) {
+			if (!isValidObjectId(req.query.sponsor_id)) {
 				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
 				});
 
 				return;
@@ -70,6 +73,7 @@ export default async function handler(
 				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: null,
 				});
 
 				return;
@@ -77,21 +81,21 @@ export default async function handler(
 		} break;
 
 		case 'PATCH': {
-			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
+					data: null,
 				});
 
 				return;
 			}
 
-			try {
-				new Types.ObjectId(req.query.event_id);
-			} catch (error) {
+			if (!isValidObjectId(req.query.sponsor_id)) {
 				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
 				});
 
 				return;
@@ -103,6 +107,7 @@ export default async function handler(
 				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: null,
 				});
 
 				return;
@@ -123,8 +128,9 @@ export default async function handler(
 				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
+					data: null,
 				});
 			}
 		} break;
 	}
-}
+}, ironOptions);

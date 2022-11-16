@@ -1,24 +1,28 @@
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
-import { Types } from 'mongoose';
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { isValidObjectId } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { IOrder, Order } from '../../../src/models/index';
+import { IOrder, Order, OrderDocument } from '../../../src/models/index';
+import { ResponseData } from '../../../src/types/index';
 import dbConnect from '../../../src/util/dbConnect';
+import { ironOptions } from '../../../src/util/ironConfig';
 
 dbConnect();
 
-export default async function handler(
-	req: NextApiRequest & { body: IOrder; } & { query: { order_id: string; }; },
-	res: NextApiResponse,
+export default withIronSessionApiRoute(async function loginHandler(
+	req: Omit<NextApiRequest, 'body'> & { body: IOrder; } & { query: { order_id?: string; }; },
+	res: NextApiResponse<ResponseData<OrderDocument | OrderDocument[]>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'GET': {
-			try {
-				new Types.ObjectId(req.query.order_id);
-			} catch (error) {
+			if (!isValidObjectId(req.query.order_id)) {
 				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
 				});
+
+				return;
 			}
 
 			const order = await Order.findById(req.query.order_id);
@@ -27,6 +31,7 @@ export default async function handler(
 				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: null,
 				});
 
 				return;
@@ -44,7 +49,8 @@ export default async function handler(
 			res.status(StatusCodes.NOT_FOUND).json({
 				error: false,
 				message: getReasonPhrase(StatusCodes.NOT_FOUND),
+				data: null,
 			});
 		} break;
 	}
-}
+}, ironOptions);

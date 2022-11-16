@@ -1,6 +1,6 @@
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ResponseData } from '../../src/types/responseData';
+import { ResponseData } from '../../src/types';
 import dbConnect from '../../src/util/dbConnect';
 
 dbConnect();
@@ -12,5 +12,6 @@ export default function handler(
 	res.status(StatusCodes.NOT_FOUND).json({
 		error: false,
 		message: getReasonPhrase(StatusCodes.NOT_FOUND),
+		data: null,
 	});
 }

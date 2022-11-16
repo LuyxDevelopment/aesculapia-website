@@ -1,13 +1,14 @@
+import { withIronSessionSsr } from 'iron-session/next';
 import { NextPage } from 'next';
 import InProgress from '../../../components/InProgress';
+import { AdminProps } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
 
-const Index: NextPage = InProgress;
+const AdminOrders: NextPage = InProgress;
 
-export default Index;
+export default AdminOrders;
 
-// @ts-ignore
-export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
+export const getServerSideProps = withIronSessionSsr(async function ({ req }): Promise<AdminProps> {
 	const user = req.session.user;
 
 	if (user?.email) {
@@ -18,17 +19,17 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 			},
 			body: JSON.stringify(user),
 		});
-	
+
 		const json = await request.json();
 
 		if (json.data) return {
-			props: { 
+			props: {
 				user: { email: user.email, has2faEnabled: true, completed2fa: false },
 				otpAuthUri: json.data,
 			},
 		};
 		return {
-			props: { 
+			props: {
 				user: { email: user.email, has2faEnabled: false, completed2fa: false },
 				otpAuthUri: '',
 			},

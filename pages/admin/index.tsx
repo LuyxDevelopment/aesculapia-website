@@ -3,8 +3,14 @@ import { ironOptions } from '../../src/util/ironConfig';
 import { NextPage } from 'next';
 import Layout from '../../components/Layout';
 import AdminPageCard from '../../components/AdminPageCard';
+import { AdminProps } from '../../src/types/index';
 
 const pages: { name: string, url: string, svg: string; }[] = [
+	{
+		name: 'Beer',
+		svg: '/assets/icons/beer',
+		url: '/admin/beer',
+	},
 	{
 		name: 'Events',
 		url: '/admin/events',
@@ -49,7 +55,7 @@ const AdminIndex: NextPage = () => {
 				<div className='container mb-12'>
 					<h1 className='text-4xl font-bold mb-5'>Admin Menu</h1>
 					<p className='text-xl'>
-						Select a panel to edit.
+						Select a page to manage.
 					</p>
 					<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
 						{pages.map(({ name, svg, url }, i) => {
@@ -64,8 +70,7 @@ const AdminIndex: NextPage = () => {
 	);
 };
 
-// @ts-ignore
-export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
+export const getServerSideProps = withIronSessionSsr(async function ({ req }): Promise<AdminProps> {
 	const user = req.session.user;
 
 	if (user?.email) {

@@ -1,18 +1,19 @@
 import { NextPage, NextPageContext } from 'next';
 import ProductCard from '../../components/ProductCard';
-import { IProduct } from '../../src/models/Product';
+import { IProduct, ProductDocument } from '../../src/models/Product';
 import { useMetaData } from '../../lib/hooks/useMetaData';
 import Layout from '../../components/Layout';
 import ErrorPage from '../../components/Error';
 import { useLocalStorage } from '../../lib/hooks/useLocalStorage';
+import { BaseProps, ResponseData } from '../../src/types/index';
 
 interface Props {
-	data: (IProduct & { _id: string })[];
+	data: (IProduct & { _id: string; })[];
 }
 
 const ProductsIndex: NextPage<Props> = ({ data }) => {
-	const [,,addCart, getStorage] = useLocalStorage('cart', []);
-	
+	const [, , addCart, getStorage] = useLocalStorage('cart', []);
+
 	return (
 		<>
 			{useMetaData('Products', 'Products Page', '/products')}
@@ -38,9 +39,9 @@ const ProductsIndex: NextPage<Props> = ({ data }) => {
 	);
 };
 
-export const getServerSideProps = async (context: NextPageContext): Promise<{ props: unknown }> => {
+export const getServerSideProps = async (context: NextPageContext): Promise<BaseProps<ProductDocument>> => {
 
-	
+
 	context.res?.setHeader(
 		'Cache-Control',
 		'public, s-maxage=10, stale-while-revalidate=59',
@@ -50,7 +51,7 @@ export const getServerSideProps = async (context: NextPageContext): Promise<{ pr
 		headers: { 'Content-Type': 'application/json' },
 	});
 
-	const data = await req.json();
+	const data = await req.json() as ResponseData<ProductDocument | ProductDocument[]>;
 
 	return {
 		props: {

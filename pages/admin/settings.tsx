@@ -3,8 +3,9 @@ import type { NextPage } from 'next';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../src/util/ironConfig';
 import { useState } from 'react';
+import { AdminProps } from '../../src/types/index';
 
-const Index: NextPage<{ user: { email: string, has2faEnabled: boolean } , otpAuthUri: string }> = ({ user, otpAuthUri }) => {
+const AdminSettings: NextPage<{ user: { email: string, has2faEnabled: boolean; }, otpAuthUri: string; }> = ({ user, otpAuthUri }) => {
 	const [qrCode] = useState(otpAuthUri);
 	const [qrCodeShown, showQrCode] = useState(false);
 	const [twoFactorAuthValid, setTwoFactorAuthValid] = useState(false);
@@ -38,7 +39,7 @@ const Index: NextPage<{ user: { email: string, has2faEnabled: boolean } , otpAut
 						type='submit'
 						className='w-20 h-10 bg-emerald-500 text-white font-bold text-md rounded-lg hover:bg-emerald-700'
 					>
-				Disable 2FA
+						Disable 2FA
 					</button>
 				</div>
 			)}
@@ -51,12 +52,12 @@ const Index: NextPage<{ user: { email: string, has2faEnabled: boolean } , otpAut
 						className='w-20 h-10 bg-emerald-500 text-white font-bold text-md rounded-lg hover:bg-emerald-700'
 						onClick={(): void => qrCodeShown ? showQrCode(false) : showQrCode(true)}
 					>
-				Enable 2FA
+						Enable 2FA
 					</button>
 				</div>
 			)}
 			{qrCodeShown && (
-				
+
 				<div>
 					<label className='font-bold text-2xl'>2FA Code</label>
 					<br />
@@ -70,10 +71,9 @@ const Index: NextPage<{ user: { email: string, has2faEnabled: boolean } , otpAut
 	);
 };
 
-export default Index;
+export default AdminSettings;
 
-// @ts-ignore
-export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
+export const getServerSideProps = withIronSessionSsr(async function ({ req }): Promise<AdminProps> {
 	const user = req.session.user;
 
 	if (user?.email) {
@@ -84,17 +84,17 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 			},
 			body: JSON.stringify(user),
 		});
-	
+
 		const json = await request.json();
 
 		if (json.data) return {
-			props: { 
+			props: {
 				user: { email: user.email, has2faEnabled: true, completed2fa: false },
 				otpAuthUri: json.data,
 			},
 		};
 		return {
-			props: { 
+			props: {
 				user: { email: user.email, has2faEnabled: false, completed2fa: false },
 				otpAuthUri: '',
 			},

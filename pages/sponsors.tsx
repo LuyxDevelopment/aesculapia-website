@@ -1,9 +1,10 @@
 import { NextPage, NextPageContext } from 'next';
 import SponsorCard from '../components/SponsorCard';
-import { ISponsor } from '../src/models/Sponsor';
+import { ISponsor, SponsorDocument } from '../src/models/Sponsor';
 import { useMetaData } from '../lib/hooks/useMetaData';
 import Layout from '../components/Layout';
 import ErrorPage from '../components/Error';
+import { BaseProps, ResponseData } from '../src/types/index';
 
 interface Props {
 	data: (ISponsor & { _id: string; })[];
@@ -37,21 +38,22 @@ const SponsorsIndex: NextPage<Props> = ({ data }) => {
 	);
 };
 
-export const getServerSideProps = async (context: NextPageContext): Promise<{ props: unknown; }> => {
+export const getServerSideProps = async (context: NextPageContext): Promise<BaseProps<SponsorDocument>> => {
 	context.res?.setHeader(
 		'Cache-Control',
 		'public, s-maxage=10, stale-while-revalidate=59',
 	);
-	const req = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/sponsors`, {
+
+	const sponsorRequest = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/sponsors`, {
 		method: 'GET',
 		headers: { 'Content-Type': 'application/json' },
 	});
 
-	const data = await req.json();
+	const sponsorData = await sponsorRequest.json() as ResponseData<SponsorDocument | SponsorDocument[]>;
 
 	return {
 		props: {
-			data: data.data,
+			data: sponsorData.data,
 		},
 	};
 };

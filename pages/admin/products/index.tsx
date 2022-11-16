@@ -1,11 +1,12 @@
 import { withIronSessionSsr } from 'iron-session/next';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from 'next';
 import Layout from '../../../components/Layout';
 import AdminProductCard from '../../../components/AdminProductCard';
 import { useMetaData } from '../../../lib/hooks/useMetaData';
 import ErrorPage from '../../../components/Error';
 import { ironOptions } from '../../../src/util/ironConfig';
-import { IProduct } from '../../../src/models/Product.js';
+import { IProduct, ProductDocument } from '../../../src/models/Product';
+import { AdminProps, ResponseData } from '../../../src/types/index';
 
 interface Props {
 	data: (IProduct & { _id: string; })[];
@@ -36,24 +37,23 @@ const AdminProductsIndex: NextPage<Props> = ({ data }) => {
 	);
 };
 
-// @ts-ignore
-export const getServerSideProps = withIronSessionSsr(async function (context: NextPageContext) {
-	const user = context.req.session.user;
+export const getServerSideProps = withIronSessionSsr(async function (context: GetServerSidePropsContext): Promise<AdminProps<ProductDocument>> {
+	const user = context.req?.session.user;
 
 	context.res?.setHeader(
 		'Cache-Control',
 		'public, s-maxage=10, stale-while-revalidate=59',
 	);
 
-	const request = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/products`, {
+	const productRequest = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/products`, {
 		method: 'GET',
 		headers: { 'Content-Type': 'application/json' },
 	});
 
-	const data = await request.json();
+	const productData = await productRequest.json() as ResponseData<ProductDocument | ProductDocument[]>;
 
 	if (user?.email) {
-		const request = await fetch('http://localhost:3000/api/auth/2fa/generate', {
+		const request2FA = await fetch('http://localhost:3000/api/auth/2fa/generate', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ne
 			body: JSON.stringify(user),
 		});
 
-		const json = await request.json();
+		const json = await request2FA.json();
 
 		if (json.data) return {
 			props: {
@@ -78,7 +78,7 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ne
 					completed2fa: false,
 				},
 				otpAuthUri: '',
-				data: data.data,
+				data: productData.data,
 			},
 		};
 	}
@@ -114,7 +114,7 @@ export const getServerSideProps = withIronSessionSsr(async function (context: Ne
 	return {
 		props: {
 			user: context.req.session.user,
-			data: data.data,
+			data: productData.data,
 		},
 	};
 }, ironOptions);

@@ -4,6 +4,7 @@ import { BaseSyntheticEvent } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import Layout from '../../../components/Layout';
 import { useMetaData } from '../../../lib/hooks/useMetaData';
+import { AdminProps } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
 
 const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: boolean; }; }> = ({ user }) => {
@@ -88,8 +89,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 	);
 };
 
-// @ts-ignore
-export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
+export const getServerSideProps = withIronSessionSsr(async function ({ req }): Promise<AdminProps> {
 	const user = req.session.user;
 
 	if (user?.email) {

@@ -4,7 +4,7 @@ import { compare } from 'bcryptjs';
 import { ironOptions } from '../../../src/util/ironConfig';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
-import { ResponseData } from '../../../src/types/responseData';
+import { ResponseData } from '../../../src/types';
 import dbConnect from '../../../src/util/dbConnect';
 
 dbConnect();
@@ -23,6 +23,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.UNAUTHORIZED).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.UNAUTHORIZED),
+					data: null,
 				});
 
 				return;
@@ -37,6 +38,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 					res.status(StatusCodes.BAD_REQUEST).json({
 						error: true,
 						message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+						data: null,
 					});
 
 					return;
@@ -50,9 +52,10 @@ export default withIronSessionApiRoute(async function loginHandler(
 					};
 					await req.session.save();
 
-					res.status(401).json({
+					res.status(StatusCodes.UNAUTHORIZED).json({
 						error: true,
 						message: 'User must enable 2FA.',
+						data: null,
 					});
 
 					return;
@@ -69,6 +72,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.OK).json({
 					error: false,
 					message: getReasonPhrase(StatusCodes.OK),
+					data: null,
 				});
 			});
 		} break;

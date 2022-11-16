@@ -1,13 +1,14 @@
 import { withIronSessionSsr } from 'iron-session/next';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from 'next';
 import { ironOptions } from '../../../src/util/ironConfig';
 import InProgress from '../../../components/InProgress';
+import { AdminProps } from '../../../src/types/index';
+import { SponsorDocument } from '../../../src/models/Sponsor';
 
 const AdminSponsorsIndex: NextPage = InProgress;
 
-// @ts-ignore
-export const getServerSideProps = withIronSessionSsr(async function (context: NextPageContext) {
-	const user = context.req.session.user;
+export const getServerSideProps = withIronSessionSsr(async function (context: GetServerSidePropsContext): Promise<AdminProps<SponsorDocument>> {
+	const user = context.req?.session.user;
 
 	context.res?.setHeader(
 		'Cache-Control',

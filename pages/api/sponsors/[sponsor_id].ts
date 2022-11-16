@@ -1,24 +1,36 @@
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
-import { Types } from 'mongoose';
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { isValidObjectId } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
-import { AuthorityLevel, ISponsor, Sponsor } from '../../../src/models/index';
+import { AuthorityLevel, ISponsor, Sponsor, SponsorDocument } from '../../../src/models/index';
+import { ResponseData } from '../../../src/types/index';
 import dbConnect from '../../../src/util/dbConnect';
 import { ironOptions } from '../../../src/util/ironConfig';
 
 dbConnect();
 
-// @ts-ignore
 export default withIronSessionApiRoute(async function loginHandler(
-	req: NextApiRequest & { body: ISponsor; } & { query: { sponsor_id: string; }; },
-	res: NextApiResponse,
+	req: Omit<NextApiRequest, 'body'> & { body: ISponsor; } & { query: { sponsor_id?: string; }; },
+	res: NextApiResponse<ResponseData<SponsorDocument | SponsorDocument[]>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'DELETE': {
-			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
+					data: null,
+				});
+
+				return;
+			}
+
+			if (!isValidObjectId(req.query.sponsor_id)) {
+				res.status(StatusCodes.BAD_REQUEST).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
 				});
 
 				return;
@@ -30,23 +42,37 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: null,
 				});
 			}
 
 			res.status(StatusCodes.OK).json({
 				error: false,
 				message: getReasonPhrase(StatusCodes.OK),
+				data: null,
 			});
 		} break;
 
 		case 'GET': {
 			if (req.query.sponsor_id) {
+
+				if (!isValidObjectId(req.query.sponsor_id)) {
+					res.status(StatusCodes.BAD_REQUEST).json({
+						error: true,
+						message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+						data: null,
+					});
+
+					return;
+				}
+
 				const sponsor = await Sponsor.findById(req.query.sponsor_id);
 
 				if (!sponsor) {
 					res.status(StatusCodes.NOT_FOUND).json({
 						error: true,
 						message: getReasonPhrase(StatusCodes.NOT_FOUND),
+						data: null,
 					});
 
 					return;
@@ -71,21 +97,21 @@ export default withIronSessionApiRoute(async function loginHandler(
 		} break;
 
 		case 'PATCH': {
-			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
+					data: null,
 				});
 
 				return;
 			}
 
-			try {
-				new Types.ObjectId(req.query.sponsor_id);
-			} catch (error) {
+			if (!isValidObjectId(req.query.sponsor_id)) {
 				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
 				});
 
 				return;
@@ -97,6 +123,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.NOT_FOUND).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: null,
 				});
 
 				return;
@@ -117,6 +144,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
+					data: null,
 				});
 			}
 		} break;
@@ -125,6 +153,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 			res.status(StatusCodes.NOT_FOUND).json({
 				error: false,
 				message: getReasonPhrase(StatusCodes.NOT_FOUND),
+				data: null,
 			});
 		} break;
 	}

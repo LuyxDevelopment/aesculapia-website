@@ -3,10 +3,11 @@ import { useMetaData } from '../../lib/hooks/useMetaData';
 import Layout from '../../components/Layout';
 import ErrorPage from '../../components/Error';
 import EventCard from '../../components/EventCard';
-import {  IEvent } from '../../src/models/Event';
+import { EventDocument, IEvent } from '../../src/models/Event';
+import { BaseProps, ResponseData } from '../../src/types/index';
 
 interface Props {
-	data: (IEvent & { _id: string })[];
+	data: (IEvent & { _id: string; })[];
 }
 
 const EventsIndex: NextPage<Props> = ({ data }) => {
@@ -34,7 +35,7 @@ const EventsIndex: NextPage<Props> = ({ data }) => {
 	);
 };
 
-export const getServerSideProps = async (context: NextPageContext): Promise<{ props: unknown }> => {
+export const getServerSideProps = async (context: NextPageContext): Promise<BaseProps<EventDocument>> => {
 	context.res?.setHeader(
 		'Cache-Control',
 		'public, s-maxage=10, stale-while-revalidate=59',
@@ -44,7 +45,7 @@ export const getServerSideProps = async (context: NextPageContext): Promise<{ pr
 		headers: { 'Content-Type': 'application/json' },
 	});
 
-	const data = await req.json();
+	const data = await req.json() as ResponseData<EventDocument | EventDocument[]>;
 
 	return {
 		props: {
