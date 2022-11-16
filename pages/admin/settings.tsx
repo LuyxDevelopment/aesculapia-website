@@ -81,7 +81,9 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }): P
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
+				'Content-Length': JSON.stringify(user).length,
 			},
+			body: JSON.stringify(user),
 		});
 
 		const json = await request.json();
