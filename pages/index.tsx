@@ -55,10 +55,10 @@ const Index: NextPage = () => {
 				<div className="relative">
 					<div className="absolute top-10 left-14 sm:left-20 text-black">
 						<div className="flex flex-wrap w-56 sm:w-96">
-							<h1 className="text-5xl pb-6 font-bold">
+							<h1 className="text-5xl pb-6 font-bold text-white">
 								Welkom op de website van Aesculapia!
 							</h1>
-							<p className="text-xl">
+							<p className="text-xl text-white">
 								De studentenvereniging voor geneeskundestudenten aan de
 								Universiteit Antwerpen.
 							</p>
