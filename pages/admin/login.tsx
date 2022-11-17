@@ -83,7 +83,7 @@ const Index: NextPage = () => {
 		<>
 			{useMetaData('Aesculapia Admin | Login', 'Login Page', '/admin/login')}
 			<Layout>
-				<div className="select-none">
+				<div className="select-none m-10">
 					{!isAllowed && (
 						<form
 							onSubmit={handleSubmit((data, event) => onSubmit(data, event))}
@@ -113,7 +113,7 @@ const Index: NextPage = () => {
 									<br />
 									<input
 										type={isVisible ? 'text' : 'password'}
-										placeholder="********"
+										placeholder="*********"
 										className={
 											errors.password
 												? 'border-2 border-red-600 rounded-md w-52 h-10 pl-2'
@@ -125,7 +125,7 @@ const Index: NextPage = () => {
 										className="-ml-6 cursor-pointer"
 										onClick={(): void => setIsVisible(!isVisible)}
 									>
-										{isVisible ? '👁' : '👁'}
+										{isVisible ? '👁' : '✖'}
 									</span>
 									{errors.password && (
 										<p className="font-semibold text-red-600">
