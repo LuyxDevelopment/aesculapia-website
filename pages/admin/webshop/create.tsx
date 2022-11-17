@@ -29,14 +29,15 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 					user,
 				}),
 			});
+
 			if (req.ok) {
-				setMessage({ type: 'success', text: 'Product was successfully created!' });
+				setMessage({ type: 'success', text: 'Product is succesvol aangemaakt!' });
 			} else if (req.status === 401) {
-				setMessage({ type: 'error', text: 'There was an error creating the product.' });
+				setMessage({ type: 'error', text: 'Er was een fout bij het maken van het product.' });
 			}
 		} catch (error) {
 			console.error(error);
-			setMessage({ type: 'error', text: 'An unexpected error occured.' });
+			setMessage({ type: 'error', text: 'Er is een onverwachte fout opgetreden.' });
 			clearMessage();
 		}
 	};
