@@ -24,14 +24,16 @@ const ProductsIndex: NextPage<Props> = ({ data }) => {
 				{data && (
 					<div className='container mb-12'>
 						<h1 className='text-5xl font-bold mb-5'>Webshop</h1>
-						<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-							{data.map((product, i) => {
-								return (
-									// @ts-ignore
-									<ProductCard addCart={addCart} getStorage={getStorage} product={product} cartable={2} key={i} />
-								);
-							})}
-						</div>
+						{data.length ?
+							<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+								{data.map((product, i) => {
+									return (
+										// @ts-ignore
+										<ProductCard addCart={addCart} getStorage={getStorage} product={product} cartable={2} key={i} />
+									);
+								})}
+							</div> : <p className='pt-4'>Er zijn geen producten gemaakt.</p>
+						}
 					</div>
 				)}
 			</Layout>

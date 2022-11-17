@@ -65,7 +65,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 										<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-product-price">
 											Product Prijs
 										</label>
-										<input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-price" type="text" placeholder="5.31" {...register('price', { required: true })} />
+										<input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-price" type="number" step={.01} placeholder="5.31" {...register('price', { required: true })} />
 									</div>
 								</div>
 								<div className="flex flex-wrap -mx-3 mb-2">
@@ -84,7 +84,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 										<input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight border-2 focus:border-rose-500 focus:bg-white" id="grid-stock" type="text" placeholder="10" defaultValue={0} min={0} required {...register('stock', { required: true })} />
 									</div>
 								</div>
-								<div>
+								<div className='pb-9'>
 									<button className='h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-900'>
 										<input className="cursor-pointer" type='submit' value='Maak'></input>
 									</button>

@@ -69,7 +69,7 @@ const Index: NextPage = () => {
 
 	return (
 		<>
-			{useMetaData('Aesculapia Login', 'Login Page', '/admin/login')}
+			{useMetaData('Aesculapia Admin | Login', 'Login Page', '/admin/login')}
 			<Layout>
 				<div className='select-none'>
 
