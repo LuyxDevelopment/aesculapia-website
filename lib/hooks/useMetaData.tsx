@@ -12,7 +12,7 @@ export const useMetaData = (
 			if (res.ok) {
 				setImage(res.url);
 			} else {
-				setImage('/assets/logo.png');
+				setImage(`${process.env.NEXT_PUBLIC_DOMAIN}/assets/logo.png`);
 			}
 		});
 	});
