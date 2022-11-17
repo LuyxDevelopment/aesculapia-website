@@ -9,7 +9,7 @@ interface Props {
 const Layout: FC<Props> = ({ children }) => {
 	return (
 		<div className='flex flex-col h-screen'>
-			<Navbar isAdmin={false} />
+			<Navbar />
 			<div className='flex-grow'>{children}</div>
 			<Footer />
 		</div>
