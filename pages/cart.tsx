@@ -22,16 +22,16 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 
 	return (
 		<>
-			{useMetaData('Shopping Cart', 'Shopping Cart Page', '/cart')}
+			{useMetaData('Aesculapia | Shopping Cart', 'Shopping Cart Page', '/cart')}
 			<Layout>
 				{!cart && (
-					<p>There are no products in the cart.</p>
+					<p>Er zitten geen producten in de winkelwagen.</p>
 				)}
 				{cart && (
 					<>
 						<div className="container flex flex-row">
 							<div className='mb-12'>
-								<h1 className='text-4xl font-bold mb-5'>Shopping Cart</h1>
+								<h1 className='text-4xl font-bold mb-5'>Winkelwagen</h1>
 								<div className='grid grid-cols-1 divide-y'>
 									{cart.map((item, i) => {
 										return <ShoppingCartItem item={item} key={i}></ShoppingCartItem>;

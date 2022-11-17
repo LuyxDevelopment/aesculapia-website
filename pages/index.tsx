@@ -51,7 +51,7 @@ const events = [
 const Index: NextPage = () => {
 	return (
 		<>
-			{useMetaData('Aesculapia', 'Home Page', '/')}
+			{useMetaData('Aesculapia | Home', 'Home Page', '/')}
 			<Layout>
 				<div className='relative'>
 					<div className='absolute top-10 left-14 sm:left-20 text-black'>

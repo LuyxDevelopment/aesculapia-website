@@ -52,12 +52,12 @@ const pages: { name: string, url: string, svg: string; }[] = [
 const AdminIndex: NextPage = () => {
 	return (
 		<>
-			{useMetaData('Admin | Home', 'Admin Page', '/admin')}
+			{useMetaData('Aesculapia Admin | Home', 'Admin Page', '/admin')}
 			<Layout>
 				<div className='container mb-12'>
-					<h1 className='text-4xl font-bold mb-5'>Admin Menu</h1>
+					<h1 className='text-5xl font-bold mb-5'>Admin Menu</h1>
 					<p className='text-xl'>
-						Select a page to manage.
+						Selecteer een pagina om te beheren.
 					</p>
 					<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
 						{pages.map(({ name, svg, url }, i) => {

@@ -15,21 +15,30 @@ interface Props {
 const AdminProductsIndex: NextPage<Props> = ({ data }) => {
 	return (
 		<>
-			{useMetaData('Admin Webshop', 'Webshop Page', '/Webshop')}
+			{useMetaData('Admin Admin | Webshop', 'Webshop Page', '/Webshop')}
 			<Layout>
 				{!data && (
 					<ErrorPage />
 				)}
 				{data && (
 					<div className='container mb-12'>
-						<h1 className='text-4xl font-bold mb-5'>Products</h1>
-						<div className='grid grid-cols-1 gap-7 place-items-center sm:grid-cols-2 sm:gap-15 md:grid-cols-2 md:gap-15 lg:grid-cols-4 lg:gap-20'>
-							{data.map((product, i) => {
-								return (
-									<AdminProductCard product={product} key={i} />
-								);
-							})}
+						<h1 className='text-5xl font-bold mb-5'>Products</h1>
+						<div>
+							<button className='h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-900' onClick={(): void => { window.location.href = '/admin/webshop/create'; }}>
+								Product creëren
+							</button>
 						</div>
+						{
+							data.length ?
+								<div className='grid grid-cols-1 gap-7 place-items-center sm:grid-cols-2 sm:gap-15 md:grid-cols-2 md:gap-15 lg:grid-cols-4 lg:gap-20'>
+									{data.map((product, i) => {
+										return (
+											<AdminProductCard product={product} key={i} />
+										);
+									})}
+								</div>
+								: <p className='pt-4'>Er zijn geen producten gemaakt.</p>
+						}
 					</div>
 				)}
 			</Layout>

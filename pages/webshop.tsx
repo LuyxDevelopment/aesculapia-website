@@ -16,14 +16,14 @@ const ProductsIndex: NextPage<Props> = ({ data }) => {
 
 	return (
 		<>
-			{useMetaData('Webshop', 'Webshop', '/Webshop')}
+			{useMetaData('Aesculapia | Webshop', 'Webshop', '/Webshop')}
 			<Layout>
 				{!data && (
 					<ErrorPage />
 				)}
 				{data && (
 					<div className='container mb-12'>
-						<h1 className='text-4xl font-bold mb-5'>Webshop</h1>
+						<h1 className='text-5xl font-bold mb-5'>Webshop</h1>
 						<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
 							{data.map((product, i) => {
 								return (

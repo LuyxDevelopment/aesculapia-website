@@ -38,12 +38,12 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 
 	return (
 		<>
-			{useMetaData('Aesculapia', 'Events', '/admin')}
+			{useMetaData('Aesculapia Admin | Events', 'Events', '/admin')}
 			<Layout>
 				<div className='container relative'>
 					<div className='top-10 left-14 sm:left-20 text-white'>
 						<div className='flex flex-wrap w-56 sm:w-96'>
-							<h1 className='text-4xl pb-2 font-bold text-black'>
+							<h1 className='text-5xl pb-2 font-bold text-black'>
 								Maak een evenement.
 							</h1>
 							<p className='text-xl text-black'>
@@ -69,7 +69,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 								<div className="flex flex-wrap -mx-3 mb-2">
 									<div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
 										<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-image-url">
-											Banner URL
+											BANNER URL
 										</label>
 										<input className="appearance-none block w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-image-url" type="text" placeholder="https://example.com/image.png" minLength={1} maxLength={1024} required {...register('imageurl', { required: true })} />
 									</div>

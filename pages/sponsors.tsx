@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext, NextPage, NextPageContext } from 'next';
+import { GetServerSidePropsContext, NextPage } from 'next';
 import SponsorCard from '../components/SponsorCard';
 import { ISponsor, SponsorDocument } from '../src/models/Sponsor';
 import { useMetaData } from '../lib/hooks/useMetaData';
@@ -13,14 +13,14 @@ interface Props {
 const SponsorsIndex: NextPage<Props> = ({ data }) => {
 	return (
 		<>
-			{useMetaData('Sponsors', 'Sponsors Page', '/sponsors')}
+			{useMetaData('Aesculapia | Sponsors', 'Sponsors Page', '/sponsors')}
 			<Layout>
 				{!data && (
 					<ErrorPage />
 				)}
 				{data && (
 					<div className='container mb-12'>
-						<h1 className='text-4xl font-bold mb-5'>Sponsors</h1>
+						<h1 className='text-5xl font-bold mb-5'>Sponsors</h1>
 						<p className='text-xl'>
 							Deze sponsors helpen onze missie te financieren.
 						</p>

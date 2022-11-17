@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import type { FC } from 'react';
 
 const Footer: FC = () => {
@@ -11,7 +12,7 @@ const Footer: FC = () => {
 					height='100'
 				/>
 				<div className='felx flex-col'>
-					<h1 className='f-header'>Over ons</h1>
+					<h1 className='text-xl font-bold hover:no-underline transition ease-in-out duration-150'>Over ons</h1>
 					<h2>Email:</h2>
 					<h2>Contact:</h2>
 					<h2>Info:</h2>
