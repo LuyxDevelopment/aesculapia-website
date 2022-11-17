@@ -20,31 +20,31 @@ export const useMetaData = (
 		<Head>
 			<title>{title}</title>
 			<link
-				rel='shortcut icon'
-				href='/assets/logo.png'
-				type='image/png'
+				rel="shortcut icon"
+				href="/assets/logo.png"
+				type="image/png"
 			/>
 
 			<meta
-				property='og:title'
+				property="og:title"
 				content={title}
 			/>
 			<meta
-				property='og:description'
+				property="og:description"
 				content={description}
 			/>
 			<meta
-				property='og:url'
+				property="og:url"
 				content={url}
 			/>
 			<meta
-				property='og:image'
+				property="og:image"
 				content={image}
 			/>
 			<meta
-				content='#4297BA'
-				data-react-helmet='true'
-				name='theme-color'
+				content="#EF4444"
+				data-react-helmet="true"
+				name="theme-color"
 			/>
 		</Head>
 	);
