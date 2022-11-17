@@ -1,10 +1,10 @@
 import { NextPage } from 'next';
 import InProgress from '../components/InProgress';
 
-const BierPage: NextPage = () => {
+const KnuppeltjePage: NextPage = () => {
 	return (
-		<InProgress pageName='bier'></InProgress>
+		<InProgress pageName='knuppeltje'></InProgress>
 	);
 };
 
-export default BierPage;
+export default KnuppeltjePage;

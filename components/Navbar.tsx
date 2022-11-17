@@ -9,8 +9,8 @@ const pages: NavBarPage[] = [
 		url: '/',
 	},
 	{
-		name: 'Bier',
-		url: '/bier',
+		name: 'Knuppeltje',
+		url: '/knuppeltje',
 	},
 	{
 		name: 'Events',
@@ -34,12 +34,12 @@ const pages: NavBarPage[] = [
 	},
 ];
 
-const Navbar: FC= () => {
+const Navbar: FC = () => {
 	const [showMenu, setShowMenu] = useState(false);
 
 	return (
 		<>
-			<nav className={ 'bg-red-500 text-white shadow-lg p-3 flex flex-row justify-between sm:justify-evenly items-center'} >
+			<nav className={'bg-red-500 text-white shadow-lg p-3 flex flex-row justify-between sm:justify-evenly items-center'} >
 				<div className='cursor-pointer'>
 					<Image
 						src='/assets/logo.png'
@@ -50,14 +50,14 @@ const Navbar: FC= () => {
 					/>
 				</div>
 				<div className='hidden sm:flex sm:flex-row sm:space-x-10 font-extrabold'>
-					{pages.map(({name,url}, i) => {
+					{pages.map(({ name, url }, i) => {
 						return (
 							<h1 className='cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 rounded-2xl transition-all duration-300 ease-in-out' onClick={(): string => (window.location.href = url)} key={i}>
 								{name}
 							</h1>
 						);
 					})}
-					
+
 				</div>
 				<span
 					className='block float-right sm:hidden cursor-pointer hover:scale-90 transition-all duration-300 ease-in-out'
@@ -73,7 +73,7 @@ const Navbar: FC= () => {
 			</nav>
 			{showMenu && (
 				<div className='animate-translate_top flex flex-col items-center justify-center sm:hidden bg-gray-200 shadow-xl p-3 font-extrabold mt-5'>
-					{pages.map(({name,url}, i) => {
+					{pages.map(({ name, url }, i) => {
 						return (
 							<h1 className='cursor-pointer hover:underline transition-all duration-300 ease-in-out' onClick={(): string => (window.location.href = url)} key={i}>
 								{name}

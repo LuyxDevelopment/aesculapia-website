@@ -4,13 +4,13 @@ import InProgress from '../../components/InProgress';
 import { AdminProps } from '../../src/types/index';
 import { ironOptions } from '../../src/util/ironConfig';
 
-const AdminBierIndex: NextPage = () => {
+const AdminKnuppeltjeIndex: NextPage = () => {
 	return (
-		<InProgress pageName='bier'></InProgress>
+		<InProgress pageName='knuppeltje'></InProgress>
 	);
 };
 
-export default AdminBierIndex;
+export default AdminKnuppeltjeIndex;
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req }): Promise<AdminProps> {
 	const user = req.session.user;

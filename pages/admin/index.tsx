@@ -8,9 +8,9 @@ import { useMetaData } from '../../lib/hooks/useMetaData';
 
 const pages: { name: string, url: string, svg: string; }[] = [
 	{
-		name: 'Bier',
-		svg: '/assets/icons/bier.svg',
-		url: '/admin/bier',
+		name: 'Knuppeltje',
+		svg: '/assets/icons/beer.svg',
+		url: '/admin/knuppeltje',
 	},
 	{
 		name: 'Events',
