@@ -11,7 +11,7 @@ const InProgress: NextPage<Props> = ({ pageName }) => {
 	return (
 		<>
 			<Layout>
-				{useMetaData('Page in progress', 'Page in progress', pageName)}
+				{useMetaData('Pagina in uitvoering', 'Pagina in uitvoering', pageName)}
 				<div className='relative'>
 					<div className='absolute top-10 left-14 sm:left-20 text-white'>
 						<div className='flex flex-wrap w-56 sm:w-96'>
