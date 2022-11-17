@@ -1,13 +1,15 @@
 import { withIronSessionSsr } from 'iron-session/next';
 import { NextPage } from 'next';
-import { BaseSyntheticEvent } from 'react';
+import { BaseSyntheticEvent, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import Layout from '../../../components/Layout';
+import Toast from '../../../components/Toast';
 import { useMetaData } from '../../../lib/hooks/useMetaData';
 import { AdminProps } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
 
 const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: boolean; }; }> = ({ user }) => {
+	const [message, setMessage] = useState<{ type: 'success' | 'error' | 'info', text: string; }>({ type: 'success', text: '' });
 	const { register, handleSubmit, formState: { errors } } = useForm();
 
 	const onSubmit = async (data: FieldValues, event?: BaseSyntheticEvent): Promise<void> => {
@@ -28,21 +30,27 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 				}),
 			});
 			if (req.ok) {
-				console.log('ok');
+				setMessage({ type: 'success', text: 'Product was successfully created!' });
 			} else if (req.status === 401) {
-				console.log('error');
+				setMessage({ type: 'error', text: 'There was an error creating the product.' });
 			}
 		} catch (error) {
-			// for debugging purposes
 			console.error(error);
+			setMessage({ type: 'error', text: 'An unexpected error occured.' });
+			clearMessage();
 		}
 	};
+
+	const clearMessage = (): NodeJS.Timeout =>
+		setTimeout(() => {
+			setMessage({ type: 'success', text: '' });
+		}, 3000);
 
 	return (
 		<>
 			{useMetaData('Aesculapia Admin | Webshop', 'Aesculapia Admin | Webshop', '/admin')}
 			<Layout>
-				<div className='container relative'>
+				<div className='container relative mb-8'>
 					<div className='top-10 left-14 sm:left-20 text-white'>
 						<div className='flex flex-wrap w-56 sm:w-96'>
 							<h1 className='text-5xl pb-2 font-bold text-black'>
@@ -93,6 +101,9 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 						</div>
 					</div>
 				</div>
+				{message.text !== '' && (
+					<Toast type={message.type} title={message.type[0].toUpperCase() + message.type.slice(1)} description={message.text} />
+				)}
 			</Layout>
 		</>
 	);
