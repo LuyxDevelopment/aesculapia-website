@@ -5,7 +5,11 @@ import { EventDocument } from '../../../src/models/Event';
 import { AdminProps } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
 
-const AdminEventView: NextPage = InProgress;
+const AdminEventView: NextPage = () => {
+	return (
+		<InProgress pageName='events'></InProgress>
+	);
+};
 
 export default AdminEventView;
 

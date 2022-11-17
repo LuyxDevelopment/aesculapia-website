@@ -33,3 +33,8 @@ export interface AdminProps<T extends Documents | null = null> extends BaseProps
 		permanent: boolean,
 	},
 }
+
+export interface NavBarPage {
+	name: string;
+	url: string;
+}

@@ -1,5 +1,5 @@
 import { withIronSessionSsr } from 'iron-session/next';
-import { GetServerSidePropsContext, NextPage } from 'next';
+import {  NextPage } from 'next';
 import { BaseSyntheticEvent } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import Layout from '../../../components/Layout';
@@ -8,9 +8,6 @@ import { AdminProps } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
 
 const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: boolean; }; }> = ({ user }) => {
-
-	useMetaData('Aesculapia', 'Products', '/admin');
-
 	const { register, handleSubmit, formState: { errors } } = useForm();
 
 	const onSubmit = async (data: FieldValues, event?: BaseSyntheticEvent): Promise<void> => {
@@ -41,15 +38,16 @@ const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: bool
 
 	return (
 		<>
+			{useMetaData('Aesculapia Admin | Sponsors', 'Aesculapia Admin | Sponsors', '/admin')}
 			<Layout>
 				<div className='container relative'>
 					<div className='top-10 left-14 sm:left-20 text-white'>
 						<div className='flex flex-wrap w-56 sm:w-96'>
-							<h1 className='text-3xl pb-2 font-bold text-black'>
-								Add a Sponsor.
+							<h1 className='text-4xl pb-2 font-bold text-black'>
+								Een sponsor toevoegen.
 							</h1>
 							<p className='text-xl text-black'>
-								Add a company sponsor to display on the home page.
+								Voeg een bedrijfssponsor toe voor weergave op de homepage.
 							</p>
 						</div>
 						<div className='flex flex-wrap h-auto text-xl mt-3'>
@@ -57,13 +55,13 @@ const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: bool
 								<div className="flex flex-wrap -mx-3">
 									<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 										<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-product-name">
-											Sponsor Name
+											Naam sponsor
 										</label>
 										<input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-name" type="text" placeholder="Luyx" minLength={1} maxLength={64} required {...register('name', { required: true })} />
 									</div>
 									<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 										<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-product-price">
-											Sponsor Image URL
+											Sponsor afbeelding URL
 										</label>
 										<input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-price" type="text" placeholder="https://i.imgur.com" {...register('imageurl', { required: true })} />
 									</div>
@@ -78,7 +76,7 @@ const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: bool
 								</div>
 								<div>
 									<button className='h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-900'>
-										<input className="cursor-pointer" type='submit' value='Create'></input>
+										<input className="cursor-pointer" type='submit' value='Maak'></input>
 									</button>
 								</div>
 							</form>

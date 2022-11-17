@@ -10,9 +10,10 @@ interface Props {
 }
 
 export interface Product {
-	name: string,
-	amount: number,
-	price: number,
+	id: string;
+	name: string;
+	amount: number;
+	price: number;
 	stock: number;
 	imageURL: string;
 }
@@ -25,12 +26,12 @@ const ProductCard: FC<Props> = ({ product, cartable, addCart, getStorage: storag
 	useEffect(() => {
 		if (ar === 0) return;
 		if (!storage()) return;
-		const cart = addCart({ name: product.name, price: product.price, amount: ar === 1 ? 1 : -1, stock: product.stock, imageURL: product.imageURL });
+		const cart = addCart({ id: product._id, name: product.name, price: product.price, amount: ar === 1 ? 1 : -1, stock: product.stock, imageURL: product.imageURL });
 		setAr(0);
 		if (!cart) return;
 		setAmount(cart);
 		setCartData(JSON.parse(storage()!));
-	}, [ar, addCart, product.name, product.stock, storage, product.imageURL, product.price]);
+	}, [ar, addCart, product.name, product.stock, storage, product.imageURL, product.price, product._id]);
 
 	useEffect(() => {
 		if (!storage()) return;

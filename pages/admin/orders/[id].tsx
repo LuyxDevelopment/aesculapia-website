@@ -4,9 +4,13 @@ import InProgress from '../../../components/InProgress';
 import { AdminProps } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
 
-const AdminOrders: NextPage = InProgress;
+const AdminOrdersDynamic: NextPage = () => {
+	return (
+		<InProgress pageName='orders'></InProgress>
+	);
+};
 
-export default AdminOrders;
+export default AdminOrdersDynamic;
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req }): Promise<AdminProps> {
 	const user = req.session.user;

@@ -4,46 +4,47 @@ import { NextPage } from 'next';
 import Layout from '../../components/Layout';
 import AdminPageCard from '../../components/AdminPageCard';
 import { AdminProps } from '../../src/types/index';
+import { useMetaData } from '../../lib/hooks/useMetaData';
 
 const pages: { name: string, url: string, svg: string; }[] = [
 	{
-		name: 'Beer',
-		svg: '/assets/icons/beer',
-		url: '/admin/beer',
+		name: 'Bier',
+		svg: '/assets/icons/bier.svg',
+		url: '/admin/bier',
 	},
 	{
 		name: 'Events',
 		url: '/admin/events',
-		svg: '/assets/icons/events',
+		svg: '/assets/icons/calendar.svg',
 	},
 	{
 		name: 'News',
-		svg: '/assets/icons/news',
+		svg: '/assets/icons/news.svg',
 		url: '/admin/news',
 	},
 	{
 		name: 'Orders',
-		svg: '/assets/icons/orders',
+		svg: '/assets/icons/order.svg',
 		url: '/admin/orders',
 	},
 	{
-		name: 'Products',
-		svg: '/assets/icons/products',
-		url: '/admin/products',
+		name: 'Webshop',
+		svg: '/assets/icons/box.svg',
+		url: '/admin/webshop',
 	},
 	{
-		name: 'Song',
-		svg: '/assets/icons/song',
+		name: 'Clubsong',
+		svg: '/assets/icons/song.svg',
 		url: '/admin/song',
 	},
 	{
 		name: 'Sponsors',
-		svg: '/assets/icons/sponsors',
+		svg: '/assets/icons/handshake.svg',
 		url: '/admin/sponsors',
 	},
 	{
 		name: 'Settings',
-		svg: '/assets/icons/settings',
+		svg: '/assets/icons/settings.svg',
 		url: '/admin/settings',
 	},
 ];
@@ -51,6 +52,7 @@ const pages: { name: string, url: string, svg: string; }[] = [
 const AdminIndex: NextPage = () => {
 	return (
 		<>
+			{useMetaData('Admin | Home', 'Admin Page', '/admin')}
 			<Layout>
 				<div className='container mb-12'>
 					<h1 className='text-4xl font-bold mb-5'>Admin Menu</h1>

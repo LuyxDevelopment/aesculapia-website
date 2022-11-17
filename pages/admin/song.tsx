@@ -4,7 +4,11 @@ import InProgress from '../../components/InProgress';
 import { ironOptions } from '../../src/util/ironConfig';
 import { AdminProps } from '../../src/types/index';
 
-const AdminSongIndex: NextPage = InProgress;
+const AdminSongIndex: NextPage = () => {
+	return (
+		<InProgress pageName='song'></InProgress>
+	);
+};
 
 export default AdminSongIndex;
 

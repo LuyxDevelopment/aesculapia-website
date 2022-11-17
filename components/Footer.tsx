@@ -11,18 +11,12 @@ const Footer: FC = () => {
 					height='100'
 				/>
 				<div className='felx flex-col'>
-					<h1 className='f-header'>1</h1>
-					<h2>1</h2>
-					<h2>2</h2>
-					<h2>3</h2>
-					<h2>4</h2>
-				</div>
-				<div className='felx flex-col'>
-					<h1 className='f-header'>2</h1>
-					<h2>1</h2>
-					<h2>2</h2>
-					<h2>3</h2>
-					<h2>4</h2>
+					<h1 className='f-header'>Over ons</h1>
+					<h2>Email:</h2>
+					<h2>Contact:</h2>
+					<h2>Info:</h2>
+					<h2>Adres:</h2>
+					<h2>Ondernemingsnummer: </h2>
 				</div>
 			</div>
 			<div className='py-8 flex flex-row items-center justify-center'>

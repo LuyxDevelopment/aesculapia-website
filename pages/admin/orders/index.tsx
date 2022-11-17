@@ -5,7 +5,11 @@ import InProgress from '../../../components/InProgress';
 import { AdminProps } from '../../../src/types/index';
 import { OrderDocument } from '../../../src/models/Order';
 
-const AdminOrderIndex: NextPage = InProgress;
+const AdminOrderIndex: NextPage = () => {
+	return (
+		<InProgress pageName='orders'></InProgress>
+	);
+};
 
 export default AdminOrderIndex;
 

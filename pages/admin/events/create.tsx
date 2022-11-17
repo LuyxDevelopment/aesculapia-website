@@ -9,8 +9,6 @@ import { ironOptions } from '../../../src/util/ironConfig';
 
 const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: boolean; }; }> = ({ user }) => {
 
-	useMetaData('Aesculapia', 'Events', '/admin');
-
 	const { register, handleSubmit, formState: { errors } } = useForm();
 
 	const onSubmit = async (data: FieldValues, event?: BaseSyntheticEvent): Promise<void> => {
@@ -40,15 +38,16 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 
 	return (
 		<>
+			{useMetaData('Aesculapia', 'Events', '/admin')}
 			<Layout>
 				<div className='container relative'>
 					<div className='top-10 left-14 sm:left-20 text-white'>
 						<div className='flex flex-wrap w-56 sm:w-96'>
-							<h1 className='text-3xl pb-2 font-bold text-black'>
-								Create an Event.
+							<h1 className='text-4xl pb-2 font-bold text-black'>
+								Maak een evenement.
 							</h1>
 							<p className='text-xl text-black'>
-								Create an event for customers to attend.
+								Creëer een evenement dat klanten kunnen bijwonen.
 							</p>
 						</div>
 						<div className='flex flex-wrap h-auto text-xl mt-3'>
@@ -56,13 +55,13 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 								<div className="flex flex-wrap -mx-3">
 									<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 										<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-product-name">
-											Event Name
+											EVENT NAAM
 										</label>
 										<input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-name" type="text" placeholder="Chocolate" minLength={1} maxLength={64} required {...register('name', { required: true })} />
 									</div>
 									<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 										<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-product-price">
-											Event Description
+											EVENEMENTBESCHRIJVING
 										</label>
 										<input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-price" type="text" placeholder="5.31" {...register('price', { required: true })} />
 									</div>
@@ -77,7 +76,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 								</div>
 								<div>
 									<button className='h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-900'>
-										<input className="cursor-pointer" type='submit' value='Create'></input>
+										<input className="cursor-pointer" type='submit' value='Maak'></input>
 									</button>
 								</div>
 							</form>

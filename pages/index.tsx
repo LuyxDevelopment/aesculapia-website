@@ -54,9 +54,9 @@ const Index: NextPage = () => {
 			{useMetaData('Aesculapia', 'Home Page', '/')}
 			<Layout>
 				<div className='relative'>
-					<div className='absolute top-10 left-14 sm:left-20 text-white'>
+					<div className='absolute top-10 left-14 sm:left-20 text-black'>
 						<div className='flex flex-wrap w-56 sm:w-96'>
-							<h1 className='text-3xl pb-2 font-bold'>
+							<h1 className='text-5xl pb-6 font-bold'>
 								Welkom op de website van Aesculapia!
 							</h1>
 							<p className='text-xl'>
@@ -65,20 +65,22 @@ const Index: NextPage = () => {
 							</p>
 						</div>
 					</div>
-					<div>
+					{/* <div>
 						<Carousel
 							images={images}
 							fullScreen={true}
 						/>
-					</div>
+					</div> */}
 				</div>
 				<div className='container mt-24'>
 					<AOS dir='rl'>
 						<div className='my-6 flex flex-col sm:flex-row justify-between items-center'>
 							<div>
-								<h1 className='font-semibold text-4xl'>Who are we?</h1>
+								<h1 className='font-semibold text-4xl'>
+									Wie zijn wij?
+								</h1>
 								<p className='italic'>
-									We are a group of students with so much talent!
+									We zijn een groep studenten met zoveel talent!
 								</p>
 							</div>
 							<div className='px-5'></div>
@@ -104,9 +106,11 @@ const Index: NextPage = () => {
 								<div className='px-5'></div>
 								<div>
 									<h1 className='font-semibold text-4xl'>
-										What are we aiming for?
+										Waar streven we naar?
 									</h1>
-									<p className='italic'>Making the world a better place!</p>
+									<p className='italic'>
+										De wereld verbeteren!
+									</p>
 								</div>
 							</div>
 						</AOS>
@@ -114,7 +118,7 @@ const Index: NextPage = () => {
 					<div className='mt-32 mb-32'>
 						<AOS dir='tb'>
 							<h1 className='text-center text-4xl font-bold mb-5'>
-								Our upcoming events
+								Komende evenementen
 							</h1>
 							<div className='flex flex-col sm:flex-row items-center justify-evenly mb-5 text-white'>
 								{events.map((event, i) => {

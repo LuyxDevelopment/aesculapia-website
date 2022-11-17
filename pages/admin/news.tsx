@@ -5,7 +5,11 @@ import { NewsDocument } from '../../src/models/News';
 import { AdminProps } from '../../src/types/index';
 import { ironOptions } from '../../src/util/ironConfig';
 
-const AdminNewsIndex: NextPage = InProgress;
+const AdminNewsIndex: NextPage = () => {
+	return (
+		<InProgress pageName='news'></InProgress>
+	);
+};
 
 export default AdminNewsIndex;
 

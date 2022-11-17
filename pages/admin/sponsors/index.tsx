@@ -5,7 +5,11 @@ import InProgress from '../../../components/InProgress';
 import { AdminProps } from '../../../src/types/index';
 import { SponsorDocument } from '../../../src/models/Sponsor';
 
-const AdminSponsorsIndex: NextPage = InProgress;
+const AdminSponsorsIndex: NextPage =() => {
+	return (
+		<InProgress pageName='sponsors'></InProgress>
+	);
+};
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }): Promise<AdminProps<SponsorDocument>> {
 	const user = req?.session.user;

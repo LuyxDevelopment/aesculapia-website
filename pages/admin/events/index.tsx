@@ -5,7 +5,11 @@ import InProgress from '../../../components/InProgress';
 import { AdminProps } from '../../../src/types/index';
 import { EventDocument } from '../../../src/models/Event';
 
-const AdminEventsIndex: NextPage = InProgress;
+const AdminEventsIndex: NextPage = () => {
+	return (
+		<InProgress pageName='events'></InProgress>
+	);
+};
 
 export default AdminEventsIndex;
 

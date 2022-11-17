@@ -22,7 +22,7 @@ const SponsorsIndex: NextPage<Props> = ({ data }) => {
 					<div className='container mb-12'>
 						<h1 className='text-4xl font-bold mb-5'>Sponsors</h1>
 						<p className='text-xl'>
-							These sponsors help fund our mission.
+							Deze sponsors helpen onze missie te financieren.
 						</p>
 						<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
 							{data.map((sponsor, i) => {

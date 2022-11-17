@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 const ErrorPage: NextPage = () => {
 	return (
 		<div className='h-96 grid grid-cols gap-4 place-content-center text-black'>
-			<h1 className='text-3xl font-bold'>
+			<h1 className='text-4xl font-bold'>
 				An error has occurred.
 			</h1>
 			<p className='text-xl'>

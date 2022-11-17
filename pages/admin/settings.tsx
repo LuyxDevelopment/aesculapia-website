@@ -4,6 +4,7 @@ import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../src/util/ironConfig';
 import { useState } from 'react';
 import { AdminProps } from '../../src/types/index';
+import Layout from '../../components/Layout';
 
 const AdminSettings: NextPage<{ user: { email: string, has2faEnabled: boolean; }, otpAuthUri: string; }> = ({ user, otpAuthUri }) => {
 	const [qrCode] = useState(otpAuthUri);
@@ -31,42 +32,44 @@ const AdminSettings: NextPage<{ user: { email: string, has2faEnabled: boolean; }
 
 	return (
 		<>
-			{!user.has2faEnabled && (
-				<div>
-					<label className='font-bold text-2xl'>Disable 2FA</label>
-					<br />
-					<button
-						type='submit'
-						className='w-20 h-10 bg-emerald-500 text-white font-bold text-md rounded-lg hover:bg-emerald-700'
-					>
+			<Layout>
+				{!user.has2faEnabled && (
+					<div>
+						<label className='font-bold text-2xl'>Disable 2FA</label>
+						<br />
+						<button
+							type='submit'
+							className='w-20 h-10 bg-emerald-500 text-white font-bold text-md rounded-lg hover:bg-emerald-700'
+						>
 						Disable 2FA
-					</button>
-				</div>
-			)}
-			{user.has2faEnabled && (
-				<div>
-					<label className='font-bold text-2xl'>Enable 2FA</label>
-					<br />
-					<button
-						type='submit'
-						className='w-20 h-10 bg-emerald-500 text-white font-bold text-md rounded-lg hover:bg-emerald-700'
-						onClick={(): void => qrCodeShown ? showQrCode(false) : showQrCode(true)}
-					>
+						</button>
+					</div>
+				)}
+				{user.has2faEnabled && (
+					<div>
+						<label className='font-bold text-2xl'>Enable 2FA</label>
+						<br />
+						<button
+							type='submit'
+							className='w-20 h-10 bg-emerald-500 text-white font-bold text-md rounded-lg hover:bg-emerald-700'
+							onClick={(): void => qrCodeShown ? showQrCode(false) : showQrCode(true)}
+						>
 						Enable 2FA
-					</button>
-				</div>
-			)}
-			{qrCodeShown && (
+						</button>
+					</div>
+				)}
+				{qrCodeShown && (
 
-				<div>
-					<label className='font-bold text-2xl'>2FA Code</label>
-					<br />
-					<input type='text' onChange={(e): void => setTwoFactorAuthCode(e.target.value)} />
-					<button className='bg-green-500' onClick={submit2FA}>enter</button>
-					<p className='text-black'>{twoFactorAuthValid ? 'Code is valid.' : 'Code is invalid.'}</p>
-					<QRCode value={qrCode} size={256} />
-				</div>
-			)}
+					<div>
+						<label className='font-bold text-2xl'>2FA Code</label>
+						<br />
+						<input type='text' onChange={(e): void => setTwoFactorAuthCode(e.target.value)} />
+						<button className='bg-green-500' onClick={submit2FA}>enter</button>
+						<p className='text-black'>{twoFactorAuthValid ? 'Code is valid.' : 'Code is invalid.'}</p>
+						<QRCode value={qrCode} size={256} />
+					</div>
+				)}
+			</Layout>
 		</>
 	);
 };

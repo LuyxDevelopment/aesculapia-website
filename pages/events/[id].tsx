@@ -1,6 +1,10 @@
 import { NextPage } from 'next';
 import InProgress from '../../components/InProgress';
 
-const EventOne: NextPage = InProgress;
+const EventDynamic: NextPage = () => {
+	return (
+		<InProgress pageName='events'></InProgress>
+	);
+};
 
-export default EventOne;
+export default EventDynamic;

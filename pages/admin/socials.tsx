@@ -4,7 +4,11 @@ import InProgress from '../../components/InProgress';
 import { ironOptions } from '../../src/util/ironConfig';
 import { AdminProps } from '../../src/types/index';
 
-const AdminSocialsIndex: NextPage = InProgress;
+const AdminSocialsIndex: NextPage = () => {
+	return (
+		<InProgress pageName='socials'></InProgress>
+	);
+};
 
 export default AdminSocialsIndex;
 
