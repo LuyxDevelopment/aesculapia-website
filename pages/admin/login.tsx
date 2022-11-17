@@ -62,6 +62,12 @@ const Index: NextPage = () => {
 	};
 
 	const submit2FA = async (): Promise<void> => {
+		if (twoFactorAuthCode.length < 6) {
+			setTwoFactorAuthValid(false);
+			setMessage({ type: 'error', text: 'Invalid code!' });
+			clearMessage(setMessage);
+			return;
+		}
 		const req = await fetch('/api/auth/2fa/verify', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -70,8 +76,17 @@ const Index: NextPage = () => {
 
 		const data = await req.json();
 
-		if (data.data) return setTwoFactorAuthValid(true);
-		setTwoFactorAuthValid(false);
+		if (data.data) {
+			setTwoFactorAuthValid(true);
+			setMessage({ type: 'success', text: 'Valid code!' });
+			clearMessage(setMessage);
+			return;
+		} else {
+			setTwoFactorAuthValid(false);
+			setMessage({ type: 'error', text: 'Invalid code!' });
+			clearMessage(setMessage);
+			return;
+		}
 	};
 
 	// const clearMessage = (): NodeJS.Timeout =>
@@ -125,7 +140,7 @@ const Index: NextPage = () => {
 										className="-ml-6 cursor-pointer"
 										onClick={(): void => setIsVisible(!isVisible)}
 									>
-										{isVisible ? '👁' : '✖'}
+										{!isVisible ? '👁' : '✖'}
 									</span>
 									{errors.password && (
 										<p className="font-semibold text-red-600">
@@ -144,21 +159,23 @@ const Index: NextPage = () => {
 					)}
 					{isAllowed && (
 						<div>
-							<label className="font-bold text-2xl">2FA Code</label>
+							<label className="font-bold text-2xl">
+								Please fill-in your 2FA Code
+							</label>
+							<br />
 							<br />
 							<input
 								type="text"
+								placeholder="XXXXXX"
+								className={`border-2 rounded-md w-52 h-10 pl-2`}
 								onChange={(e): void => setTwoFactorAuthCode(e.target.value)}
 							/>
 							<button
-								className="bg-green-500"
+								className="bg-emerald-500 text-white h-10 rounded-md ml-3 w-16 font-semibold"
 								onClick={submit2FA}
 							>
-								enter
+								Submit
 							</button>
-							<p className="text-black">
-								{twoFactorAuthValid ? 'Valid code.' : 'Invalid code.'}
-							</p>
 						</div>
 					)}
 				</div>
