@@ -8,11 +8,6 @@ import { useMetaData } from '../../lib/hooks/useMetaData';
 
 const pages: { name: string, url: string, svg: string; }[] = [
 	{
-		name: 'Knuppeltje',
-		svg: '/assets/icons/beer.svg',
-		url: '/admin/knuppeltje',
-	},
-	{
 		name: 'Events',
 		url: '/admin/events',
 		svg: '/assets/icons/calendar.svg',
@@ -28,19 +23,14 @@ const pages: { name: string, url: string, svg: string; }[] = [
 		url: '/admin/orders',
 	},
 	{
-		name: 'Webshop',
-		svg: '/assets/icons/box.svg',
-		url: '/admin/webshop',
-	},
-	{
-		name: 'Clubsong',
-		svg: '/assets/icons/song.svg',
-		url: '/admin/song',
-	},
-	{
 		name: 'Sponsors',
 		svg: '/assets/icons/handshake.svg',
 		url: '/admin/sponsors',
+	},
+	{
+		name: 'Webshop',
+		svg: '/assets/icons/box.svg',
+		url: '/admin/webshop',
 	},
 	{
 		name: 'Settings',

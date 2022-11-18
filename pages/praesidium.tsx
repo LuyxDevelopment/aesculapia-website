@@ -81,24 +81,27 @@ const people: UserProfile[] = [
 	},
 ];
 
-const praesidium: NextPage = () => {
+const Praesidium: NextPage = () => {
 	return (
 		<>
-			{useMetaData('Praesidium', 'Praesidium', '/praesidium')}
+			{useMetaData('Aesculapia | Praesidium', 'Praesidium', '/praesidium')}
 			<Layout>
-				<div className="my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 place-items-center space-y-3">
-					{people.map((person, i) => {
-						return (
-							<Profile
-								profile={person}
-								key={i}
-							/>
-						);
-					})}
+				<div className='container mb-12'>
+					<h1 className='text-5xl font-bold mb-5'>Praesidium</h1>
+					<div className="my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 place-items-center space-y-3">
+						{people.map((person, i) => {
+							return (
+								<Profile
+									profile={person}
+									key={i}
+								/>
+							);
+						})}
+					</div>
 				</div>
 			</Layout>
 		</>
 	);
 };
 
-export default praesidium;
+export default Praesidium;

@@ -41,12 +41,12 @@ const Toast = ({ title, description, type }: ToastOptions): JSX.Element => {
 
 export const clearMessage = (
 	setMessage: Dispatch<
-		SetStateAction<{
-			type: 'success' | 'error' | 'info';
-			text: string;
-		}>
+	SetStateAction<{
+		type: 'success' | 'error' | 'info';
+		text: string;
+	}>
 	>,
-) => {
+): void => {
 	setTimeout(() => {
 		setMessage({ type: 'success', text: '' });
 	}, 3000);

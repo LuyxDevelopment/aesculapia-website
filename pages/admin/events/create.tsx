@@ -75,7 +75,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 									</div>
 								</div>
 								<div>
-									<button className='h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-900'>
+									<button className='h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-800'>
 										<input className="cursor-pointer" type='submit' value='Maak'></input>
 									</button>
 								</div>

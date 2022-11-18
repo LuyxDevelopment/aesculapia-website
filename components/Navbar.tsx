@@ -25,12 +25,17 @@ const pages: NavBarPage[] = [
 		url: '/webshop',
 	},
 	{
-		name: 'Clubsong',
-		url: '/song',
+		name: 'Praesidium',
+		url: '/praesidium',
 	},
 	{
 		name: 'Sponsors',
 		url: '/sponsors',
+	},
+	{
+		name: '🛒',
+		url: '/cart',
+		svg: '/assets/icons/shopping-cart.svg',
 	},
 ];
 
@@ -40,10 +45,7 @@ const Navbar: FC = () => {
 	return (
 		<>
 			<nav
-				className={
-					'bg-red-500 text-white shadow-lg p-3 flex flex-row justify-between sm:justify-evenly items-center'
-				}
-			>
+				className={'bg-red-500 text-white shadow-lg p-3 flex flex-row justify-between sm:justify-evenly items-center'}>
 				<div className="cursor-pointer">
 					<Image
 						src="/assets/logo.png"
@@ -54,15 +56,18 @@ const Navbar: FC = () => {
 					/>
 				</div>
 				<div className="hidden sm:flex sm:flex-row sm:items-center sm:justify-evenly font-extrabold">
-					{pages.map(({ name, url }, i) => {
+					{pages.map(({ name, url, svg }, i) => {
 						return (
-							<h1
-								className="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 rounded-2xl transition-all duration-300 ease-in-out"
-								onClick={(): string => (window.location.href = url)}
-								key={i}
-							>
-								{name}
-							</h1>
+							<>
+								{svg ?
+									<Image className='cursor-pointer m2-1 mr-2' src={svg} width={20} height={20} alt="Navbar button" key={i} onClick={(): string => (window.location.href = url)}/>
+									: <h1
+										className="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 ml-1 mr-1 rounded-2xl transition-all duration-300 ease-in-out"
+										onClick={(): string => (window.location.href = url)}
+										key={i}>
+										{name}
+									</h1>}
+							</>
 						);
 					})}
 				</div>

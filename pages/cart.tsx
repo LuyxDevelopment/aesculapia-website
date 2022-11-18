@@ -25,7 +25,12 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 			{useMetaData('Aesculapia | Shopping Cart', 'Shopping Cart Page', '/cart')}
 			<Layout>
 				{!cart && (
-					<p>Er zitten geen producten in de winkelwagen.</p>
+					<div className="container flex flex-row">
+						<div className='mb-12'>
+							<h1 className='text-4xl font-bold mb-5'>Winkelwagen</h1>
+							<p>Er zitten geen producten in de winkelwagen.</p>
+						</div>
+					</div>
 				)}
 				{cart && (
 					<>
@@ -37,9 +42,6 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 										return <ShoppingCartItem item={item} key={i}></ShoppingCartItem>;
 									})}
 								</div>
-							</div>
-							<div className=''>
-								<p>{(price / 100).toFixed(2)}</p>
 							</div>
 						</div>
 					</>

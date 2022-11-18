@@ -9,8 +9,8 @@ const SongIndex: NextPage = () => {
 			<Layout>
 				<div className="m-5 text-center ">
 					<h1 className="font-bold text-2xl">
-						Het clublied van Aesculapia wordt gezongen op de melodie van ‘Het
-						loze vissertje’.
+						Het clublied van Aesculapia wordt gezongen op de melodie van &apos;Het
+						loze vissertje&apos;.
 					</h1>
 					<div className="flex flex-col justify-center">
 						<div className="my-5">
@@ -58,7 +58,7 @@ const SongIndex: NextPage = () => {
 								Wij weten niet van gaan, ja gaan.
 							</h1>
 							<h1 className="text-md font-medium">
-								Als 't bier komt op de proppen,
+								Als &apos;t bier komt op de proppen,
 							</h1>
 							<h1 className="text-md font-medium">
 								Zijn wij niet weg te slaan, ja slaan.

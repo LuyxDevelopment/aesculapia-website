@@ -13,7 +13,7 @@ interface Props {
 
 const Profile: FC<Props> = ({ profile }) => {
 	return (
-		<div className="flex h-72 w-52 flex-col items-center justify-center rounded-md bg-gradient-to-r from-orange-400 to-red-500 shadow-xl transition-all duration-500 ease-in-out hover:-translate-y-3 hover:scale-90">
+		<div className="flex h-72 w-52 flex-col items-center justify-center rounded-md bg-gradient-to-r from-orange-400 to-red-500 shadow-xl transition-all duration-500 ease-in-out hover:-translate-y-1 hover:scale-110">
 			<div className="rounded-md">
 				<Image
 					src={profile.photo}

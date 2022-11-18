@@ -1,5 +1,6 @@
 import { withIronSessionSsr } from 'iron-session/next';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { BaseSyntheticEvent, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import Layout from '../../../components/Layout';
@@ -20,6 +21,8 @@ const AdminCreateProducts: NextPage<{
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
+
+	const router = useRouter();
 
 	const onSubmit = async (
 		data: FieldValues,
@@ -47,6 +50,7 @@ const AdminCreateProducts: NextPage<{
 					type: 'success',
 					text: 'Product is succesvol aangemaakt!',
 				});
+				await router.push('/admin/webshop/');
 			} else if (req.status === 401) {
 				setMessage({
 					type: 'error',
@@ -155,7 +159,7 @@ const AdminCreateProducts: NextPage<{
 											Product Voorraad
 										</label>
 										<input
-											className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight border-2 focus:border-rose-500 focus:bg-white"
+											className="appearance-none block w-full bg-gray-200 text-gray-700 border-slate-500 rounded py-3 px-4 mb-3 leading-tight border-2 focus:border-rose-500 focus:bg-white"
 											id="grid-stock"
 											type="text"
 											placeholder="10"
@@ -167,7 +171,7 @@ const AdminCreateProducts: NextPage<{
 									</div>
 								</div>
 								<div className="pb-9">
-									<button className="h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-900">
+									<button className="h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-800">
 										<input
 											className="cursor-pointer"
 											type="submit"

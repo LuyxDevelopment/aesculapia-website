@@ -37,4 +37,5 @@ export interface AdminProps<T extends Documents | null = null> extends BaseProps
 export interface NavBarPage {
 	name: string;
 	url: string;
+	svg?: string;
 }

@@ -10,9 +10,9 @@ import { useRouter } from 'next/router';
 
 type FieldValues =
 	| {
-			email: string;
-			password: string;
-	  }
+		email: string;
+		password: string;
+	}
 	| { [x: string]: unknown };
 
 const Index: NextPage = () => {
@@ -81,12 +81,12 @@ const Index: NextPage = () => {
 			setMessage({ type: 'success', text: 'Valid code!' });
 			clearMessage(setMessage);
 			return;
-		} else {
-			setTwoFactorAuthValid(false);
-			setMessage({ type: 'error', text: 'Invalid code!' });
-			clearMessage(setMessage);
-			return;
-		}
+		} 
+		setTwoFactorAuthValid(false);
+		setMessage({ type: 'error', text: 'Invalid code!' });
+		clearMessage(setMessage);
+		return;
+		
 	};
 
 	// const clearMessage = (): NodeJS.Timeout =>
@@ -167,7 +167,7 @@ const Index: NextPage = () => {
 							<input
 								type="text"
 								placeholder="XXXXXX"
-								className={`border-2 rounded-md w-52 h-10 pl-2`}
+								className={'border-2 rounded-md w-52 h-10 pl-2'}
 								onChange={(e): void => setTwoFactorAuthCode(e.target.value)}
 							/>
 							<button
