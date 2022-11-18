@@ -7,7 +7,7 @@ import ShoppingCartItem from '../components/ShoppingCartItem';
 import { Product } from '../components/ProductCard';
 
 interface Props {
-	data: (IProduct & { _id: string; })[];
+	data: (IProduct & { _id: string })[];
 }
 
 const ShoppingCart: NextPage<Props> = ({ data }) => {
@@ -17,17 +17,19 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 	useEffect(() => {
 		if (typeof window === undefined) return;
 		setCart(JSON.parse(window.localStorage.getItem('cart')!));
-		cart.forEach((item: Product) => setPrice(prevPrice => prevPrice + item.price));
+		cart.forEach((item: Product) =>
+			setPrice((prevPrice) => prevPrice + item.price),
+		);
 	}, []);
 
 	return (
 		<>
-			{useMetaData('Aesculapia | Shopping Cart', 'Shopping Cart Page', '/cart')}
+			{useMetaData('Shopping Cart', 'Shopping Cart Page', '/cart')}
 			<Layout>
 				{!cart && (
 					<div className="container flex flex-row">
-						<div className='mb-12'>
-							<h1 className='text-4xl font-bold mb-5'>Winkelwagen</h1>
+						<div className="mb-12">
+							<h1 className="text-4xl font-bold mb-5">Winkelwagen</h1>
 							<p>Er zitten geen producten in de winkelwagen.</p>
 						</div>
 					</div>
@@ -35,11 +37,16 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 				{cart && (
 					<>
 						<div className="container flex flex-row">
-							<div className='mb-12'>
-								<h1 className='text-4xl font-bold mb-5'>Winkelwagen</h1>
-								<div className='grid grid-cols-1 divide-y'>
+							<div className="mb-12">
+								<h1 className="text-4xl font-bold mb-5">Winkelwagen</h1>
+								<div className="grid grid-cols-1 divide-y">
 									{cart.map((item, i) => {
-										return <ShoppingCartItem item={item} key={i}></ShoppingCartItem>;
+										return (
+											<ShoppingCartItem
+												item={item}
+												key={i}
+											></ShoppingCartItem>
+										);
 									})}
 								</div>
 							</div>

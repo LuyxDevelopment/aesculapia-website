@@ -84,10 +84,10 @@ const people: UserProfile[] = [
 const Praesidium: NextPage = () => {
 	return (
 		<>
-			{useMetaData('Aesculapia | Praesidium', 'Praesidium', '/praesidium')}
+			{useMetaData('Praesidium', 'Praesidium', '/praesidium')}
 			<Layout>
-				<div className='container mb-12'>
-					<h1 className='text-5xl font-bold mb-5'>Praesidium</h1>
+				<div className="container mb-12">
+					<h1 className="text-5xl font-bold mb-5">Praesidium</h1>
 					<div className="my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 place-items-center space-y-3">
 						{people.map((person, i) => {
 							return (
