@@ -164,27 +164,3 @@ body {
 		width: 1170px;
 	}
 }
-
-@keyframes fadein {
-	from {
-		bottom: 0;
-		visibility: hidden;
-	}
-
-	to {
-		bottom: 30px;
-		visibility: visible;
-	}
-}
-
-@keyframes fadeout {
-	from {
-		bottom: 30px;
-		visibility: visible;
-	}
-
-	to {
-		bottom: 0;
-		visibility: hidden;
-	}
-}
