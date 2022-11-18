@@ -31,21 +31,23 @@ const Dropdown = ({
 	useOutsideAlerter(dropdownRef, () => setIsVisible(false));
 
 	useEffect(() => {
-		dropdownRef.current?.addEventListener('mouseover', () =>
-			setIsVisible(true),
-		);
-		dropdownRef.current?.addEventListener('mouseleave', () =>
-			setIsVisible(false),
-		);
-		return () => {
-			dropdownRef.current?.removeEventListener('mouseover', () =>
+		if (hovered) {
+			dropdownRef.current?.addEventListener('mouseover', () =>
 				setIsVisible(true),
 			);
-			dropdownRef.current?.removeEventListener('mouseleave', () =>
+			dropdownRef.current?.addEventListener('mouseleave', () =>
 				setIsVisible(false),
 			);
-		};
-	});
+			return () => {
+				dropdownRef.current?.removeEventListener('mouseover', () =>
+					setIsVisible(true),
+				);
+				dropdownRef.current?.removeEventListener('mouseleave', () =>
+					setIsVisible(false),
+				);
+			};
+		}
+	}, []);
 
 	return (
 		<div
