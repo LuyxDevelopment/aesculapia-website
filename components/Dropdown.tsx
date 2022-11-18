@@ -1,19 +1,20 @@
-import { useState, useRef, ReactNode } from 'react';
+import { useState, useRef, ReactNode, useEffect } from 'react';
 import Link from 'next/link';
 import { useOutsideAlerter } from '../lib/hooks/useOutsideAlerter';
 
-interface DropdownItem {
+export interface DropdownItem {
 	text: string;
 	href?: string;
 	tw?: string;
 }
 
-interface DropdownProps {
+export interface DropdownProps {
 	direction: 'right' | 'left' | 'bottom';
 	children: ReactNode;
 	items: DropdownItem[];
 	newSpace?: boolean;
 	tw?: string;
+	hovered?: boolean;
 }
 
 const Dropdown = ({
@@ -22,11 +23,29 @@ const Dropdown = ({
 	items,
 	newSpace,
 	tw,
+	hovered,
 }: DropdownProps): JSX.Element => {
-	const dropdownRef = useRef(null);
+	const dropdownRef = useRef<HTMLDivElement>(null);
 	const [isVisible, setIsVisible] = useState(false);
 	const toggleVisibility = (): void => setIsVisible(!isVisible);
 	useOutsideAlerter(dropdownRef, () => setIsVisible(false));
+
+	useEffect(() => {
+		dropdownRef.current?.addEventListener('mouseover', () =>
+			setIsVisible(true),
+		);
+		dropdownRef.current?.addEventListener('mouseleave', () =>
+			setIsVisible(false),
+		);
+		return () => {
+			dropdownRef.current?.removeEventListener('mouseover', () =>
+				setIsVisible(true),
+			);
+			dropdownRef.current?.removeEventListener('mouseleave', () =>
+				setIsVisible(false),
+			);
+		};
+	});
 
 	return (
 		<div
@@ -34,10 +53,10 @@ const Dropdown = ({
 				direction === 'right'
 					? 'flex flex-row'
 					: direction === 'left'
-						? 'flex flex-row-reverse'
-						: direction === 'bottom'
-							? 'relative inline-block'
-							: ''
+					? 'flex flex-row-reverse'
+					: direction === 'bottom'
+					? 'relative inline-block'
+					: ''
 			}`}
 			ref={dropdownRef}
 		>
@@ -73,8 +92,8 @@ const DropdownItem = ({ text, href, tw }: DropdownItem): JSX.Element => {
 					href !== undefined
 						? (): string => (window.location.href = href)
 						: (): boolean => {
-							return false;
-						}
+								return false;
+						  }
 				}
 			>
 				{href !== undefined && <Link href={href!}>{text}</Link>}
