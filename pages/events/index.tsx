@@ -1,15 +1,39 @@
 import { NextPage, NextPageContext } from 'next';
 import { EventDocument } from '../../src/models/Event';
 import { BaseProps, ResponseData } from '../../src/types/index';
-import InProgress from '../../components/InProgress';
+import EventCard from '../../components/EventCard';
+import Layout from '../../components/Layout';
+import { useMetaData } from '../../lib/hooks/useMetaData';
 
-const EventsIndex: NextPage = () => {
+interface Props {
+	events: EventDocument[];
+}
+
+const EventsIndex: NextPage<Props> = ({ events }) => {
 	return (
-		<InProgress pageName='events'></InProgress>
+		<>
+			{useMetaData('Events', 'Events', '/events')}
+			<Layout>
+				<div className="container">
+					<div className="flex flex-col items-center justify-center space-y-5">
+						{events.map((event, i) => {
+							return (
+								<EventCard
+									event={event}
+									key={i}
+								/>
+							);
+						})}
+					</div>
+				</div>
+			</Layout>
+		</>
 	);
 };
 
-export const getServerSideProps = async ({ res }: NextPageContext): Promise<BaseProps<EventDocument>> => {
+export const getServerSideProps = async ({
+	res,
+}: NextPageContext): Promise<BaseProps<EventDocument>> => {
 	res?.setHeader(
 		'Cache-Control',
 		'public, s-maxage=10, stale-while-revalidate=59',
@@ -20,11 +44,14 @@ export const getServerSideProps = async ({ res }: NextPageContext): Promise<Base
 		headers: { 'Content-Type': 'application/json' },
 	});
 
-	const data = await request.json() as ResponseData<EventDocument | EventDocument[]>;
+	const response = (await request.json()) as ResponseData<
+		EventDocument | EventDocument[]
+	>;
 
 	return {
 		props: {
-			data: data.data,
+			//@ts-ignore
+			events: response.data,
 		},
 	};
 };
