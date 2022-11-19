@@ -1,22 +1,22 @@
 import { NextPage, NextPageContext } from 'next';
-import { EventDocument } from '../../src/models/Event';
+import { EventDocument, IEvent } from '../../src/models/Event';
 import { BaseProps, ResponseData } from '../../src/types/index';
 import EventCard from '../../components/EventCard';
 import Layout from '../../components/Layout';
 import { useMetaData } from '../../lib/hooks/useMetaData';
 
 interface Props {
-	events: EventDocument[];
+	data: (IEvent & { _id: string; })[];
 }
 
-const EventsIndex: NextPage<Props> = ({ events }) => {
+const EventsIndex: NextPage<Props> = ({ data }) => {
 	return (
 		<>
 			{useMetaData('Events', 'Events', '/events')}
 			<Layout>
 				<div className="container">
 					<div className="flex flex-col items-center justify-center space-y-5">
-						{events.map((event, i) => {
+						{data.map((event, i) => {
 							return (
 								<EventCard
 									event={event}
@@ -44,14 +44,11 @@ export const getServerSideProps = async ({
 		headers: { 'Content-Type': 'application/json' },
 	});
 
-	const response = (await request.json()) as ResponseData<
-		EventDocument | EventDocument[]
-	>;
+	const response = await request.json() as ResponseData<EventDocument | EventDocument[]>;
 
 	return {
 		props: {
-			//@ts-ignore
-			events: response.data,
+			data: response.data,
 		},
 	};
 };
