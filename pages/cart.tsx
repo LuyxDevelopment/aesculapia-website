@@ -39,7 +39,7 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 						<div className="container flex flex-row">
 							<div className="mb-12">
 								<h1 className="text-4xl font-bold mb-5">Winkelwagen</h1>
-								<div className="grid grid-cols-1 divide-y">
+								<div className="grid grid-cols-1 divide-y w-[35rem] sm:w-[40rem] md:w-[39rem] lg:w-[60rem]">
 									{cart.map((item, i) => {
 										return (
 											<ShoppingCartItem
@@ -50,7 +50,13 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 									})}
 								</div>
 							</div>
+							<div className="flex flex-row">
+								<div className="sticky top-0 z-50">
+									<h1 className="text-4xl font-bold mb-5">Winkelwagen</h1>
+								</div>
+							</div>
 						</div>
+						
 					</>
 				)}
 			</Layout>

@@ -1,5 +1,6 @@
-import { Schema, Model, Types, default as mongoose, HydratedDocument } from 'mongoose';
+import { Schema, Model, default as mongoose, HydratedDocument } from 'mongoose';
 import { ProductDocument } from './Product';
+import { IProduct } from './Product';
 
 export interface IOrder {
 	email: string;
@@ -7,7 +8,7 @@ export interface IOrder {
 	lastName: string;
 	issuedAt: number;
 	receivedAt: number | null;
-	product: Types.ObjectId[];
+	product: IProduct[];
 	delivered: boolean;
 }
 
@@ -30,7 +31,7 @@ export const orderSchema = new Schema<IOrder, OrderModel, OrderMethods>({
 	lastName: Schema.Types.String,
 	issuedAt: { type: Schema.Types.Number, default: Date.now },
 	receivedAt: { type: Schema.Types.Number, default: null },
-	product: { type: [Schema.Types.ObjectId], ref: 'Product' },
+	product: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
 	delivered: { type: Schema.Types.Boolean, default: false },
 }, {
 	collection: 'orders',

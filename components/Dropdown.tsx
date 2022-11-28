@@ -1,5 +1,6 @@
-import { useState, useRef, ReactNode, useEffect } from 'react';
 import Link from 'next/link';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+
 import { useOutsideAlerter } from '../lib/hooks/useOutsideAlerter';
 
 export interface DropdownItem {
@@ -55,10 +56,10 @@ const Dropdown = ({
 				direction === 'right'
 					? 'flex flex-row'
 					: direction === 'left'
-					? 'flex flex-row-reverse'
-					: direction === 'bottom'
-					? 'relative inline-block'
-					: ''
+						? 'flex flex-row-reverse'
+						: direction === 'bottom'
+							? 'relative inline-block'
+							: ''
 			}`}
 			ref={dropdownRef}
 		>
@@ -94,8 +95,8 @@ const DropdownItem = ({ text, href, tw }: DropdownItem): JSX.Element => {
 					href !== undefined
 						? (): string => (window.location.href = href)
 						: (): boolean => {
-								return false;
-						  }
+							return false;
+						}
 				}
 			>
 				{href !== undefined && <Link href={href!}>{text}</Link>}

@@ -3,8 +3,13 @@ import { NextPage } from 'next';
 import InProgress from '../../../components/InProgress';
 import { AdminProps } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
+import { IOrder } from '../../../src/models/Order'; 
+ 
+interface Props {
+	order: IOrder & { _id: string };
+}
 
-const AdminOrdersDynamic: NextPage = () => {
+const AdminOrdersDynamic: NextPage<Props> = ({ order }) => {
 	return (
 		<InProgress pageName='orders'></InProgress>
 	);

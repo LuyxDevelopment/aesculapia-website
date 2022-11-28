@@ -1,7 +1,7 @@
-import React from 'react';
-import { FC } from 'react';
-import { IEvent } from '../src/models/Event';
 import Image from 'next/image';
+import React, { FC } from 'react';
+
+import { IEvent } from '../src/models/Event';
 
 interface Props {
 	event: IEvent & { _id: string };
@@ -11,13 +11,14 @@ const EventCard: FC<Props> = ({ event }) => {
 	return (
 		<div
 			className="hover:scale-90 transition-all duration-500 ease-out cursor-pointer hover:-translate-y-2 flex flex-row-reverse items-center justify-around bg-gradient-to-l from-orange-500 to-red-600 h-auto w-full p-5 rounded-md"
-			onClick={() => (window.location.href = `/events/${event._id}`)}
+			onClick={(): string => (window.location.href = `/events/${event._id}`)}
 		>
 			<Image
 				src={event.bannerURL}
 				width="250"
 				height="250"
 				className="rounded-lg"
+				alt={event.name}
 			/>
 			<div className="text-white flex flex-col flex-wrap">
 				<h1 className="text-2xl font-bold pt-3">{event.name}</h1>

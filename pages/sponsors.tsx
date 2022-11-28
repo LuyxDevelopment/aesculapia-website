@@ -1,9 +1,10 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
-import SponsorCard from '../components/SponsorCard';
-import { ISponsor, SponsorDocument } from '../src/models/Sponsor';
-import { useMetaData } from '../lib/hooks/useMetaData';
-import Layout from '../components/Layout';
+
 import ErrorPage from '../components/Error';
+import Layout from '../components/Layout';
+import SponsorCard from '../components/SponsorCard';
+import { useMetaData } from '../lib/hooks/useMetaData';
+import { ISponsor, SponsorDocument } from '../src/models/Sponsor';
 import { BaseProps, ResponseData } from '../src/types/index';
 
 interface Props {
@@ -55,9 +56,7 @@ export const getServerSideProps = async ({
 		},
 	);
 
-	const sponsorData = (await sponsorRequest.json()) as ResponseData<
-		SponsorDocument | SponsorDocument[]
-	>;
+	const sponsorData = (await sponsorRequest.json()) as ResponseData<		SponsorDocument | SponsorDocument[]>;
 
 	return {
 		props: {

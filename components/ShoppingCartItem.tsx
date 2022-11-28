@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import { IProduct } from '../src/models/Product';
 import { Product } from './ProductCard';
 
@@ -14,13 +15,18 @@ const ShoppingCartItem: FC<Props> = ({ item }) => {
 			<div className='flex-col mt-2 mb-2 ml-2'>
 				<h1 className='text-xl font-bold'>{item.name}</h1>
 				<p>€{(item.price / item.amount / 100).toFixed(2)} each</p>
+				<div className="grid grid-cols-2 place-items-end mb-4">
+					<button onClick={(): void => {
+
+					}} className='bottom-0 h-10 w-40 flex items-center bg-red-500 justify-center rounded-full p-2 hover:bg-red-700 transition-all duration-300 ease-in-out'>
+						<p>Remove from cart</p>
+					</button>
+				</div>
 			</div>
-			<div className='flex-col ml-auto mr-0 mt-2 mb-2'>
-				<p className='text-lg'>€{(item.price / 100).toFixed(2)}</p>
+			<div className='flex-col absolute ml-[31rem] sm:ml-[36rem] md:ml-[35rem] lg:ml-[56rem] mt-2 mb-2'>
+				<p className='text-lg text-end'>€{(item.price / 100).toFixed(2)}</p>
 			</div>
-			<div>
-				<a></a>
-			</div>
+
 		</div>
 	</>;
 };

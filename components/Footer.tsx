@@ -11,15 +11,13 @@ const Footer: FC = () => {
 					width="100"
 					height="100"
 				/>
-				<div className="felx flex-col">
+				<div className="flex flex-col">
 					<h1 className="text-xl font-bold hover:no-underline transition ease-in-out duration-150">
 						Over ons
 					</h1>
 					<h2>Email:</h2>
-					<h2>Contact:</h2>
-					<h2>Info:</h2>
-					<h2>Adres:</h2>
-					<h2>Ondernemingsnummer: </h2>
+					<h2>Adres: Universiteitsplein 1 Antwerpen 2610, Belgium</h2>
+					<h2>Ondernemingsnummer: 0642590158</h2>
 				</div>
 			</div>
 			<div className="py-8 flex flex-row items-center justify-center">

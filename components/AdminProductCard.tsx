@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { BaseSyntheticEvent, FC, useCallback, useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
+
 import { IProduct } from '../src/models';
 import Confirmation from './Confirmation';
 

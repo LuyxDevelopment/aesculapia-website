@@ -17,9 +17,7 @@ const AdminProductsIndex: NextPage<Props> = ({ data }) => {
 		<>
 			{useMetaData('Admin Admin | Webshop', 'Webshop Page', '/Webshop')}
 			<Layout>
-				{!data && (
-					<ErrorPage />
-				)}
+				{!data && <ErrorPage />}
 				{data && (
 					<div className='container mb-12'>
 						<h1 className='text-5xl font-bold mb-5'>Products</h1>
