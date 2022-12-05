@@ -8,7 +8,7 @@ import { ResponseData } from '../../../src/types/index';
 import dbConnect from '../../../src/util/dbConnect';
 import { ironOptions } from '../../../src/util/ironConfig';
 import { Stripe } from 'stripe';
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY, {
 	apiVersion: '2022-08-01',
 });
 

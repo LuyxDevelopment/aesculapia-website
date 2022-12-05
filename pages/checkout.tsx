@@ -5,8 +5,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from '../components/CheckoutForm';
 import { NextPage } from 'next';
 import Layout from '../components/Layout';
-
-const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const Checkout: NextPage = () => {
 	const [clientSecret, setClientSecret] = useState('');
@@ -31,9 +30,7 @@ const Checkout: NextPage = () => {
 					<CheckoutForm />
 				</Elements>
 			)}
-			{!clientSecret && (
-				<p>no client secret</p>
-			)}
+			
 		</Layout>
 	);
 };

@@ -4,7 +4,7 @@ import { IProduct, Product } from '../../../src/models/index';
 import { ResponseData } from '../../../src/types';
 import dbConnect from '../../../src/util/dbConnect';
 import { Stripe } from 'stripe';
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY, {
 	apiVersion: '2022-08-01',
 });
 
@@ -28,12 +28,15 @@ export default async function loginHandler(
 		case 'POST': {
 			const { items } = req.body;
 
+			//const customer = await stripe.customers.create({});
+
 			const paymentIntent = await stripe.paymentIntents.create({
 				amount: await calculateOrderAmount(items),
 				currency: 'eur',
 				automatic_payment_methods: {
 					enabled: true,
 				},
+				//customer: customer.id,
 			});
 
 			res.status(StatusCodes.OK).json({
