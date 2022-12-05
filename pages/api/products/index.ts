@@ -6,6 +6,10 @@ import { AuthorityLevel, IProduct, Product, ProductDocument } from '../../../src
 import { ResponseData } from '../../../src/types';
 import dbConnect from '../../../src/util/dbConnect';
 import { ironOptions } from '../../../src/util/ironConfig';
+import { Stripe } from 'stripe';
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+	apiVersion: '2022-08-01',
+});
 
 dbConnect();
 
@@ -20,30 +24,9 @@ export default withIronSessionApiRoute(async function loginHandler(
 				message: getReasonPhrase(StatusCodes.OK),
 				data: await Product.find({ ...req.query }),
 			});
-
 		} break;
 
 		case 'POST': {
-			if (req.query.default) {
-
-				const product = new Product({
-					imageURL: 'https://avatars.githubusercontent.com/u/96552233',
-					name: 'Test Product',
-					price: 500,
-					stock: 1,
-				});
-
-				await product.save();
-
-				res.status(StatusCodes.CREATED).json({
-					error: false,
-					message: getReasonPhrase(StatusCodes.CREATED),
-					data: product,
-				});
-
-				return;
-			}
-
 			if (!await Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
@@ -54,7 +37,27 @@ export default withIronSessionApiRoute(async function loginHandler(
 				return;
 			}
 
+			const sProduct = await stripe.products.create({
+				name: req.body.name,
+				images: [req.body.imageURL],
+				default_price_data: {
+					currency: 'eur',
+					unit_amount_decimal: `${req.body.price}`,
+				},
+			});
+
+			if ((sProduct as unknown as Record<string, unknown>).error) {
+				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
+					data: null,
+				});
+
+				return;
+			}
+
 			const product = new Product({
+				_id: sProduct.id,
 				imageURL: req.body.imageURL,
 				name: req.body.name,
 				price: req.body.price * 100,

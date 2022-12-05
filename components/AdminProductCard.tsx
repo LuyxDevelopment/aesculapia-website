@@ -4,6 +4,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 
 import { IProduct } from '../src/models';
 import Confirmation from './Confirmation';
+import Toast, { clearMessage } from './Toast';
 
 interface Props {
 	product: IProduct & { _id: string; };
@@ -16,6 +17,10 @@ const AdminProductCard: FC<Props> = ({ product }) => {
 	const [name, setName] = useState(product.name);
 	const [price, setPrice] = useState(product.price);
 	const [stock, setStock] = useState(product.stock);
+	const [message, setMessage] = useState<{
+		type: 'success' | 'error' | 'info';
+		text: string;
+	}>({ type: 'success', text: '' });
 
 	const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -51,13 +56,14 @@ const AdminProductCard: FC<Props> = ({ product }) => {
 				if (data.name) setName(data.name);
 				if (data.stock) setStock(data.stock);
 				if (data.price) setPrice(data.price);
-			} else if (req.status === 401) {
-				console.log('f');
+			} else if (req.status === 500) {
+				setMessage({ type: 'error', text: 'An error occurred.' });
+				clearMessage(setMessage);
 			}
 		} catch (error) {
-			// for debugging purposes
 			console.error(error);
-			
+			setMessage({ type: 'error', text: 'An error occurred.' });
+			clearMessage(setMessage);
 		}
 	};
 
@@ -124,6 +130,13 @@ const AdminProductCard: FC<Props> = ({ product }) => {
 						: undefined}
 				</div>
 			</>
+		)}
+		{message.text !== '' && (
+			<Toast
+				type={message.type}
+				title={message.type[0].toUpperCase() + message.type.slice(1)}
+				description={message.text}
+			/>
 		)}
 	</>;
 };

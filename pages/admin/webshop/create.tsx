@@ -197,6 +197,7 @@ const AdminCreateProducts: NextPage<{
 
 export const getServerSideProps = withIronSessionSsr(async function ({
 	req,
+	resolvedUrl,
 }): Promise<AdminProps> {
 	const user = req.session.user;
 
@@ -235,7 +236,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
 				user: { email: '', has2faEnabled: false, completed2fa: false },
 			},
 			redirect: {
-				destination: '/admin/login',
+				destination: `/admin/login?from=${encodeURIComponent(resolvedUrl)}`,
 				permanent: false,
 			},
 		};

@@ -31,7 +31,7 @@ const ProductCard: FC<Props> = ({ product, cartable, addCart, getStorage: storag
 		if (!cart) return;
 		setAmount(cart);
 		setCartData(JSON.parse(storage()!));
-	}, [ar, addCart, product.name, product.stock, storage, product.imageURL, product.price, product._id]);
+	}, [ar, addCart, product.name, product.stock, storage, product.imageURL, product.price, product._id, product]);
 
 	useEffect(() => {
 		if (!storage()) return;

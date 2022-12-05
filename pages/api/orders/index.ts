@@ -2,7 +2,7 @@ import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
-import { AuthorityLevel, IOrder, Order, OrderDocument, Product } from '../../../src/models/index';
+import { AuthorityLevel, IOrder, Order, OrderDocument } from '../../../src/models/index';
 import { ResponseData } from '../../../src/types';
 import dbConnect from '../../../src/util/dbConnect';
 import { ironOptions } from '../../../src/util/ironConfig';
@@ -23,31 +23,6 @@ export default withIronSessionApiRoute(async function loginHandler(
 		} break;
 
 		case 'POST': {
-			if (req.query.default) {
-
-				const product = await Product.findById('636ffabf36d8d14ad420ce8d');
-
-				const order = new Order({
-					delivered: false,
-					email: 'test@gmail.com',
-					firstName: 'FirstName',
-					lastName: 'LastName',
-					issuedAt: Date.now(),
-					product,
-					receivedAt: Date.now() + 10000,
-				});
-
-				await order.save();
-
-				res.status(StatusCodes.CREATED).json({
-					error: false,
-					message: getReasonPhrase(StatusCodes.CREATED),
-					data: order,
-				});
-
-				return;
-			}
-
 			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,

@@ -25,8 +25,6 @@ const Index: NextPage = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const router = useRouter();
 
-	const [twoFactorAuthValid, setTwoFactorAuthValid] = useState(false);
-
 	const {
 		register,
 		handleSubmit,
@@ -52,6 +50,9 @@ const Index: NextPage = () => {
 			} else if (req.status === 401) {
 				await router.push('/admin/settings');
 				setMessage({ type: 'info', text: 'You must enable 2FA to login!' });
+			} else if (req.status === 400) {
+				setMessage({ type: 'error', text: 'Invalid email or password!' });
+				clearMessage(setMessage);
 			}
 		} catch (error) {
 			// for debugging purposes
@@ -63,7 +64,6 @@ const Index: NextPage = () => {
 
 	const submit2FA = async (): Promise<void> => {
 		if (twoFactorAuthCode.length < 6) {
-			setTwoFactorAuthValid(false);
 			setMessage({ type: 'error', text: 'Invalid code!' });
 			clearMessage(setMessage);
 			return;
@@ -77,22 +77,16 @@ const Index: NextPage = () => {
 		const data = await req.json();
 
 		if (data.data) {
-			setTwoFactorAuthValid(true);
+			router.push((router.query.from && decodeURIComponent(router.query.from as string)) ?? '/admin/');
 			setMessage({ type: 'success', text: 'Valid code!' });
 			clearMessage(setMessage);
 			return;
-		} 
-		setTwoFactorAuthValid(false);
+		}
 		setMessage({ type: 'error', text: 'Invalid code!' });
 		clearMessage(setMessage);
 		return;
 		
 	};
-
-	// const clearMessage = (): NodeJS.Timeout =>
-	// 	setTimeout(() => {
-	// 		setMessage({ type: 'success', text: '' });
-	// 	}, 3000);
 
 	return (
 		<>

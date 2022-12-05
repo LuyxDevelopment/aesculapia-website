@@ -25,9 +25,10 @@ const ProductsIndex: NextPage<Props> = ({ data }) => {
 						{data.length ? (
 							<div className="grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 								{data.map((product, i) => {
+									console.log(product);
 									return (
-										// @ts-ignore
 										<ProductCard
+											// @ts-ignore
 											addCart={addCart}
 											getStorage={getStorage}
 											product={product}
@@ -50,13 +51,8 @@ const ProductsIndex: NextPage<Props> = ({ data }) => {
 export const getServerSideProps = async ({
 	res,
 }: NextPageContext): Promise<BaseProps<ProductDocument>> => {
-	res?.setHeader(
-		'Cache-Control',
-		'public, s-maxage=10, stale-while-revalidate=59',
-	);
-
 	const request = await fetch(
-		`${process.env.NEXT_PUBLIC_DOMAIN}/api/products`,
+		`${process.env.NEXT_PUBLIC_DOMAIN}/api/products/`,
 		{
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' },
@@ -64,7 +60,7 @@ export const getServerSideProps = async ({
 	);
 
 	const data = (await request.json()) as ResponseData<
-		ProductDocument | ProductDocument[]
+	ProductDocument | ProductDocument[]
 	>;
 
 	return {

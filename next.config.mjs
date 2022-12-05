@@ -5,7 +5,7 @@ const nextConfig = {
 	images: {
 		domains: [
 			'aesculapia-vzw.be',
-			'localhost',
+			'127.0.0.1',
 			'avatars.githubusercontent.com',
 			'i.imgur.com',
 		],

@@ -17,7 +17,7 @@ const AdminOrdersDynamic: NextPage<Props> = ({ order }) => {
 
 export default AdminOrdersDynamic;
 
-export const getServerSideProps = withIronSessionSsr(async function ({ req }): Promise<AdminProps> {
+export const getServerSideProps = withIronSessionSsr(async function ({ req, resolvedUrl }): Promise<AdminProps> {
 	const user = req.session.user;
 
 	if (user?.email) {
@@ -51,7 +51,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }): P
 				user: { email: '', has2faEnabled: false, completed2fa: false },
 			},
 			redirect: {
-				destination: '/admin/login',
+				destination: `/admin/login?from=${encodeURIComponent(resolvedUrl)}`,
 				permanent: false,
 			},
 		};

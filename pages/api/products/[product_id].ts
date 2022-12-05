@@ -7,6 +7,10 @@ import { AuthorityLevel, IProduct, Product, ProductDocument } from '../../../src
 import { ResponseData } from '../../../src/types/index';
 import dbConnect from '../../../src/util/dbConnect';
 import { ironOptions } from '../../../src/util/ironConfig';
+import { Stripe } from 'stripe';
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+	apiVersion: '2022-08-01',
+});
 
 dbConnect();
 
@@ -47,6 +51,8 @@ export default withIronSessionApiRoute(async function loginHandler(
 
 				return;
 			}
+
+			await stripe.products.update(product._id, { active: false });
 
 			res.status(StatusCodes.OK).json({
 				error: false,
@@ -124,7 +130,7 @@ export default withIronSessionApiRoute(async function loginHandler(
 
 				res.status(StatusCodes.OK).json({
 					error: false,
-					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					message: getReasonPhrase(StatusCodes.OK),
 					data: product,
 				});
 			} catch (error) {

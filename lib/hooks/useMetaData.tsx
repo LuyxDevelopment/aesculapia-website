@@ -18,7 +18,7 @@ export const useMetaData = (
 	});
 	return (
 		<Head>
-			<title>Aesculapia | {title}</title>
+			<title>{`Aesculapia | ${title}`}</title>
 			<link
 				rel="shortcut icon"
 				href="/assets/logo.png"

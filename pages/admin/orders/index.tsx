@@ -52,7 +52,7 @@ const AdminOrderIndex: NextPage<Props> = ({ data }) => {
 
 export default AdminOrderIndex;
 
-export const getServerSideProps = withIronSessionSsr(async function ({ req, res }): Promise<AdminProps<OrderDocument>> {
+export const getServerSideProps = withIronSessionSsr(async function ({ req, res, resolvedUrl }): Promise<AdminProps<OrderDocument>> {
 	const user = req.session.user;
 
 	res?.setHeader(
@@ -106,7 +106,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
 				user: { email: '', has2faEnabled: false, completed2fa: false },
 			},
 			redirect: {
-				destination: '/admin/login',
+				destination: `/admin/login?from=${encodeURIComponent(resolvedUrl)}`,
 				permanent: false,
 			},
 		};

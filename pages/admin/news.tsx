@@ -13,7 +13,7 @@ const AdminNewsIndex: NextPage = () => {
 
 export default AdminNewsIndex;
 
-export const getServerSideProps = withIronSessionSsr(async function ({ req }): Promise<AdminProps<NewsDocument>> {
+export const getServerSideProps = withIronSessionSsr(async function ({ req, resolvedUrl }): Promise<AdminProps<NewsDocument>> {
 	const user = req.session.user;
 
 	if (user?.email) {
@@ -47,7 +47,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }): P
 				user: { email: '', has2faEnabled: false, completed2fa: false },
 			},
 			redirect: {
-				destination: '/admin/login',
+				destination: `/admin/login?from=${encodeURIComponent(resolvedUrl)}`,
 				permanent: false,
 			},
 		};

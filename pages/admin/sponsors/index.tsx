@@ -11,7 +11,7 @@ const AdminSponsorsIndex: NextPage =() => {
 	);
 };
 
-export const getServerSideProps = withIronSessionSsr(async function ({ req, res }): Promise<AdminProps<SponsorDocument>> {
+export const getServerSideProps = withIronSessionSsr(async function ({ req, res, resolvedUrl }): Promise<AdminProps<SponsorDocument>> {
 	const user = req?.session.user;
 
 	res?.setHeader(
@@ -62,7 +62,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
 				user: { email: '', has2faEnabled: false, completed2fa: false },
 			},
 			redirect: {
-				destination: '/admin/login',
+				destination: `/admin/login?from=${encodeURIComponent(resolvedUrl)}`,
 				permanent: false,
 			},
 		};
