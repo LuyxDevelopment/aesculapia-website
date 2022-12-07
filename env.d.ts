@@ -9,7 +9,7 @@ declare global {
 			TWO_FACTOR_AUTHENTICATION_APP_NAME: string;
 			NEXT_POSTMARK_API_KEY: string;
 			NEXT_PUBLIC_DOMAIN: string;
-			NEXT_STRIPE_PUBLISHABLE_KEY: string;
+			NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: string;
 			NEXT_STRIPE_SECRET_KEY: string;
 		}
 	}

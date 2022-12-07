@@ -5,6 +5,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from '../components/CheckoutForm';
 import { NextPage } from 'next';
 import Layout from '../components/Layout';
+
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const Checkout: NextPage = () => {
@@ -26,11 +27,10 @@ const Checkout: NextPage = () => {
 	return (
 		<Layout>
 			{clientSecret && (
-				<Elements options={{clientSecret, appearance: { theme: 'flat', variables: { colorPrimary: '#EF4444' } }}} stripe={stripePromise}>
-					<CheckoutForm />
+				<Elements options={{clientSecret, appearance: { theme: 'flat', variables: { colorPrimary: '#EF4444' } }, loader: 'always' }} stripe={stripePromise}>
+					<CheckoutForm clientSecret={clientSecret} />
 				</Elements>
 			)}
-			
 		</Layout>
 	);
 };
