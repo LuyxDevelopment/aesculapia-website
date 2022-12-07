@@ -1,21 +1,10 @@
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
 
 export const useMetaData = (
 	title: string,
 	description: string,
 	url: string,
 ): JSX.Element => {
-	const [image, setImage] = useState('');
-	useEffect(() => {
-		fetch(`/api/og?description=${description}`).then((res) => {
-			if (res.ok) {
-				setImage(res.url);
-			} else {
-				setImage(`${process.env.NEXT_PUBLIC_DOMAIN}/assets/logo.png`);
-			}
-		});
-	});
 	return (
 		<Head>
 			<title>{`Aesculapia | ${title}`}</title>
@@ -39,7 +28,7 @@ export const useMetaData = (
 			/>
 			<meta
 				property="og:image"
-				content={image}
+				content={`${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=${description}`}
 			/>
 			<meta
 				content="#EF4444"
