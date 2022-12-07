@@ -88,52 +88,76 @@ const CheckoutForm: FC<Props> = ({ clientSecret }) => {
 
 	return (
 		<>
-			{step === 1 && (
-				<form id='address-form' className='container'>
-					<h3>Shipping</h3>
-					<AddressElement id='address-element' options={{ mode: 'billing' }} onChange={(event): void => {
+			<div className="container">
+				<div className="flex flex-row justify-start items-center font-bold gap-2 text-slate-500 mb-6">
+					<p onClick={(): void => setStep(1)} className={step === 1 ? 'text-black hover:cursor-pointer' : 'hover:cursor-pointer'}>Billing</p>
+					<hr className="w-10"></hr>
+					<p onClick={(): void => setStep(2)} className={step === 2 ? 'text-black hover:cursor-pointer' : 'hover:cursor-pointer'}>Payment</p>
+					<hr className="w-10"></hr>
+					<p onClick={(): void => setStep(3)} className={step === 3 ? 'text-black hover:cursor-pointer' : 'hover:cursor-pointer'}>Review</p>
+				</div>
+				{step === 1 && (
+					<form id='address-form'>
+						<h3>Shipping</h3>
+						<AddressElement id='address-element' options={{ mode: 'billing' }} onChange={(event): void => {
+							if (event.isNewAddress) {
+								console.log('new address');
+								return setCustomer(prevCustomer => ({
+									...prevCustomer,
+									customer: {
+										name: event.value.name,
+										address: {
+											city: event.value.address.city,
+											state: event.value.address.state,
+											country: event.value.address.country,
+											line1: event.value.address.line1,
+											postal_code: event.value.address.postal_code,
+										},
+										payment_intent: paymentIntent,
+									}}));
+							}
 						//if (event.complete) {
-						console.log(event.value);
-						//if (!customer) {
-						setCustomer(prevCustomer => ({
-							...prevCustomer,
-							customer: {
-								name: event.value.name,
-								address: {
-									city: event.value.address.city,
-									state: event.value.address.state,
-									country: event.value.address.country,
-									line1: event.value.address.line1,
-									postal_code: event.value.address.postal_code,
-								},
-								payment_intent: paymentIntent,
-							}}));
+							// console.log(event.value);
+							// 	return setCustomer(prevCustomer => ({
+							// 		...prevCustomer,
+							// 		customer: {
+							// 			name: event.value.name,
+							// 			address: {
+							// 				city: event.value.address.city,
+							// 				state: event.value.address.state,
+							// 				country: event.value.address.country,
+							// 				line1: event.value.address.line1,
+							// 				postal_code: event.value.address.postal_code,
+							// 			},
+							// 			payment_intent: paymentIntent,
+							// 		}}));
+							//}
 						//}
-						//}
-					}} />
-					<button disabled={isLoading || !stripe || !elements} onClick={(): void => setStep(2)}>
-						<span id='button-text'>
-							{isLoading ? <div className='spinner' id='spinner'></div> : 'Next'}
-						</span>
-					</button>
-				</form>
-			)}
-			{step === 2 && (
-				<form id='payment-form' onSubmit={handleSubmit} className='container'>
-					<PaymentElement id='payment-element' options={{ layout: 'tabs', business: { name: 'Aesculapia' }}} />
-					<button disabled={isLoading || !stripe || !elements} id='submit'>
-						<span id='button-text'>
-							{isLoading ? <div className='spinner' id='spinner'></div> : 'Pay now'}
-						</span>
-					</button>
-					<button onClick={(): void => setStep(1)} disabled={isLoading || !stripe || !elements} id='back'>
-						<span id='button-text'>
-							{isLoading ? <div className='spinner' id='spinner'></div> : 'Back'}
-						</span>
-					</button>
-				</form>
-			)}
-			{message && <div id='payment-message'>{message}</div>}
+						}} />
+						<button disabled={isLoading || !stripe || !elements} onClick={(): void => setStep(2)}>
+							<span id='button-text'>
+								{isLoading ? <div className='spinner' id='spinner'></div> : 'Next'}
+							</span>
+						</button>
+					</form>
+				)}
+				{step === 2 && (
+					<form id='payment-form' onSubmit={handleSubmit}>
+						<PaymentElement id='payment-element' options={{ fields: { billingDetails: { address: { postalCode: 'never' } } }, layout: 'tabs', business: { name: 'Aesculapia' }}} />
+						<button disabled={isLoading || !stripe || !elements} id='submit'>
+							<span id='button-text'>
+								{isLoading ? <div className='spinner' id='spinner'></div> : 'Pay now'}
+							</span>
+						</button>
+						<button onClick={(): void => setStep(1)} disabled={isLoading || !stripe || !elements} id='back'>
+							<span id='button-text'>
+								{isLoading ? <div className='spinner' id='spinner'></div> : 'Back'}
+							</span>
+						</button>
+					</form>
+				)}
+				{message && <div id='payment-message'>{message}</div>}
+			</div>
 		</>
 	);
 };

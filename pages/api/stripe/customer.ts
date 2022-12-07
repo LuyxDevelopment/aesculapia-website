@@ -34,7 +34,6 @@ export default async function loginHandler(
 			const { customer } = req.body.customer;
 
 			//const customer = await stripe.customers.create({});
-			console.log(customer, 'asdfhasd9fji');
 
 			const paymentIntent = await stripe.paymentIntents.retrieve(customer.payment_intent);
 			if (!paymentIntent) {
@@ -42,7 +41,6 @@ export default async function loginHandler(
 			}
 
 			if (!customer.id || !await stripe.customers.retrieve(customer.id)) {
-				console.log('asedfjiasdhjfj');
 				const newCustomer = await stripe.customers.create({
 					name: customer.name,
 					address: {
