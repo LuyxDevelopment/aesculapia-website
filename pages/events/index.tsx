@@ -6,7 +6,7 @@ import Layout from '../../components/Layout';
 import { useMetaData } from '../../lib/hooks/useMetaData';
 
 interface Props {
-	data: (IEvent & { _id: string; })[];
+	data: (IEvent & { _id: string })[];
 }
 
 const EventsIndex: NextPage<Props> = ({ data }) => {
@@ -44,7 +44,9 @@ export const getServerSideProps = async ({
 		headers: { 'Content-Type': 'application/json' },
 	});
 
-	const response = await request.json() as ResponseData<EventDocument | EventDocument[]>;
+	const response = (await request.json()) as ResponseData<
+		EventDocument | EventDocument[]
+	>;
 
 	return {
 		props: {
