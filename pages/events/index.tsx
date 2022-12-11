@@ -14,7 +14,7 @@ const EventsIndex: NextPage<Props> = ({ data }) => {
 		<>
 			{useMetaData('Events', 'Events', '/events')}
 			<Layout>
-				<div className="container">
+				<div className="container mb-10">
 					<div className="flex flex-col items-center justify-center space-y-5">
 						{data.map((event, i) => {
 							return (
