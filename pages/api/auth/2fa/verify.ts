@@ -6,7 +6,7 @@ import { ResponseData } from '../../../../src/types';
 import { Authentication } from '../../../../src/auth/index';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
-export default withIronSessionApiRoute(async function twoFactorAuthenticationHandler(
+export default withIronSessionApiRoute(async function verify2faHandler(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData<boolean>>,
 ): Promise<void> {

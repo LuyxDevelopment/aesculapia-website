@@ -10,7 +10,7 @@ import { ironOptions } from '../../../src/util/ironConfig';
 
 dbConnect();
 
-export default withIronSessionApiRoute(async function loginHandler(
+export default withIronSessionApiRoute(async function newsId(
 	req: Omit<NextApiRequest, 'body'> & { body: INews; } & { query: { news_id?: string; }; },
 	res: NextApiResponse<ResponseData<NewsDocument | NewsDocument[]>>,
 ): Promise<void> {

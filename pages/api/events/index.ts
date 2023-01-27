@@ -9,7 +9,7 @@ import { ironOptions } from '../../../src/util/ironConfig';
 
 dbConnect();
 
-export default withIronSessionApiRoute(async function loginHandler(
+export default withIronSessionApiRoute(async function eventsHandler(
 	req: Omit<NextApiRequest, 'body'> & { body: IEvent; } & { query: { default?: boolean; } & Partial<IEvent>; },
 	res: NextApiResponse<ResponseData<EventDocument | EventDocument[]>>,
 ): Promise<void> {

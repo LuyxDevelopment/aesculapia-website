@@ -3,13 +3,15 @@ import { ProductDocument } from './Product';
 import { IProduct } from './Product';
 
 export interface IOrder {
+	_id: string;
 	email: string;
 	firstName: string;
 	lastName: string;
 	issuedAt: number;
 	receivedAt: number | null;
-	product: IProduct[];
+	products: IProduct[];
 	delivered: boolean;
+	emailSent: boolean;
 }
 
 export interface OrderMethods {
@@ -26,13 +28,15 @@ export type OrderDocument = HydratedDocument<IOrder, OrderMethods>;
 export type OrderModel = Model<IOrder, {}, OrderMethods>;
 
 export const orderSchema = new Schema<IOrder, OrderModel, OrderMethods>({
+	_id: Schema.Types.String,
 	email: Schema.Types.String,
 	firstName: Schema.Types.String,
 	lastName: Schema.Types.String,
 	issuedAt: { type: Schema.Types.Number, default: Date.now },
 	receivedAt: { type: Schema.Types.Number, default: null },
-	product: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+	products: Schema.Types.Array,
 	delivered: { type: Schema.Types.Boolean, default: false },
+	emailSent: { type: Schema.Types.Boolean, default: false },
 }, {
 	collection: 'orders',
 	methods: {

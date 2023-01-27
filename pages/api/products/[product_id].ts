@@ -14,7 +14,7 @@ const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY, {
 
 dbConnect();
 
-export default withIronSessionApiRoute(async function loginHandler(
+export default withIronSessionApiRoute(async function productId(
 	req: Omit<NextApiRequest, 'body'> & { body: IProduct; } & { query: { product_id?: string; }; },
 	res: NextApiResponse<ResponseData<ProductDocument | ProductDocument[]>>,
 ): Promise<void> {

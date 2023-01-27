@@ -1,6 +1,6 @@
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { IProduct, Product } from '../../../src/models/index';
+import { Product } from '../../../src/models/index';
 import { ResponseData } from '../../../src/types';
 import dbConnect from '../../../src/util/dbConnect';
 import { Stripe } from 'stripe';
@@ -20,15 +20,15 @@ const calculateOrderAmount = async (items: string): Promise<number> => {
 	return price;
 };
 
-export default async function loginHandler(
-	req: Omit<NextApiRequest, 'body'> & { body: { items: string }; } & { query: { default?: boolean; } & Partial<IProduct>; },
-	res: NextApiResponse<ResponseData<string | null>>,
+export default async function createPaymentIntent(
+	req: Omit<NextApiRequest, 'body'> & { body: { items: string }; },
+	res: NextApiResponse<ResponseData<{ id: string, clientSecret: string } | null>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'POST': {
 			const { items } = req.body;
 
-			//const customer = await stripe.customers.create({});
+			console.log(JSON.parse(items));
 
 			const paymentIntent = await stripe.paymentIntents.create({
 				amount: await calculateOrderAmount(items),
@@ -36,13 +36,15 @@ export default async function loginHandler(
 				automatic_payment_methods: {
 					enabled: true,
 				},
-				//customer: customer.id,
 			});
 
 			res.status(StatusCodes.OK).json({
 				error: false,
 				message: getReasonPhrase(StatusCodes.OK),
-				data: paymentIntent.client_secret,
+				data: {
+					id: paymentIntent.id,
+					clientSecret: paymentIntent.client_secret!,
+				},
 			});
 		} break;
 

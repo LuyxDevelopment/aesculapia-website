@@ -145,5 +145,4 @@ export default withIronSessionApiRoute(async function loginHandler(
 			}
 			break;
 	}
-},
-ironOptions);
+}, ironOptions);

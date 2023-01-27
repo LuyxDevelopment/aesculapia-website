@@ -1,89 +1,79 @@
 import { BaseSyntheticEvent, FC, useEffect, useState } from 'react';
-import { PaymentElement, useStripe, useElements, AddressElement } from '@stripe/react-stripe-js';
+import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+
+import { FieldValues, useForm } from 'react-hook-form';
+import { MoonLoader } from 'react-spinners';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { CloseIcon } from './Icons';
 
 interface Props {
-	clientSecret: string;
+	paymentIntent: string;
 }
 
-const CheckoutForm: FC<Props> = ({ clientSecret }) => {
+const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 	const stripe = useStripe();
 	const elements = useElements();
+	const router = useRouter();
+
+	const { register, handleSubmit, formState: { errors } } = useForm();
 
 	const [message, setMessage] = useState('');
 	const [step, setStep] = useState(1);
 	const [customer, setCustomer] = useState({});
-	const [customerId, setCustomerId] = useState('');
-	const [paymentIntent, setPaymentIntent] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 
-	useEffect(() => {
-		if (!stripe) return;
+	const nameSubmit = (data: FieldValues, e: BaseSyntheticEvent): void => {
+		e.preventDefault();
 
-		const clientSecret = new URLSearchParams(window.location.search).get(
-			'payment_intent_client_secret',
-		);
+		console.log(paymentIntent, 'customer');
+		setCustomer(prevCustomer => ({
+			...prevCustomer,
+			customer: {
+				name: data.fullName,
+				email: data.email,
+				payment_intent: paymentIntent,
+			}}));
 
-		if (!clientSecret) return;
+		setStep(2);
+	};
 
-		stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-			switch (paymentIntent?.status) {
-				case 'succeeded':
-					setMessage('Payment succeeded!');
-					break;
-				case 'processing':
-					setMessage('Your payment is processing.');
-					break;
-				case 'requires_payment_method':
-					setMessage('Your payment was not successful, please try again.');
-					break;
-				default:
-					setMessage('Something went wrong.');
-					break;
-			}
-		});
-	}, [stripe]);
-
-	useEffect(() => {
-		if (!stripe) return;
-
-		if (!clientSecret) return;
-
-		stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => setPaymentIntent(paymentIntent!.id));
-	}, [clientSecret, stripe]);
-
-	const handleSubmit = async (e: BaseSyntheticEvent): Promise<void> => {
+	const onSubmit = async (e: BaseSyntheticEvent): Promise<void> => {
 		e.preventDefault();
 
 		if (!stripe || !elements) return;
 
 		setIsLoading(true);
 
-		console.log(elements);
+		const result = await stripe.confirmPayment({
+			elements,
+			confirmParams: {
+				return_url: `${process.env.NEXT_PUBLIC_DOMAIN}/order`,
+			},
+			redirect: 'if_required',
+		});
 
-		fetch('/api/stripe/customer', {
+		if (result.error?.type === 'card_error' || result.error?.type === 'validation_error') {
+			setIsLoading(false);
+			return setMessage(result.error.message ?? 'Validation error.');
+		} else if (result.error) {
+			setIsLoading(false);
+			return setMessage('An unexpected error occurred.');
+		}
+
+		const req = await fetch('/api/stripe/customer', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ customer }),
-		})
-			.then(req => req.json())
-			.then(data => {
-
-			});
-
-		const { error } = await stripe.confirmPayment({
-			elements,
-			confirmParams: {
-				return_url: `${process.env.NEXT_PUBLIC_DOMAIN}/checkout`,
-			},
 		});
 
-		if (error.type === 'card_error' || error.type === 'validation_error') {
-			setMessage(error.message ?? 'Validation error.');
-		} else {
-			setMessage('An unexpected error occurred.');
+		if (req.status === 400) {
+			setIsLoading(false);
+			return setMessage('We were unable to validate your information.');
 		}
-
+		
 		setIsLoading(false);
+		await router.push(`${process.env.NEXT_PUBLIC_DOMAIN}/order?payment_intent=${result.paymentIntent?.id}&payment_intent_client_secret=${result.paymentIntent?.client_secret}&redirect_status=${result.paymentIntent?.status}`);
 	};
 
 	return (
@@ -93,70 +83,75 @@ const CheckoutForm: FC<Props> = ({ clientSecret }) => {
 					<p onClick={(): void => setStep(1)} className={step === 1 ? 'text-black hover:cursor-pointer' : 'hover:cursor-pointer'}>Billing</p>
 					<hr className="w-10"></hr>
 					<p onClick={(): void => setStep(2)} className={step === 2 ? 'text-black hover:cursor-pointer' : 'hover:cursor-pointer'}>Payment</p>
-					<hr className="w-10"></hr>
-					<p onClick={(): void => setStep(3)} className={step === 3 ? 'text-black hover:cursor-pointer' : 'hover:cursor-pointer'}>Review</p>
 				</div>
+				{message && (
+					<div className="h-12 flex flex-row bg-red-200 mb-2 rounded-xl border border-[#DF1B41] border-1">
+						<div className="ml-4 flex items-center justify-start">
+							<button onClick={(): void => setMessage('')} className="flex items-end justify-end">
+								<CloseIcon className="fill-[#DF1B41] w-8" />
+							</button>
+						</div>
+						<div className="ml-4 flex items-center text-[#DF1B41]">
+							<p>{message}</p>
+						</div>
+					</div>
+				)}
 				{step === 1 && (
-					<form id='address-form'>
-						<h3>Shipping</h3>
-						<AddressElement id='address-element' options={{ mode: 'billing' }} onChange={(event): void => {
-							if (event.isNewAddress) {
-								console.log('new address');
-								return setCustomer(prevCustomer => ({
-									...prevCustomer,
-									customer: {
-										name: event.value.name,
-										address: {
-											city: event.value.address.city,
-											state: event.value.address.state,
-											country: event.value.address.country,
-											line1: event.value.address.line1,
-											postal_code: event.value.address.postal_code,
-										},
-										payment_intent: paymentIntent,
-									}}));
-							}
-						//if (event.complete) {
-							// console.log(event.value);
-							// 	return setCustomer(prevCustomer => ({
-							// 		...prevCustomer,
-							// 		customer: {
-							// 			name: event.value.name,
-							// 			address: {
-							// 				city: event.value.address.city,
-							// 				state: event.value.address.state,
-							// 				country: event.value.address.country,
-							// 				line1: event.value.address.line1,
-							// 				postal_code: event.value.address.postal_code,
-							// 			},
-							// 			payment_intent: paymentIntent,
-							// 		}}));
-							//}
-						//}
-						}} />
-						<button disabled={isLoading || !stripe || !elements} onClick={(): void => setStep(2)}>
-							<span id='button-text'>
-								{isLoading ? <div className='spinner' id='spinner'></div> : 'Next'}
-							</span>
+					<form id='address-form' onSubmit={handleSubmit((data, event) => nameSubmit(data, event!))}>
+						<label>
+							Full name
+						</label>
+						<input
+							className="appearance-none block w-full bg-[#F1F1F1] text-gray-700 rounded-xl py-3 px-4 mb-3 leading-tight border-[3.2px] border-white focus:border-[#F58989] focus:outline-[#FBD0D0] "
+							id="full-name"
+							type="text"
+							placeholder="First and last name"
+							minLength={1}
+							required
+							{...register('fullName', { required: true, pattern: {
+								value: /^[a-zA-Z]+\s[a-zA-Z]+\s?$/,
+								message: 'Please submit only your first and last name',
+							} })}
+						/>
+						<label>
+							Email
+						</label>
+						<input
+							className="block w-full bg-[#F1F1F1] text-gray-700 rounded-xl py-3 px-4 mb-3 leading-tight border-[3.2px] border-white focus:border-[#F58989] focus:outline-[#FBD0D0] "
+							type="email"
+							placeholder="Email"
+							minLength={1}
+							required
+							{...register('email', { required: true, pattern: {
+								value: /\S+@\S+\.\S+/,
+								message: 'Entered value does not match email format',
+							}})}
+						/>
+						<button type="submit" disabled={isLoading || !stripe || !elements} className='bottom-0 h-10 w-16 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-xl p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
+							Next
 						</button>
 					</form>
 				)}
 				{step === 2 && (
-					<form id='payment-form' onSubmit={handleSubmit}>
-						<PaymentElement id='payment-element' options={{ fields: { billingDetails: { address: { postalCode: 'never' } } }, layout: 'tabs', business: { name: 'Aesculapia' }}} />
-						<button disabled={isLoading || !stripe || !elements} id='submit'>
-							<span id='button-text'>
-								{isLoading ? <div className='spinner' id='spinner'></div> : 'Pay now'}
-							</span>
-						</button>
-						<button onClick={(): void => setStep(1)} disabled={isLoading || !stripe || !elements} id='back'>
-							<span id='button-text'>
-								{isLoading ? <div className='spinner' id='spinner'></div> : 'Back'}
-							</span>
-						</button>
+					<form id='payment-form' onSubmit={onSubmit}>
+						<PaymentElement id='payment-element' options={{ layout: 'tabs', business: { name: 'Aesculapia' }}} />
+						<div className="flex-row flex gap-2 mt-2">
+							<button disabled={isLoading || !stripe || !elements} type="submit" className='bottom-0 h-10 w-24 bg-red-500 text-white font-semibold shadow-md flex items-center justify-center rounded-xl p-2 hover:bg-red-700 transition-all duration-300 ease-in-out'>
+								{isLoading ? <MoonLoader
+									color={'#fff'}
+									loading={true}
+									size={20}
+									speedMultiplier={0.5}
+									aria-label='Loading Spinner'
+									data-testid='loader'
+								/> : 'Pay now'}
+							</button>
+							<button onClick={(): void => setStep(1)} disabled={isLoading || !stripe || !elements} className='bottom-0 h-10 w-16 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-xl p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
+								Back
+							</button>
+						</div>
 					</form>
 				)}
-				{message && <div id='payment-message'>{message}</div>}
 			</div>
 		</>
 	);

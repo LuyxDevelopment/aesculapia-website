@@ -21,7 +21,6 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					// stuff
 					user,
 				}),
 			});
@@ -31,7 +30,6 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 				console.log('error');
 			}
 		} catch (error) {
-			// for debugging purposes
 			console.error(error);
 		}
 	};

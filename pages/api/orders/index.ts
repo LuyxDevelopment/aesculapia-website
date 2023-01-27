@@ -9,7 +9,7 @@ import { ironOptions } from '../../../src/util/ironConfig';
 
 dbConnect();
 
-export default withIronSessionApiRoute(async function loginHandler(
+export default withIronSessionApiRoute(async function ordersHandler(
 	req: Omit<NextApiRequest, 'body'> & { body: IOrder; } & { query: { default?: boolean; } & Partial<IOrder>; },
 	res: NextApiResponse<ResponseData<OrderDocument | OrderDocument[]>>,
 ): Promise<void> {

@@ -15,11 +15,13 @@ interface Props {
 const ShoppingCart: NextPage<Props> = ({ data }) => {
 	const [cart, setCart] = useState([]);
 	const [price, setPrice] = useState(0);
+	const [modified, setModified] = useState(false);
 	const router = useRouter();
 
 	useEffect(() => {
 		if (typeof window === undefined) return;
 		const storage = JSON.parse(window.localStorage.getItem('cart')!);
+		if (!storage) return;
 		let p = 0;
 		for (let i = 0; i < storage.length; i++) {
 			const item = data.find(e => e._id === storage[i].id)!;
@@ -30,11 +32,26 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 		setCart(storage);
 	}, [data, setCart, setPrice]);
 
+	useEffect(() => {
+		if (typeof window === undefined) return;
+		if (!modified) return;
+		const cart = JSON.parse(window.localStorage.getItem('cart')!);
+		let p = 0;
+		for (let i = 0; i < cart.length; i++) {
+			const item = data.find(e => e._id === cart[i].id)!;
+			if (item.stock < cart[i].amount) cart[i].amount = item.stock;
+			p += item.price * cart[i].amount;
+		}
+		setPrice(p);
+		setCart(cart);
+		setModified(false);
+	}, [modified]);
+
 	return (
 		<>
 			{useMetaData('Shopping Cart', 'Shopping Cart Page', '/cart')}
 			<Layout>
-				{!cart && (
+				{!cart || !cart.length && (
 					<div className="container flex flex-row">
 						<div className="mb-12">
 							<h1 className="text-4xl font-bold mb-5">Winkelwagen</h1>
@@ -42,48 +59,50 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 						</div>
 					</div>
 				)}
-				{cart && (
+				{(cart && cart.length > 0) && (
 					<>
-						<div className="2xl:ml-48 flex flex-col xl:flex-row container divide-y xl:divide-x">
-							<div className="mb-12 mr-2">
-								<h1 className="text-4xl font-bold mb-5">Winkelwagen</h1>
-								<div className="grid grid-cols-1 divide-y w-[25rem] sm:w-[40rem] md:w-[39rem] lg:w-[60rem]">
-									{cart.map((item, i) => {
-										return (
-											<ShoppingCartItem
-												item={item}
-												key={i}
+						<div>
+							<div className="2xl:ml-48 flex flex-col xl:flex-row container xl:divide-x">
+								<div className="mb-12 mr-2">
+									<h1 className="text-4xl font-bold mb-5">Winkelwagen</h1>
+									<div className="grid grid-cols-1 divide-y w-[25rem] sm:w-[40rem] md:w-[39rem] lg:w-[60rem]">
+										{cart.map((item, i) => {
+											return (
+												<ShoppingCartItem
+													item={item}
+													setModified={setModified}
+													key={i}
+												/>
+											);
+										})}
+									</div>
+								</div>
+								<div className="h-screen xl:sticky top-0 px-2">
+									<h1 className="text-4xl font-bold mb-5">Bestel</h1>
+									<div className="lg:divide-y">
+										<div>
+											<p className="font-bold">Samenvatting van de bestelling</p>
+										</div>
+										<hr className="lg:w-0 w-64"></hr>
+										<div className='flex flex-row gap-20'>
+											<h1 className="font-bold text-xl">Subtotaal</h1>
+											<h1 className="font-bold text-xl">€{(price / 100).toFixed(2)}</h1>
+										</div>
+									</div>
+									<button type="submit" className='xl:absolute mb-2 mt-2 h-20 xl:w-full bg-red-500 shadow-md flex items-center justify-center rounded p-2 hover:bg-red-700 transition-all duration-300 ease-in-out' onClick={(): Promise<boolean> => router.push('/checkout')}>
+										<div className="flex flex-row gap-10 items-center justify-center">
+											<p className='font-bold text-md'>Doorgaan naar kassa</p>
+											<Image
+												src="/assets/icons/arrow.svg"
+												width={30}
+												height={30}
+												alt="Arrow"
 											/>
-										);
-									})}
+										</div>
+									</button>
 								</div>
 							</div>
-							<div className="xl:sticky top-0 px-2">
-								<h1 className="text-4xl font-bold mb-5">Bestel</h1>
-								<div className="divide-y">
-									<div>
-										<p className="font-bold">Samenvatting van de bestelling</p>
-									</div>
-									<div className='flex flex-row gap-20'>
-										<h1 className="font-bold text-xl">Subtotaal</h1>
-										<h1 className="font-bold text-xl">€{(price / 100).toFixed(2)}</h1>
-									</div>
-								</div>
-								<button type="submit" className='xl:absolute xl:bottom-1 h-20 xl:w-full bg-red-500 shadow-md flex items-center justify-center rounded p-2 hover:bg-red-700 transition-all duration-300 ease-in-out' onClick={(): Promise<boolean> => router.push('/checkout')}>
-									<div className="flex flex-row gap-10 items-center justify-center">
-										<p className='font-bold text-md'>Doorgaan naar kassa</p>
-										<Image
-											src="/assets/icons/arrow.svg"
-											width={30}
-											height={30}
-											alt="Arrow"
-										/>
-									</div>
-								</button>
-							</div>
-						</div>
-						
-						
+						</div>	
 					</>
 				)}
 			</Layout>

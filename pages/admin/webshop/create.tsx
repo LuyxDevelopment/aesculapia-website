@@ -37,7 +37,7 @@ const AdminCreateProducts: NextPage<{
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					imageURL: data.imageurl,
+					imageURL: data.imageURL,
 					name: data.name,
 					price: data.price,
 					stock: data.stock,
@@ -66,11 +66,6 @@ const AdminCreateProducts: NextPage<{
 			clearMessage(setMessage);
 		}
 	};
-
-	// const clearMessage = (): NodeJS.Timeout =>
-	// 	setTimeout(() => {
-	// 		setMessage({ type: 'success', text: '' });
-	// 	}, 3000);
 
 	return (
 		<>
@@ -146,7 +141,7 @@ const AdminCreateProducts: NextPage<{
 											minLength={1}
 											maxLength={1024}
 											required
-											{...register('imageurl', { required: true })}
+											{...register('imageURL', { required: true })}
 										/>
 									</div>
 								</div>

@@ -55,8 +55,6 @@ const Index: NextPage = () => {
 				clearMessage(setMessage);
 			}
 		} catch (error) {
-			// for debugging purposes
-			console.error(error);
 			setMessage({ type: 'error', text: 'An unexpected error occured!' });
 			clearMessage(setMessage);
 		}

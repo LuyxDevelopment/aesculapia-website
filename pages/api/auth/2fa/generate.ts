@@ -6,7 +6,7 @@ import { ResponseData } from '../../../../src/types';
 import { Authentication } from '../../../../src/auth/index';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
-export default withIronSessionApiRoute(async function loginHandler(
+export default withIronSessionApiRoute(async function generateSecretHandler(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData<string>>,
 ): Promise<void> {

@@ -13,19 +13,13 @@ interface Body {
 		customer: {
 			id?: string;
 			name: string;
-			address: {
-				city: string;
-				state: string;
-				country: string;
-				line1: string;
-				postal_code: string;
-			};
+			email: string;
 			payment_intent: string;
 		}
 	}
 }
 
-export default async function loginHandler(
+export default async function customerHandler(
 	req: Omit<NextApiRequest, 'body'> & { body: Body; },
 	res: NextApiResponse,
 ): Promise<void> {
@@ -33,26 +27,30 @@ export default async function loginHandler(
 		case 'POST': {
 			const { customer } = req.body.customer;
 
-			//const customer = await stripe.customers.create({});
+			if (!customer.payment_intent || !customer.email || !customer.name || !customer.name.match(/^[a-zA-Z]+\s[a-zA-Z]+\s?$/)) {
+				res.status(StatusCodes.BAD_REQUEST).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+				});
+				return;
+			}
 
 			const paymentIntent = await stripe.paymentIntents.retrieve(customer.payment_intent);
 			if (!paymentIntent) {
+				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
+				});
 				return;
 			}
 
 			if (!customer.id || !await stripe.customers.retrieve(customer.id)) {
 				const newCustomer = await stripe.customers.create({
 					name: customer.name,
-					address: {
-						city: customer.address.city,
-						state: customer.address.state,
-						country: customer.address.country,
-						line1: customer.address.line1,
-						postal_code: customer.address.postal_code,
-					},
+					email: customer.email,
 				});
 
-				await stripe.paymentIntents.update(paymentIntent.id, {
+				await stripe.paymentIntents.update(customer.payment_intent, {
 					customer: newCustomer.id,
 				});
 

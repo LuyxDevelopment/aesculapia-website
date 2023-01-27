@@ -5,11 +5,13 @@ import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from '../components/CheckoutForm';
 import { NextPage } from 'next';
 import Layout from '../components/Layout';
+import { useMetaData } from '../lib/hooks/useMetaData';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const Checkout: NextPage = () => {
 	const [clientSecret, setClientSecret] = useState('');
+	const [paymentIntent, setPaymentIntent] = useState('');
 
 	useEffect(() => {
 		const item = window.localStorage.getItem('cart');
@@ -20,18 +22,24 @@ const Checkout: NextPage = () => {
 			body: JSON.stringify({ items: item }),
 		})
 			.then((res) => res.json())
-			.then((data) => setClientSecret(data.data));
-	}, [setClientSecret]);
+			.then((data) => {
+				setPaymentIntent(data.data.id);
+				setClientSecret(data.data.clientSecret);
+			});
+	}, []);
 
 
 	return (
-		<Layout>
-			{clientSecret && (
-				<Elements options={{clientSecret, appearance: { theme: 'flat', variables: { colorPrimary: '#EF4444' } }, loader: 'always' }} stripe={stripePromise}>
-					<CheckoutForm clientSecret={clientSecret} />
-				</Elements>
-			)}
-		</Layout>
+		<>
+			{useMetaData('Checkout', 'Checkout', '/checkout')}
+			<Layout>
+				{clientSecret && (
+					<Elements options={{clientSecret, appearance: { theme: 'flat', variables: { colorPrimary: '#EF4444' } }, loader: 'always' }} stripe={stripePromise}>
+						<CheckoutForm paymentIntent={paymentIntent} />
+					</Elements>
+				)}
+			</Layout>
+		</>
 	);
 };
 

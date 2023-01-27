@@ -4,7 +4,7 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ResponseData } from '../../../src/types';
 import { StatusCodes } from 'http-status-codes';
 
-export default withIronSessionApiRoute(function registerHandler(
+export default withIronSessionApiRoute(function logoutHandler(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData>,
 ): void {

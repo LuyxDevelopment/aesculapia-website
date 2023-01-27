@@ -5,7 +5,7 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ResponseData } from '../../../../src/types';
 import { StatusCodes } from 'http-status-codes';
 
-export default withIronSessionApiRoute(async function loginHandler(
+export default withIronSessionApiRoute(async function enable2faHandler(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData<string>>,
 ): Promise<void> {
