@@ -86,9 +86,9 @@ const Praesidium: NextPage = () => {
 		<>
 			{useMetaData('Praesidium', 'Praesidium', '/praesidium')}
 			<Layout>
-				<div className="container mb-12">
-					<h1 className="text-5xl font-bold mb-5">Praesidium</h1>
-					<div className="my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 place-items-center space-y-3">
+				<div className='container mb-12'>
+					<h1 className='text-5xl font-bold mb-5'>Praesidium</h1>
+					<div className='my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 place-items-center space-y-3'>
 						{people.map((person, i) => {
 							return (
 								<Profile

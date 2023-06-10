@@ -19,7 +19,7 @@ const Carousel: FC<Props> = ({ images, fullScreen }) => {
 
 	return (
 		<div
-			className={`py-5 flex flex-row items-stretch justify-center text-white ${fullScreen ? 'h-screen' : ''}`}
+			className={`py-5 flex flex-row items-stretch justify-center ${fullScreen ? 'h-screen' : ''}`}
 		>
 			<button
 				onClick={prev}
@@ -30,8 +30,8 @@ const Carousel: FC<Props> = ({ images, fullScreen }) => {
 			<img
 				src={images[current].url}
 				width='90%'
-				height='100vh'
-				alt='Alternative'
+				height='100%'
+				alt='Main page image'
 			/>
 			<button
 				onClick={next}

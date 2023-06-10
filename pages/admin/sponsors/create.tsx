@@ -40,7 +40,7 @@ const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: bool
 			{useMetaData('Aesculapia Admin | Sponsors', 'Aesculapia Admin | Sponsors', '/admin')}
 			<Layout>
 				<div className='container relative'>
-					<div className='top-10 left-14 sm:left-20 text-white'>
+					<div className='top-10 left-14 sm:left-20'>
 						<div className='flex flex-wrap w-56 sm:w-96'>
 							<h1 className='text-5xl pb-2 font-bold text-black'>
 								Een sponsor toevoegen.

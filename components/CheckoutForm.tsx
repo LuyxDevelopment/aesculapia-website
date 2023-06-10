@@ -35,6 +35,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 				payment_intent: paymentIntent,
 			}}));
 
+		window.localStorage.setItem('customer', `{'name':'${data.fullName}','email':'${data.email}'}`);
 		setStep(2);
 	};
 
@@ -78,20 +79,20 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 
 	return (
 		<>
-			<div className="container">
-				<div className="flex flex-row justify-start items-center font-bold gap-2 text-slate-500 mb-6">
+			<div className='container'>
+				<div className='flex flex-row justify-start items-center font-bold gap-2 text-slate-500 mb-6'>
 					<p onClick={(): void => setStep(1)} className={step === 1 ? 'text-black hover:cursor-pointer' : 'hover:cursor-pointer'}>Billing</p>
-					<hr className="w-10"></hr>
+					<hr className='w-10'></hr>
 					<p onClick={(): void => setStep(2)} className={step === 2 ? 'text-black hover:cursor-pointer' : 'hover:cursor-pointer'}>Payment</p>
 				</div>
 				{message && (
-					<div className="h-12 flex flex-row bg-red-200 mb-2 rounded-xl border border-[#DF1B41] border-1">
-						<div className="ml-4 flex items-center justify-start">
-							<button onClick={(): void => setMessage('')} className="flex items-end justify-end">
-								<CloseIcon className="fill-[#DF1B41] w-8" />
+					<div className='h-12 flex flex-row bg-red-200 mb-2 rounded-lg border border-[#DF1B41] border-1'>
+						<div className='ml-4 flex items-center justify-start'>
+							<button onClick={(): void => setMessage('')} className='flex items-end justify-end'>
+								<CloseIcon className='fill-[#DF1B41] w-8' />
 							</button>
 						</div>
-						<div className="ml-4 flex items-center text-[#DF1B41]">
+						<div className='ml-4 flex items-center text-[#DF1B41]'>
 							<p>{message}</p>
 						</div>
 					</div>
@@ -102,10 +103,10 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 							Full name
 						</label>
 						<input
-							className="appearance-none block w-full bg-[#F1F1F1] text-gray-700 rounded-xl py-3 px-4 mb-3 leading-tight border-[3.2px] border-white focus:border-[#F58989] focus:outline-[#FBD0D0] "
-							id="full-name"
-							type="text"
-							placeholder="First and last name"
+							className='appearance-none block w-full bg-[#F1F1F1] text-gray-700 rounded-lg py-3 px-4 mb-3 leading-tight border-[3.2px] border-white focus:border-[#F58989] focus:outline-[#FBD0D0] '
+							id='full-name'
+							type='text'
+							placeholder='First and last name'
 							minLength={1}
 							required
 							{...register('fullName', { required: true, pattern: {
@@ -117,9 +118,9 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 							Email
 						</label>
 						<input
-							className="block w-full bg-[#F1F1F1] text-gray-700 rounded-xl py-3 px-4 mb-3 leading-tight border-[3.2px] border-white focus:border-[#F58989] focus:outline-[#FBD0D0] "
-							type="email"
-							placeholder="Email"
+							className='block w-full bg-[#F1F1F1] text-gray-700 rounded-lg py-3 px-4 mb-3 leading-tight border-[3.2px] border-white focus:border-[#F58989] focus:outline-[#FBD0D0] '
+							type='email'
+							placeholder='Email'
 							minLength={1}
 							required
 							{...register('email', { required: true, pattern: {
@@ -127,7 +128,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 								message: 'Entered value does not match email format',
 							}})}
 						/>
-						<button type="submit" disabled={isLoading || !stripe || !elements} className='bottom-0 h-10 w-16 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-xl p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
+						<button type='submit' disabled={isLoading || !stripe || !elements} className='bottom-0 h-10 w-16 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
 							Next
 						</button>
 					</form>
@@ -135,8 +136,8 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 				{step === 2 && (
 					<form id='payment-form' onSubmit={onSubmit}>
 						<PaymentElement id='payment-element' options={{ layout: 'tabs', business: { name: 'Aesculapia' }}} />
-						<div className="flex-row flex gap-2 mt-2">
-							<button disabled={isLoading || !stripe || !elements} type="submit" className='bottom-0 h-10 w-24 bg-red-500 text-white font-semibold shadow-md flex items-center justify-center rounded-xl p-2 hover:bg-red-700 transition-all duration-300 ease-in-out'>
+						<div className='flex-row flex gap-2 mt-2'>
+							<button disabled={isLoading || !stripe || !elements} type='submit' className='bottom-0 h-10 w-24 bg-red-500 text-gray-50 font-semibold shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-red-700 transition-all duration-300 ease-in-out'>
 								{isLoading ? <MoonLoader
 									color={'#fff'}
 									loading={true}
@@ -146,7 +147,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 									data-testid='loader'
 								/> : 'Pay now'}
 							</button>
-							<button onClick={(): void => setStep(1)} disabled={isLoading || !stripe || !elements} className='bottom-0 h-10 w-16 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-xl p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
+							<button onClick={(): void => setStep(1)} disabled={isLoading || !stripe || !elements} className='bottom-0 h-10 w-16 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
 								Back
 							</button>
 						</div>

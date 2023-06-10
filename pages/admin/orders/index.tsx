@@ -5,13 +5,12 @@ import ErrorPage from '../../../components/Error';
 import Layout from '../../../components/Layout';
 import OrderCard from '../../../components/OrderCard';
 import { useMetaData } from '../../../lib/hooks/useMetaData';
-import { IOrder, OrderDocument } from '../../../src/models/Order';
-import { Product } from '../../../src/models/Product';
 import { AdminProps, ResponseData } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
+import { Stripe } from 'stripe';
 
 interface Props {
-	data: (IOrder & { _id: string })[];
+	data: Stripe.PaymentIntent[];
 }
 
 const AdminOrderIndex: NextPage<Props> = ({ data }) => {
@@ -23,10 +22,10 @@ const AdminOrderIndex: NextPage<Props> = ({ data }) => {
 				{!data && <ErrorPage />}
 				{data && (
 					<>
-						<div className="container flex flex-row">
-							<div className="mb-12">
-								<h1 className="text-4xl font-bold mb-5">Winkelwagen</h1>
-								<div className="grid grid-cols-1 divide-y w-[35rem] sm:w-[40rem] md:w-[39rem] lg:w-[60rem]">
+						<div className='container flex flex-row'>
+							<div className='mb-12'>
+								<h1 className='text-4xl font-bold mb-5'>Winkelwagen</h1>
+								<div className='grid grid-cols-1 divide-y w-[35rem] sm:w-[40rem] md:w-[39rem] lg:w-[60rem]'>
 									{data.map((order, i) => {
 										return (
 											<OrderCard
@@ -35,11 +34,6 @@ const AdminOrderIndex: NextPage<Props> = ({ data }) => {
 											></OrderCard>
 										);
 									})}
-								</div>
-							</div>
-							<div className="flex flex-row">
-								<div className="sticky top-0 z-50">
-									<h1 className="text-4xl font-bold mb-5">Winkelwagen</h1>
 								</div>
 							</div>
 						</div>
@@ -52,7 +46,8 @@ const AdminOrderIndex: NextPage<Props> = ({ data }) => {
 
 export default AdminOrderIndex;
 
-export const getServerSideProps = withIronSessionSsr(async function ({ req, res, resolvedUrl }): Promise<AdminProps<OrderDocument>> {
+// @ts-ignore
+export const getServerSideProps = withIronSessionSsr(async function ({ req, res, resolvedUrl }): Promise<AdminProps<Stripe.PaymentIntent[]>> {
 	const user = req.session.user;
 
 	res?.setHeader(
@@ -60,17 +55,16 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res,
 		'public, s-maxage=10, stale-while-revalidate=59',
 	);
 
-	const orderRequest = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/orders`, {
+	const payoutRequest = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/stripe/orders`, {
 		method: 'GET',
-		headers: { 'Content-Type': 'application/json' },
+		headers: {
+			'Content-Type': 'application/json',
+		},
 	});
 
-	const orderResponse = await orderRequest.json(); // as ResponseData<OrderDocument | OrderDocument[]>;
+	const orderResponse = await payoutRequest.json() as ResponseData<Stripe.PaymentIntent[]>;
 
-	orderResponse.data?.push({_id: 'slkhdbfskdbfa', delivered: true, email: 'bla@gmail.com', firstName: 'Ricky', lastName: 'Mooky', issuedAt: Date.now(), product: [{imageURL:'urmom',name:'urmom',price:500,stock: 5}], receivedAt: Date.now()});
-	orderResponse.data?.push({_id: 'slkhdbfskdbfa', delivered: false, email: 'bla@gmail.com', firstName: 'Fyry', lastName: 'Mooky', issuedAt: Date.now(), product: [{imageURL:'urmom',name:'urmom',price:500,stock: 5}], receivedAt: Date.now()});
-	orderResponse.data?.push({_id: 'slkhdbfskdbfa', delivered: true, email: 'bla@gmail.com', firstName: 'Seppy', lastName: 'Mooky', issuedAt: Date.now(), product: [{imageURL:'urmom',name:'urmom',price:500,stock: 5}], receivedAt: Date.now()});
-	orderResponse.data?.push({_id: 'slkhdbfskdbfa', delivered: false, email: 'bla@gmail.com', firstName: 'Deccy', lastName: 'Mooky', issuedAt: Date.now(), product: [{imageURL:'urmom',name:'urmom',price:500,stock: 5}], receivedAt: Date.now()});
+	console.log(orderResponse);
 	
 	
 	if (user?.email) {

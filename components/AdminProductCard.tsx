@@ -76,7 +76,7 @@ const AdminProductCard: FC<Props> = ({ product }) => {
 							<Confirmation
 								message="Are you sure you want to delete this product?"
 								open={true}
-								deleteProduct={deleteProduct}
+								deleteObject={deleteProduct}
 								setConfirmationOpen={setConfirmationOpen}
 								setTrashShown={setTrashShown}
 							/>

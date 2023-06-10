@@ -39,7 +39,7 @@ const AdminSettings: NextPage<{ user: { email: string, has2faEnabled: boolean; }
 						<br />
 						<button
 							type='submit'
-							className='w-20 h-10 bg-emerald-500 text-white font-bold text-md rounded-lg hover:bg-emerald-700'
+							className='w-20 h-10 bg-emerald-500 text-gray-50 font-bold text-md rounded-lg hover:bg-emerald-700'
 						>
 						Disable 2FA
 						</button>
@@ -51,7 +51,7 @@ const AdminSettings: NextPage<{ user: { email: string, has2faEnabled: boolean; }
 						<br />
 						<button
 							type='submit'
-							className='w-20 h-10 bg-emerald-500 text-white font-bold text-md rounded-lg hover:bg-emerald-700'
+							className='w-20 h-10 bg-emerald-500 text-gray-50  font-bold text-md rounded-lg hover:bg-emerald-700'
 							onClick={(): void => qrCodeShown ? showQrCode(false) : showQrCode(true)}
 						>
 						Enable 2FA

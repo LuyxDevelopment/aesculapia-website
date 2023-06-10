@@ -75,69 +75,69 @@ const AdminCreateProducts: NextPage<{
 				'/admin',
 			)}
 			<Layout>
-				<div className="container relative mb-8">
-					<div className="top-10 left-14 sm:left-20 text-white">
-						<div className="flex flex-wrap w-56 sm:w-96">
-							<h1 className="text-5xl pb-2 font-bold text-black">
+				<div className='container relative mb-8'>
+					<div className='top-10 left-14 sm:left-20'>
+						<div className='flex flex-wrap w-56 sm:w-96'>
+							<h1 className='text-5xl pb-2 font-bold text-black'>
 								Maak een product.
 							</h1>
-							<p className="text-xl text-black">
+							<p className='text-xl text-black'>
 								Maak een product om op de webshop te verkopen.
 							</p>
 						</div>
-						<div className="flex flex-wrap h-auto text-xl mt-3">
+						<div className='flex flex-wrap h-auto text-xl mt-3'>
 							<form
 								onSubmit={handleSubmit((data, event) => onSubmit(data, event))}
 							>
-								<div className="flex flex-wrap -mx-3">
-									<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+								<div className='flex flex-wrap -mx-3'>
+									<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
 										<label
-											className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-											htmlFor="grid-product-name"
+											className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+											htmlFor='grid-product-name'
 										>
 											Productnaam
 										</label>
 										<input
-											className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-											id="grid-product-name"
-											type="text"
-											placeholder="Chocolate"
+											className='appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
+											id='grid-product-name'
+											type='text'
+											placeholder='Chocolate'
 											minLength={1}
 											maxLength={64}
 											required
 											{...register('name', { required: true })}
 										/>
 									</div>
-									<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+									<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
 										<label
-											className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-											htmlFor="grid-product-price"
+											className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+											htmlFor='grid-product-price'
 										>
 											Product Prijs
 										</label>
 										<input
-											className="appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-											id="grid-product-price"
-											type="number"
+											className='appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
+											id='grid-product-price'
+											type='number'
 											step={0.01}
-											placeholder="5.31"
+											placeholder='5.31'
 											{...register('price', { required: true })}
 										/>
 									</div>
 								</div>
-								<div className="flex flex-wrap -mx-3 mb-2">
-									<div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+								<div className='flex flex-wrap -mx-3 mb-2'>
+									<div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
 										<label
-											className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-											htmlFor="grid-image-url"
+											className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+											htmlFor='grid-image-url'
 										>
 											Afbeelding URL
 										</label>
 										<input
-											className="appearance-none block w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-											id="grid-image-url"
-											type="text"
-											placeholder="https://example.com/image.png (square images recommended)"
+											className='appearance-none block w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+											id='grid-image-url'
+											type='text'
+											placeholder='https://example.com/image.png (square images recommended)'
 											minLength={1}
 											maxLength={1024}
 											required
@@ -145,19 +145,19 @@ const AdminCreateProducts: NextPage<{
 										/>
 									</div>
 								</div>
-								<div className="flex flex-wrap -mx-3 mb-6">
-									<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+								<div className='flex flex-wrap -mx-3 mb-6'>
+									<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
 										<label
-											className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-											htmlFor="grid-stock"
+											className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+											htmlFor='grid-stock'
 										>
 											Product Voorraad
 										</label>
 										<input
-											className="appearance-none block w-full bg-gray-200 text-gray-700 border-slate-500 rounded py-3 px-4 mb-3 leading-tight border-2 focus:border-rose-500 focus:bg-white"
-											id="grid-stock"
-											type="text"
-											placeholder="10"
+											className='appearance-none block w-full bg-gray-200 text-gray-700 border-slate-500 rounded py-3 px-4 mb-3 leading-tight border-2 focus:border-rose-500 focus:bg-white'
+											id='grid-stock'
+											type='text'
+											placeholder='10'
 											defaultValue={0}
 											min={0}
 											required
@@ -165,12 +165,12 @@ const AdminCreateProducts: NextPage<{
 										/>
 									</div>
 								</div>
-								<div className="pb-9">
-									<button className="h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-800">
+								<div className='pb-9'>
+									<button className='h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-800'>
 										<input
-											className="cursor-pointer"
-											type="submit"
-											value="Maak"
+											className='cursor-pointer'
+											type='submit'
+											value='Maak'
 										></input>
 									</button>
 								</div>

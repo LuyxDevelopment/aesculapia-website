@@ -92,11 +92,11 @@ const PaymentStatus: FC = () => {
 	return (
 		<>
 			{redirect && (
-				<div className="grid place-items-center absolute inset-0 z-50 bg-black bg-opacity-80 w-full h-full rounded-lg">
-					<div className="relative w-[25rem] h-11/12 right-0 left-0 z-51 bg-gray-200 rounded-lg">
-						<div className="mt-2 mb-2 grid place-items-center text-center">
-							<h2 className="text-xl">{message || 'It looks like your checkout expired.'}</h2>
-							<div className="flex gap-3">
+				<div className='grid place-items-center absolute inset-0 z-50 bg-black bg-opacity-80 w-full h-full rounded-lg'>
+					<div className='relative w-[25rem] h-11/12 right-0 left-0 z-51 bg-gray-200 rounded-lg'>
+						<div className='mt-2 mb-2 grid place-items-center text-center'>
+							<h2 className='text-xl'>{message || 'It looks like your checkout expired.'}</h2>
+							<div className='flex gap-3'>
 								<button onClick={(): void => {
 									router.push('/cart');
 								}} className='bottom-0 h-10 w-30 bg-red-500 shadow-md flex items-center justify-center rounded-full p-2 hover:bg-red-700 transition-all duration-300 ease-in-out'>
@@ -113,36 +113,36 @@ const PaymentStatus: FC = () => {
 						<h1 className='text-2xl font-bold'>{message}</h1>
 						<p>Thank you for ordering, {data.customer.name}!</p>
 						<p>A confirmation email has been sent to <b>{data.customer.email}</b>.</p>
-						<table className="min-w-full divide-y divide-gray-200">
+						<table className='min-w-full divide-y divide-gray-200'>
 							<thead>
 								<tr>
 									<th
-										scope="col"
-										className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+										scope='col'
+										className='px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase '
 									>
 
 									</th>
 									<th
-										scope="col"
-										className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+										scope='col'
+										className='px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase '
 									>
 										Name
 									</th>
 									<th
-										scope="col"
-										className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+										scope='col'
+										className='px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase '
 									>
 										Amount
 									</th>
 									<th
-										scope="col"
-										className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+										scope='col'
+										className='px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase '
 									>
 										Price
 									</th>
 								</tr>
 							</thead>
-							<tbody className="divide-y divide-gray-200">
+							<tbody className='divide-y divide-gray-200'>
 								{cart.map((item, i) => {
 									return (
 										<OrderCartItem
@@ -152,14 +152,14 @@ const PaymentStatus: FC = () => {
 									);
 								})}
 								<tr>
-									<td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+									<td className='px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap'>
 									</td>
-									<td className="px-6 py-4 text-gray-800 whitespace-nowrap">
+									<td className='px-6 py-4 text-gray-800 whitespace-nowrap'>
 									</td>
-									<td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-										<p className="font-bold">Total</p>
+									<td className='px-6 py-4 text-sm text-gray-800 whitespace-nowrap'>
+										<p className='font-bold'>Total</p>
 									</td>
-									<td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+									<td className='px-6 py-4 text-sm font-medium text-right whitespace-nowrap'>
 										<p>€{(data.amount / 100).toFixed(2)}</p>
 									</td>
 
@@ -167,7 +167,7 @@ const PaymentStatus: FC = () => {
 							</tbody>
 						</table>
 						<div>
-							<p className="font-bold">Payment Details</p>
+							<p className='font-bold'>Payment Details</p>
 							<p>Paid with {data.type}</p>
 							<p>**** **** **** {data.last4}</p>
 						</div>

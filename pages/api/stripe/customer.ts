@@ -2,8 +2,9 @@ import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../src/util/dbConnect';
 import { Stripe } from 'stripe';
+
 const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY, {
-	apiVersion: '2022-08-01',
+	apiVersion: '2022-11-15',
 });
 
 dbConnect();
@@ -45,6 +46,8 @@ export default async function customerHandler(
 			}
 
 			if (!customer.id || !await stripe.customers.retrieve(customer.id)) {
+				console.log('CUSTOMER CREATED');
+				console.log(customer);
 				const newCustomer = await stripe.customers.create({
 					name: customer.name,
 					email: customer.email,
@@ -60,6 +63,8 @@ export default async function customerHandler(
 				});
 
 				return;
+			} else if (customer.id || await stripe.customers.retrieve(customer.id)) {
+				console.log(await stripe.customers.retrieve(customer.id));
 			}
 
 

@@ -11,7 +11,7 @@ const Layout: FC<Props> = ({ children }) => {
 	return (
 		<div className='flex flex-col h-screen'>
 			<Navbar />
-			<div className='flex-grow'>{children}</div>
+			<div className='flex-grow bg-gray-50'>{children}</div>
 			<Footer />
 		</div>
 	);

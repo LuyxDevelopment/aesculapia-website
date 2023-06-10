@@ -1,4 +1,4 @@
-import type { NextPage, GetServerSideProps, NextPageContext } from 'next';
+import type { NextPage, NextPageContext } from 'next';
 import Layout from '../../components/Layout';
 import { useMetaData } from '../../lib/hooks/useMetaData';
 import { EventDocument, IEvent } from '../../src/models';
@@ -14,7 +14,7 @@ const EventDynamic: NextPage<Props> = ({ data }) => {
 		<>
 			{useMetaData(data.name, data.description, `/events/${data._id}`)}
 			<Layout>
-				<div className="container">
+				<div className='container'>
 					<EventPage event={data} />
 				</div>
 			</Layout>
@@ -24,9 +24,7 @@ const EventDynamic: NextPage<Props> = ({ data }) => {
 
 export const getServerSideProps = async ({
 	query,
-}: NextPageContext & { query: { id: string } }): Promise<
-	BaseProps<EventDocument>
-> => {
+}: NextPageContext & { query: { id: string } }): Promise<BaseProps<EventDocument>> => {
 	const req = await fetch(
 		`${process.env.NEXT_PUBLIC_DOMAIN}/api/events/${query.id}`,
 	);

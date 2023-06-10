@@ -19,7 +19,7 @@ export interface EventOverrides {
 	entry: Types.Subdocument & IEntry;
 }
 
-export type EventDocument = HydratedDocument<IEvent, EventOverrides & EventMethods>;
+export type EventDocument = HydratedDocument<IEvent, EventMethods>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type EventModel = Model<IEvent, {}, EventOverrides & EventMethods>;

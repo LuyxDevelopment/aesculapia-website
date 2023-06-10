@@ -20,10 +20,10 @@ const about: DropdownItem[] = [
 		text: 'Praesidium',
 		href: '/praesidium',
 	},
-	{
-		text: 'News',
-		href: '/news',
-	},
+	// {
+	// 	text: 'News',
+	// 	href: '/news',
+	// },
 	{
 		text: 'Events',
 		href: '/events',
@@ -83,23 +83,23 @@ const Navbar: FC = () => {
 		<>
 			<nav
 				className={
-					'bg-red-500 text-white shadow-lg p-3 flex flex-row justify-between sm:justify-evenly items-center'
+					'bg-red-500 text-gray-100 shadow-lg p-3 flex flex-row justify-between sm:justify-evenly items-center'
 				}
 			>
-				<div className="cursor-pointer">
+				<div className='cursor-pointer'>
 					<Image
-						src="/assets/logo.png"
-						width="50"
-						height="60"
-						alt="Logo"
+						src='/assets/logo.png'
+						width='50'
+						height='60'
+						alt='Logo'
 						onClick={(): string => (window.location.href = '/')}
 					/>
 				</div>
-				<div className="hidden sm:flex sm:flex-row sm:items-center sm:justify-evenly font-extrabold">
+				<div className='hidden sm:flex sm:flex-row sm:items-center sm:justify-evenly font-extrabold'>
 					{pages.map((page, i) => {
 						return (
 							<h1
-								className="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 ml-1 mr-1 rounded-2xl transition-all duration-300 ease-in-out"
+								className='cursor-pointer bg-red-500 hover:bg-red-600 font-bold py-2 px-3 ml-1 mr-1 rounded-lg transition-all duration-300 ease-in-out'
 								onClick={(): string => (window.location.href = page.url)}
 								key={i}
 							>
@@ -108,42 +108,58 @@ const Navbar: FC = () => {
 						);
 					})}
 					<Dropdown
-						direction="bottom"
+						direction='bottom'
 						items={about}
-						tw="z-10"
+						tw='z-10'
 					>
-						<h1 className="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 ml-1 mr-1 rounded-2xl transition-all duration-300 ease-in-out">
+						<div className='flex flex-row gap-0 hover:bg-red-600 rounded-lg transition-all duration-300 ease-in-out pr-3'>
+							<h1 className='cursor-pointer font-bold py-2 px-3 ml-1'>
 							About
-						</h1>
+							</h1>
+							<Image
+								src='/assets/icons/down.svg'
+								width={15}
+								height={15}
+								alt='Dropdown arrow'
+							/>
+						</div>
 					</Dropdown>
 					<Dropdown
-						direction="bottom"
+						direction='bottom'
 						items={shopping}
-						tw="z-10"
+						tw='z-10'
 					>
-						<h1 className="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 ml-1 mr-1 rounded-2xl transition-all duration-300 ease-in-out">
+						<div className='flex flex-row gap-0 hover:bg-red-600 rounded-2xl transition-all duration-300 ease-in-out pr-3'>
+							<h1 className='cursor-pointer font-bold py-2 px-3 ml-1 h-full'>
 							Shopping
-						</h1>
+							</h1>
+							<Image
+								src='/assets/icons/down.svg'
+								width={15}
+								height={15}
+								alt='Dropdown arrow'
+							/>
+						</div>
 					</Dropdown>
 				</div>
 				<span
-					className="block float-right sm:hidden cursor-pointer hover:scale-90 transition-all duration-300 ease-in-out"
+					className='block float-right sm:hidden cursor-pointer hover:scale-90 transition-all duration-300 ease-in-out'
 					onClick={(): void => setShowMenu(!showMenu)}
 				>
 					<Image
-						src="/assets/icons/hamburger.svg"
+						src='/assets/icons/hamburger.svg'
 						width={35}
 						height={35}
-						alt="Navbar"
+						alt='Navbar'
 					/>
 				</span>
 			</nav>
 			{showMenu && (
-				<div className="animate-translate_top flex flex-col items-center justify-center sm:hidden bg-gray-200 shadow-xl p-3 font-extrabold mt-5">
+				<div className='animate-translate_top flex flex-col items-center justify-center sm:hidden bg-gray-200 shadow-xl p-3 font-extrabold mt-5'>
 					{mobilePages.map(({ name, url }, i) => {
 						return (
 							<h1
-								className="cursor-pointer hover:underline transition-all duration-300 ease-in-out"
+								className='cursor-pointer hover:underline transition-all duration-300 ease-in-out'
 								onClick={(): string => (window.location.href = url)}
 								key={i}
 							>

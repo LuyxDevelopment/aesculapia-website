@@ -1,23 +1,32 @@
 import { withIronSessionSsr } from 'iron-session/next';
-import { NextPage } from 'next';
-import InProgress from '../../../components/InProgress';
+import { NextPage, NextPageContext } from 'next';
+import OrderPage from '../../../components/OrderPage';
 import { AdminProps } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
-import { IOrder } from '../../../src/models/Order'; 
+import { Stripe } from 'stripe'; 
  
 interface Props {
-	order: IOrder & { _id: string };
+	order: Stripe.PaymentIntent;
 }
 
 const AdminOrdersDynamic: NextPage<Props> = ({ order }) => {
 	return (
-		<InProgress pageName='orders'></InProgress>
+		<OrderPage order={order}></OrderPage>
 	);
 };
 
 export default AdminOrdersDynamic;
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, resolvedUrl }): Promise<AdminProps> {
+
+	console.log(req.query);
+
+	// const orderRequest = await fetch(
+	// 	`${process.env.NEXT_PUBLIC_DOMAIN}/api/stripe/payouts/${req}`,
+	// );
+
+	// const res = (await req.json()) as ResponseData<EventDocument>;
+
 	const user = req.session.user;
 
 	if (user?.email) {

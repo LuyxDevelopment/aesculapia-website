@@ -19,6 +19,25 @@ body {
 	overflow-x: hidden;
 }
 
+.rdp-month.rdp-caption_start.rdp-caption_end {
+	background-color: #841fbe;
+}
+
+.rdp {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: #000000;
+  --rdp-background-color: #153db4;
+  /* Outline border for focused elements */
+  --rdp-outline: 2px solid var(--rdp-accent-color);
+  /* Outline border for focused and selected elements */
+  --rdp-outline-selected: 2px solid rgba(0, 0, 0, 0.75);
+}
+
+.adjustForScrollbar {
+	overflow: auto !important;
+	padding-right: 0px !important;
+ }
+
 .container {
 	padding-top: 30px;
 	padding-right: 15px;

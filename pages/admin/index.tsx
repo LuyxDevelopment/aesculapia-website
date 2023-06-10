@@ -49,7 +49,7 @@ const AdminIndex: NextPage = () => {
 					<p className='text-xl'>
 						Selecteer een pagina om te beheren.
 					</p>
-					<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+					<div className='mt-4 xl:flex xl:flex-row xl:gap-12 grid grid-cols-1 gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
 						{pages.map(({ name, svg, url }, i) => {
 							return (
 								<AdminPageCard name={name} svg={svg} url={url} key={i} />

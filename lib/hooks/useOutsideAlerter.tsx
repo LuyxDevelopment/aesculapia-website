@@ -6,14 +6,14 @@ export const useOutsideAlerter = (
 	cb: () => void,
 ): void => {
 	useEffect(() => {
-		const handleClickOutside = (event: Event): void => {
+		const handleHoverOutside = (event: Event): void => {
 			if (ref.current && !ref.current.contains(event.target as Node)) {
 				cb();
 			}
 		};
-		document.addEventListener('mousedown', handleClickOutside);
+		document.addEventListener('mouseover', handleHoverOutside);
 		return (): void => {
-			document.removeEventListener('mousedown', handleClickOutside);
+			document.removeEventListener('mouseout', handleHoverOutside);
 		};
 	}, [cb, ref]);
 };

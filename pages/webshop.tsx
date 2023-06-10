@@ -20,12 +20,11 @@ const ProductsIndex: NextPage<Props> = ({ data }) => {
 			<Layout>
 				{!data && <ErrorPage />}
 				{data && (
-					<div className="container mb-12">
-						<h1 className="text-5xl font-bold mb-5">Webshop</h1>
+					<div className='container mb-12'>
+						<h1 className='text-5xl font-bold mb-5'>Webshop</h1>
 						{data.length ? (
-							<div className="grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+							<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
 								{data.map((product, i) => {
-									console.log(product);
 									return (
 										<ProductCard
 											// @ts-ignore
@@ -39,7 +38,7 @@ const ProductsIndex: NextPage<Props> = ({ data }) => {
 								})}
 							</div>
 						) : (
-							<p className="pt-4">Er zijn geen producten gemaakt.</p>
+							<p className='pt-4'>Er zijn geen producten gemaakt.</p>
 						)}
 					</div>
 				)}

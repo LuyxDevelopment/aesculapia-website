@@ -90,59 +90,59 @@ const Index: NextPage = () => {
 		<>
 			{useMetaData('Aesculapia Admin | Login', 'Login Page', '/admin/login')}
 			<Layout>
-				<div className="select-none m-10">
+				<div className='select-none m-10'>
 					{!isAllowed && (
 						<form
 							onSubmit={handleSubmit((data, event) => onSubmit(data, event))}
 						>
-							<div className="flex flex-col items-center text-center font-bold">
-								<div className="pb-3">
-									<label className="font-bold text-2xl">Email</label>
+							<div className='flex flex-col items-center text-center font-bold'>
+								<div className='pb-3'>
+									<label className='font-bold text-2xl'>Email</label>
 									<br />
 									<input
-										type="email"
-										placeholder="user@example.com"
+										type='email'
+										placeholder='user@example.com'
 										className={
 											errors.email
-												? 'border-2 border-red-600 rounded-md w-52 h-10 pl-2'
-												: 'border-2 rounded-md w-52 h-10 pl-2'
+												? 'border-2 border-red-600 rounded-lg w-52 h-10 pl-2'
+												: 'border-2 rounded-lg w-52 h-10 pl-2'
 										}
 										{...register('email', { required: true })}
 									/>
 									{errors.email && (
-										<p className="font-semibold text-red-600">
+										<p className='font-semibold text-red-600'>
 											Email is required.
 										</p>
 									)}
 								</div>
-								<div className="pb-3">
-									<label className="font-bold text-2xl">Password</label>
+								<div className='pb-3'>
+									<label className='font-bold text-2xl'>Password</label>
 									<br />
 									<input
 										type={isVisible ? 'text' : 'password'}
-										placeholder="*********"
+										placeholder='*********'
 										className={
 											errors.password
-												? 'border-2 border-red-600 rounded-md w-52 h-10 pl-2'
-												: 'border-2 rounded-md w-52 h-10 pl-2'
+												? 'border-2 border-red-600 rounded-lg w-52 h-10 pl-2'
+												: 'border-2 rounded-lg w-52 h-10 pl-2'
 										}
 										{...register('password', { required: true })}
 									/>
 									<span
-										className="-ml-6 cursor-pointer"
+										className='-ml-6 cursor-pointer'
 										onClick={(): void => setIsVisible(!isVisible)}
 									>
 										{!isVisible ? '👁' : '✖'}
 									</span>
 									{errors.password && (
-										<p className="font-semibold text-red-600">
+										<p className='font-semibold text-red-600'>
 											Password is required.
 										</p>
 									)}
 								</div>
 								<button
-									type="submit"
-									className="w-20 h-10 bg-emerald-500 text-white font-bold text-md rounded-lg hover:bg-emerald-700"
+									type='submit'
+									className='w-20 h-10 bg-emerald-500 text-gray-50 font-bold text-md rounded-lg hover:bg-emerald-700'
 								>
 									Login
 								</button>
@@ -151,19 +151,19 @@ const Index: NextPage = () => {
 					)}
 					{isAllowed && (
 						<div>
-							<label className="font-bold text-2xl">
+							<label className='font-bold text-2xl'>
 								Please fill-in your 2FA Code
 							</label>
 							<br />
 							<br />
 							<input
-								type="text"
-								placeholder="XXXXXX"
-								className={'border-2 rounded-md w-52 h-10 pl-2'}
+								type='text'
+								placeholder='XXXXXX'
+								className={'border-2 rounded-lg w-52 h-10 pl-2'}
 								onChange={(e): void => setTwoFactorAuthCode(e.target.value)}
 							/>
 							<button
-								className="bg-emerald-500 text-white h-10 rounded-md ml-3 w-16 font-semibold"
+								className='bg-emerald-500 text-gray-50 h-10 rounded-lg ml-3 w-16 font-semibold'
 								onClick={submit2FA}
 							>
 								Submit

@@ -10,8 +10,9 @@ interface Props {
 const EventPage: FC<Props> = ({ event }) => {
 	const startDate = useHydrationSafeDate(event.startsAtTimestamp);
 	const endDate = useHydrationSafeDate(event.endsAtTimestamp);
+
 	return (
-		<div className="flex flex-col justify-center">
+		<div className='flex flex-col justify-center bg-red-100 p-5 rounded-md'>
 			<div
 				style={{
 					background: `url(${event.bannerURL}) no-repeat center`,
@@ -19,50 +20,44 @@ const EventPage: FC<Props> = ({ event }) => {
 					width: '100%',
 					height: '11rem',
 				}}
-			></div>
-			<div className="text-center">
-				<h1 className="pb-3 pt-3 text-3xl font-bold">{event.name}</h1>
-				<h2 className="mb-3 rounded-3xl bg-red-500 p-2">
-					<span className="font-medium">From</span>
-					<span className="cursor-pointer bg-gray-100 p-1 text-lg font-medium text-gray-700 hover:underline">
+			>
+			</div>
+			<div className='text-center content-center'>
+				<h1 className='pb-3 pt-3 text-3xl font-bold'>{event.name}</h1>
+				<h2 className='mb-3 rounded-lg bg-red-500 p-2 text-gray-50 text-xl font-bold'>
+					<span className='cursor-pointer p-1 font-medium'>
 						{startDate}
 					</span>
-					<span className="font-medium">to</span>
-					<span className="cursor-pointer bg-gray-100 p-1 text-lg font-medium text-gray-700 hover:underline">
+					<span className='font-medium text-gray-700'>until</span>
+					<span className='cursor-pointer p-1 font-medium'>
 						{endDate}
 					</span>
 				</h2>
-				<p className="px-2 pb-3 text-lg">{event.description}</p>
+				<p className='px-2 pb-3 text-lg'>{event.description}</p>
 			</div>
-			<h1 className="text-3xl font-bold">Entry Info</h1>
-			<div className="flex flex-col font-semibold text-lg my-3">
+			<h1 className='text-3xl font-bold'>Informatie over deelname</h1>
+			<div className='flex flex-col font-semibold text-lg my-3'>
 				<p>
-					Paid:{' '}
-					<span className="text-gray-500 italic underline">
-						{event.entry.paidEntry ? 'Yes' : 'No'}
+					Ingangskosten:{' '}
+					<span className='text-gray-500'>
+						{event.entry.entryCost > 0 ? event.entry.entryCost: 'GRATIS'}
 					</span>
 				</p>
 				<p>
-					Entry Cost:{' '}
-					<span className="text-gray-500 italic underline">
-						{event.entry.entryCost}
-					</span>
-				</p>
-				<p>
-					Capacity:{' '}
-					<span className="text-gray-500 italic underline">
+					Capaciteit:{' '}
+					<span className='text-gray-500'>
 						{event.entry.eventCapacity}
 					</span>
 				</p>
 				<p>
-					Registered:{' '}
-					<span className="text-gray-500 italic underline">
+					Geregistreerd :{' '}
+					<span className='text-gray-500'>
 						{event.entry.registeredCount}
 					</span>
 				</p>
 				<p>
-					Remaining:{' '}
-					<span className="text-gray-500 italic underline">
+					Overige:{' '}
+					<span className='text-gray-500'>
 						{event.entry.eventCapacity - event.entry.registeredCount}
 					</span>
 				</p>

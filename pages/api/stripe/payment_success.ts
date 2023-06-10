@@ -5,8 +5,9 @@ import dbConnect from '../../../src/util/dbConnect';
 import { Stripe } from 'stripe';
 import { mail } from '../../../src/mail';
 import { IProduct, Order, Product } from '../../../src/models';
+
 const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY, {
-	apiVersion: '2022-08-01',
+	apiVersion: '2022-11-15',
 });
 
 dbConnect();
