@@ -67,23 +67,23 @@ const ShoppingCartItem: FC<Props> = ({ item, setModified }) => {
 			<div className='flex'>
 				<img className='w-24 sm:w-32 md:w-52 rounded-lg mt-2 mb-2' draggable={false} src={item.imageURL} alt={item.name} width='64' height='64' />
 				<div className='flex-row mt-2 mb-2 ml-2 flex items-center w-full md:w-screen lg:w-full'>
-					<div className="ml-1 flex flex-col">
+					<div className='ml-1 flex flex-col'>
 						<h1 className='text-xl font-bold'>{item.name}</h1>
-						<p className="w-20 xl:w-28">€{(price / amount / 100).toFixed(2)} elk</p>
+						<p className='w-20 xl:w-28'>€{(price / amount / 100).toFixed(2)} elk</p>
 					</div>
-					<div className="sm:ml-16 md:ml-20 flex flex-row mb-4 relative w-full">
-						<div className="flex flex-row items-center justify-center gap-3">
+					<div className='sm:ml-16 md:ml-20 flex flex-row mb-4 relative w-full'>
+						<div className='flex flex-row items-center justify-center gap-3'>
 							<button onClick={(): void => increaseAmount()}>
-								<PlusIcon className="w-6 h-6 fill-slate-300 transition-all duration-[200ms] ease-in-out hover:fill-red-700" />
+								<PlusIcon className='w-6 h-6 fill-slate-300 transition-all duration-[200ms] ease-in-out hover:fill-red-700' />
 							</button>
-							<p className="w-4">{amount}</p>
+							<p className='w-4'>{amount}</p>
 							<button onClick={(): void => decreaseAmount()}>
-								<MinusIcon className="w-6 h-6 fill-slate-300 transition-all duration-[200ms] ease-in-out hover:fill-red-700" />
+								<MinusIcon className='w-6 h-6 fill-slate-300 transition-all duration-[200ms] ease-in-out hover:fill-red-700' />
 							</button>
 						</div>
 						<p className='ml-6 sm:ml-20 md:ml-24 lg:ml-52 xl:ml-44 text-lg'>€{(price / 100).toFixed(2)}</p>
-						<button onClick={(): void => removeFromCart()} className="absolute md:-right-32 lg:right-3 right-3">
-							<CloseIcon className="w-6 h-6 fill-slate-300 transition-all duration-[200ms] ease-in-out hover:fill-red-700" />
+						<button onClick={(): void => removeFromCart()} className='absolute md:-right-32 lg:right-3 right-3'>
+							<CloseIcon className='w-6 h-6 fill-slate-300 transition-all duration-[200ms] ease-in-out hover:fill-red-700' />
 						</button>
 					</div>
 				</div>

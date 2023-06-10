@@ -8,7 +8,7 @@ import { useLocalStorage } from '../lib/hooks/useLocalStorage';
 import { BaseProps, ResponseData } from '../src/types/index';
 
 interface Props {
-	data: (IProduct & { _id: string })[];
+	data: (IProduct & { _id: string; })[];
 }
 
 const ProductsIndex: NextPage<Props> = ({ data }) => {
@@ -51,16 +51,14 @@ export const getServerSideProps = async ({
 	res,
 }: NextPageContext): Promise<BaseProps<ProductDocument>> => {
 	const request = await fetch(
-		`${process.env.NEXT_PUBLIC_DOMAIN}/api/products/`,
+		`${process.env.NEXT_PUBLIC_DOMAIN}/api/products`,
 		{
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' },
 		},
 	);
 
-	const data = (await request.json()) as ResponseData<
-	ProductDocument | ProductDocument[]
-	>;
+	const data = (await request.json()) as ResponseData<ProductDocument | ProductDocument[]>;
 
 	return {
 		props: {

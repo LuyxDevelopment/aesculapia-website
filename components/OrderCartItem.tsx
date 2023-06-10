@@ -9,16 +9,16 @@ interface Props {
 const OrderCartItem: FC<Props> = ({ item }) => {
 	return <>
 		<tr>
-			<td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+			<td className='px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap'>
 				<img className='w-24 sm:w-36 md:w-44 rounded-lg mt-2 mb-2' draggable={false} src={item.imageURL} alt={item.name} />
 			</td>
-			<td className="px-6 py-4 text-gray-800 whitespace-nowrap">
+			<td className='px-6 py-4 text-gray-800 whitespace-nowrap'>
 				<p>{item.name}</p>
 			</td>
-			<td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-				<p className="text-lg">{item.amount}</p>
+			<td className='px-6 py-4 text-sm text-gray-800 whitespace-nowrap'>
+				<p className='text-lg'>{item.amount}</p>
 			</td>
-			<td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+			<td className='px-6 py-4 text-sm font-medium text-right whitespace-nowrap'>
 				<p>€{item.price.toFixed(2)}</p>
 			</td>
 		</tr>

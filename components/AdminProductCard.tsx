@@ -74,7 +74,7 @@ const AdminProductCard: FC<Props> = ({ product }) => {
 					{confirmation ? (<>
 						<div>
 							<Confirmation
-								message="Are you sure you want to delete this product?"
+								message='Are you sure you want to delete this product?'
 								open={true}
 								deleteObject={deleteProduct}
 								setConfirmationOpen={setConfirmationOpen}
@@ -82,26 +82,26 @@ const AdminProductCard: FC<Props> = ({ product }) => {
 							/>
 						</div>
 					</>) : undefined}
-					<div className="grid justify-items-center">
+					<div className='grid justify-items-center'>
 						<img className={(product.stock === 0 ? 'grayscale ' : '') + 'sm:w-64 rounded-lg transition-all duration-[400ms] ease-in-out group-hover:shadow-md group-hover:scale-[0.96]'} draggable={false} src={product.imageURL} alt={product.name} width='256' height='256' />
 					</div>
 					<form onSubmit={handleSubmit((data, event) => onSubmit(data, event))}>
-						<div className="md:w-1/2 px-3 mb-6 md:mb-0 mt-4">
-							<input className="appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-name" type="text" placeholder={name} minLength={1} maxLength={64} {...register('name', { required: false })} />
+						<div className='md:w-1/2 px-3 mb-6 md:mb-0 mt-4'>
+							<input className='appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-name' type='text' placeholder={name} minLength={1} maxLength={64} {...register('name', { required: false })} />
 						</div>
-						<div className="flex flex-row gap-3">
+						<div className='flex flex-row gap-3'>
 							<p className='text-lg h-auto'>Price:</p>
-							<div className="relative divide-x">
-								<p className="absolute ml-[2px] mt-[2.5px]">€</p>
-								<input className="appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded h-7 w-16 pl-[18px] py-1 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-name" type="text" placeholder={`${(price / 100).toFixed(2)}`} minLength={1} maxLength={64} {...register('price', { required: false })} />
+							<div className='relative divide-x'>
+								<p className='absolute ml-[2px] mt-[2.5px]'>€</p>
+								<input className='appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded h-7 w-16 pl-[18px] py-1 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-name' type='text' placeholder={`${(price / 100).toFixed(2)}`} minLength={1} maxLength={64} {...register('price', { required: false })} />
 							</div>
 						</div>
-						<div className="flex flex-row gap-3">
+						<div className='flex flex-row gap-3'>
 							<p className='text-lg h-auto'>Stock:</p>
-							<input className="appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded h-7 w-16 py-1 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-name" type="text" placeholder={`${stock}`} minLength={1} maxLength={64} {...register('stock', { required: false })} />
+							<input className='appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded h-7 w-16 py-1 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-name' type='text' placeholder={`${stock}`} minLength={1} maxLength={64} {...register('stock', { required: false })} />
 						</div>
-						<div className="grid justify-items-center">
-							<button type="submit" className='absolute bottom-1 h-10 w-20 bg-gray-300 shadow-md flex items-center justify-center rounded-full p-2 hover:bg-red-500 transition-all duration-300 ease-in-out'>
+						<div className='grid justify-items-center'>
+							<button type='submit' className='absolute bottom-1 h-10 w-20 bg-gray-300 shadow-md flex items-center justify-center rounded-full p-2 hover:bg-red-500 transition-all duration-300 ease-in-out'>
 								<p>Save</p>
 							</button>
 						</div>

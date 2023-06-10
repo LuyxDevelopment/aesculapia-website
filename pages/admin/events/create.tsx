@@ -142,12 +142,12 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 												flex={true}></TimeField>
 										</SSRProvider>
 
-										<div className="w-full">
+										<div className='w-full'>
 											<p></p>
 											{selected && selected.getUTCDate() ? (
-												<p className="text-black">You picked {new DateFormatter('en-US').format(selected!)} at  {new Date().toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ')[2]}.</p>
+												<p className='text-black'>You picked {new DateFormatter('en-US').format(selected!)} at  {new Date().toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ')[2]}.</p>
 											) : (
-												<p className="text-black">Please select a day.</p>
+												<p className='text-black'>Please select a day.</p>
 											)}
 										</div>
 									</div>

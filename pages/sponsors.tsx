@@ -8,7 +8,7 @@ import { ISponsor, SponsorDocument } from '../src/models/Sponsor';
 import { BaseProps, ResponseData } from '../src/types/index';
 
 interface Props {
-	data: (ISponsor & { _id: string })[];
+	data: (ISponsor & { _id: string; })[];
 }
 
 const SponsorsIndex: NextPage<Props> = ({ data }) => {
@@ -18,12 +18,12 @@ const SponsorsIndex: NextPage<Props> = ({ data }) => {
 			<Layout>
 				{!data && <ErrorPage />}
 				{data && (
-					<div className="container mb-12">
-						<h1 className="text-5xl font-bold mb-5">Sponsors</h1>
-						<p className="text-xl">
+					<div className='container mb-12'>
+						<h1 className='text-5xl font-bold mb-5'>Sponsors</h1>
+						<p className='text-xl'>
 							Deze sponsors helpen onze missie te financieren.
 						</p>
-						<div className="grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+						<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
 							{data.map((sponsor, i) => {
 								return (
 									<SponsorCard
@@ -56,7 +56,7 @@ export const getServerSideProps = async ({
 		},
 	);
 
-	const sponsorData = (await sponsorRequest.json()) as ResponseData<		SponsorDocument | SponsorDocument[]>;
+	const sponsorData = (await sponsorRequest.json()) as ResponseData<SponsorDocument | SponsorDocument[]>;
 
 	return {
 		props: {

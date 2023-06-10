@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export const useHydrationSafeDate = (date: number) => {
+export const useHydrationSafeDate = (date: number): string => {
 	const [safeDate, setSafeDate] = useState<string>('');
 
 	useEffect(() => {

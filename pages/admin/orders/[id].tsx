@@ -18,9 +18,6 @@ const AdminOrdersDynamic: NextPage<Props> = ({ order }) => {
 export default AdminOrdersDynamic;
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, resolvedUrl }): Promise<AdminProps> {
-
-	console.log(req.query);
-
 	// const orderRequest = await fetch(
 	// 	`${process.env.NEXT_PUBLIC_DOMAIN}/api/stripe/payouts/${req}`,
 	// );

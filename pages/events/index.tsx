@@ -6,7 +6,7 @@ import Layout from '../../components/Layout';
 import { useMetaData } from '../../lib/hooks/useMetaData';
 
 interface Props {
-	data: (IEvent & { _id: string })[];
+	data: (IEvent & { _id: string; })[];
 }
 
 const EventsIndex: NextPage<Props> = ({ data }) => {
@@ -14,8 +14,8 @@ const EventsIndex: NextPage<Props> = ({ data }) => {
 		<>
 			{useMetaData('Events', 'Events', '/events')}
 			<Layout>
-				<div className="container mb-10">
-					<div className="flex flex-col items-center justify-center space-y-5">
+				<div className='container mb-10'>
+					<div className='flex flex-col items-center justify-center space-y-5'>
 						{data.map((event, i) => {
 							return (
 								<EventCard
@@ -44,9 +44,7 @@ export const getServerSideProps = async ({
 		headers: { 'Content-Type': 'application/json' },
 	});
 
-	const response = (await request.json()) as ResponseData<
-		EventDocument | EventDocument[]
-	>;
+	const response = (await request.json()) as ResponseData<EventDocument | EventDocument[]>;
 
 	return {
 		props: {

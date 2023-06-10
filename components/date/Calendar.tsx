@@ -25,9 +25,9 @@ const Calendar: FC<Props> = ({ props }) => {
 	);
 
 	return (
-		<div {...calendarProps} ref={ref} className="inline-block text-gray-800">
-			<div className="flex items-center pb-4">
-				<h2 className="flex-1 font-bold text-xl ml-2">{title}</h2>
+		<div {...calendarProps} ref={ref} className='inline-block text-gray-800'>
+			<div className='flex items-center pb-4'>
+				<h2 className='flex-1 font-bold text-xl ml-2'>{title}</h2>
 				<CalendarButton {...prevButtonProps}>
 				◀
 				</CalendarButton>

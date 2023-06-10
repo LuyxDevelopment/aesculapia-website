@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 interface Props {
-	data: (IProduct & { _id: string })[];
+	data: (IProduct & { _id: string; })[];
 }
 
 const ShoppingCart: NextPage<Props> = ({ data }) => {
@@ -52,9 +52,9 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 			{useMetaData('Shopping Cart', 'Shopping Cart Page', '/cart')}
 			<Layout>
 				{!cart || !cart.length && (
-					<div className="container flex flex-row">
-						<div className="mb-12">
-							<h1 className="text-4xl font-bold mb-5">Winkelwagen</h1>
+					<div className='container flex flex-row'>
+						<div className='mb-12'>
+							<h1 className='text-4xl font-bold mb-5'>Winkelwagen</h1>
 							<p>Er zitten geen producten in de winkelwagen.</p>
 						</div>
 					</div>
@@ -62,10 +62,10 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 				{(cart && cart.length > 0) && (
 					<>
 						<div>
-							<div className="2xl:ml-48 flex flex-col xl:flex-row container xl:divide-x">
-								<div className="mb-12 mr-2">
-									<h1 className="text-4xl font-bold mb-5">Winkelwagen</h1>
-									<div className="grid grid-cols-1 divide-y w-[25rem] sm:w-[40rem] md:w-[39rem] lg:w-[60rem]">
+							<div className='2xl:ml-48 flex flex-col xl:flex-row container xl:divide-x'>
+								<div className='mb-12 mr-2'>
+									<h1 className='text-4xl font-bold mb-5'>Winkelwagen</h1>
+									<div className='grid grid-cols-1 divide-y w-[25rem] sm:w-[40rem] md:w-[39rem] lg:w-[60rem]'>
 										{cart.map((item, i) => {
 											return (
 												<ShoppingCartItem
@@ -77,26 +77,26 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 										})}
 									</div>
 								</div>
-								<div className="h-screen xl:sticky top-0 px-2">
-									<h1 className="text-4xl font-bold mb-5">Bestel</h1>
-									<div className="lg:divide-y">
+								<div className='h-screen xl:sticky top-0 px-2'>
+									<h1 className='text-4xl font-bold mb-5'>Bestel</h1>
+									<div className='lg:divide-y'>
 										<div>
-											<p className="font-bold">Samenvatting van de bestelling</p>
+											<p className='font-bold'>Samenvatting van de bestelling</p>
 										</div>
-										<hr className="lg:w-0 w-64"></hr>
+										<hr className='lg:w-0 w-64'></hr>
 										<div className='flex flex-row gap-20'>
-											<h1 className="font-bold text-xl">Subtotaal</h1>
-											<h1 className="font-bold text-xl">€{(price / 100).toFixed(2)}</h1>
+											<h1 className='font-bold text-xl'>Subtotaal</h1>
+											<h1 className='font-bold text-xl'>€{(price / 100).toFixed(2)}</h1>
 										</div>
 									</div>
-									<button type="submit" className='xl:absolute mb-2 mt-2 h-20 xl:w-full bg-red-500 shadow-md flex items-center justify-center rounded p-2 hover:bg-red-700 transition-all duration-300 ease-in-out' onClick={(): Promise<boolean> => router.push('/checkout')}>
-										<div className="flex flex-row gap-10 items-center justify-center">
+									<button type='submit' className='xl:absolute mb-2 mt-2 h-20 xl:w-full bg-red-500 shadow-md flex items-center justify-center rounded p-2 hover:bg-red-700 transition-all duration-300 ease-in-out' onClick={(): Promise<boolean> => router.push('/checkout')}>
+										<div className='flex flex-row gap-10 items-center justify-center'>
 											<p className='font-bold text-md'>Doorgaan naar kassa</p>
 											<Image
-												src="/assets/icons/arrow.svg"
+												src='/assets/icons/arrow.svg'
 												width={30}
 												height={30}
-												alt="Arrow"
+												alt='Arrow'
 											/>
 										</div>
 									</button>
@@ -117,7 +117,7 @@ export const getServerSideProps = async ({ res }: NextPageContext): Promise<Base
 	);
 
 	const request = await fetch(
-		`${process.env.NEXT_PUBLIC_DOMAIN}/api/products/`,
+		`${process.env.NEXT_PUBLIC_DOMAIN}/api/products`,
 		{
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' },

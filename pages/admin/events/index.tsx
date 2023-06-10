@@ -22,15 +22,15 @@ const AdminEventsIndex: NextPage<Props> = ({ data }) => {
 				{!data && <ErrorPage />}
 				{data && (
 					<>
-						<div className="container flex flex-row">
-							<div className="mb-12">
-								<div className="flex flex-col items-start justify-start mb-7">
-									<h1 className="text-4xl font-bold mb-5">Winkelwagen</h1>
+						<div className='container flex flex-row'>
+							<div className='mb-12'>
+								<div className='flex flex-col items-start justify-start mb-7'>
+									<h1 className='text-4xl font-bold mb-5'>Winkelwagen</h1>
 									<button className='h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-900' onClick={(): void => { window.location.href = '/admin/events/create'; }}>
 								Event creëren
 									</button>
 								</div>
-								<div className="grid grid-cols-1 divide-y w-[35rem] sm:w-[40rem] md:w-[39rem] lg:w-[60rem]">
+								<div className='grid grid-cols-1 divide-y w-[35rem] sm:w-[40rem] md:w-[39rem] lg:w-[60rem]'>
 									{data.map((event, i) => {
 										return (
 											<AdminEventCard

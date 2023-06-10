@@ -26,11 +26,11 @@ export default function ogHandler(req: NextRequest): ImageResponse {
 				>
 					<img
 						src={`${process.env.NEXT_PUBLIC_DOMAIN}/assets/logo.png`}
-						alt="Aesculapia Logo"
-						width="150"
-						tw="pb-3"
+						alt='Aesculapia Logo'
+						width='150'
+						tw='pb-3'
 					/>
-					<p tw="text-3xl font-bold">{description}</p>
+					<p tw='text-3xl font-bold'>{description}</p>
 				</div>
 			),
 			{

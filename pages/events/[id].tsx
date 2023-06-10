@@ -6,7 +6,7 @@ import { BaseProps, ResponseData } from '../../src/types';
 import EventPage from '../../components/EventPage';
 
 interface Props {
-	data: IEvent & { _id: string };
+	data: IEvent & { _id: string; };
 }
 
 const EventDynamic: NextPage<Props> = ({ data }) => {
@@ -22,9 +22,7 @@ const EventDynamic: NextPage<Props> = ({ data }) => {
 	);
 };
 
-export const getServerSideProps = async ({
-	query,
-}: NextPageContext & { query: { id: string } }): Promise<BaseProps<EventDocument>> => {
+export const getServerSideProps = async ({ query }: NextPageContext & { query: { id: string } }): Promise<BaseProps<EventDocument>> => {
 	const req = await fetch(
 		`${process.env.NEXT_PUBLIC_DOMAIN}/api/events/${query.id}`,
 	);

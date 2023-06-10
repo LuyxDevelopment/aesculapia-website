@@ -9,7 +9,7 @@ interface Props {
 const Tooltip: FC<Props> = ({ children, text, tw }) => {
 	return (
 		<div className={`tooltip ${tw}`}>
-			<span className="tooltip-text">{text}</span>
+			<span className='tooltip-text'>{text}</span>
 			{children}
 		</div>
 	);

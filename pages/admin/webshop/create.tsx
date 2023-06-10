@@ -10,7 +10,7 @@ import { AdminProps } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
 
 const AdminCreateProducts: NextPage<{
-	user: { email: string; has2faEnabled: boolean };
+	user: { email: string; has2faEnabled: boolean; };
 }> = ({ user }) => {
 	const [message, setMessage] = useState<{
 		type: 'success' | 'error' | 'info';
@@ -252,7 +252,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({
 	return {
 		props: { user: req.session.user },
 	};
-},
-ironOptions);
+}, ironOptions);
 
 export default AdminCreateProducts;

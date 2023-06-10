@@ -72,7 +72,7 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 					{confirmation ? (<>
 						<div>
 							<Confirmation
-								message="Are you sure you want to delete this event?"
+								message='Are you sure you want to delete this event?'
 								open={true}
 								deleteObject={deleteEvent}
 								setConfirmationOpen={setConfirmationOpen}
@@ -80,28 +80,28 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 							/>
 						</div>
 					</>) : undefined}
-					<div className="grid justify-items-start">
+					<div className='grid justify-items-start'>
 						<img className={(event.entry.eventCapacity === 0 ? 'grayscale ' : '') + 'sm:w-64 rounded-lg transition-all duration-[400ms] ease-in-out group-hover:shadow-md group-hover:scale-[0.96]'} draggable={false} src={event.bannerURL} alt={event.name} width='256' height='256' />
 					</div>
 					<form onSubmit={handleSubmit((data, event) => onSubmit(data, event))}>
-						<div className="md:w-1/2 px-3 mb-6 md:mb-0 mt-4">
-							<input className="appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-name" type="text" placeholder={name || 'Name goes here'} minLength={1} maxLength={64} {...register('name', { required: false })} />
+						<div className='md:w-1/2 px-3 mb-6 md:mb-0 mt-4'>
+							<input className='appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-name' type='text' placeholder={name || 'Name goes here'} minLength={1} maxLength={64} {...register('name', { required: false })} />
 						</div>
-						<div className="justify-items-center">
-							<div className="flex flex-row gap-3">
+						<div className='justify-items-center'>
+							<div className='flex flex-row gap-3'>
 								<p className='text-lg h-auto'>Entry Cost:</p>
-								<div className="relative divide-x">
-									<p className="absolute ml-[2px] mt-[2.5px]">€</p>
-									<input className="appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded h-7 w-16 pl-[18px] py-1 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-name" type="text" placeholder={`${(entryCost / 100).toFixed(2)}`} minLength={1} maxLength={64} {...register('entryCost', { required: false })} />
+								<div className='relative divide-x'>
+									<p className='absolute ml-[2px] mt-[2.5px]'>€</p>
+									<input className='appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded h-7 w-16 pl-[18px] py-1 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-name' type='text' placeholder={`${(entryCost / 100).toFixed(2)}`} minLength={1} maxLength={64} {...register('entryCost', { required: false })} />
 								</div>
 							</div>
-							<div className="flex flex-row gap-3">
+							<div className='flex flex-row gap-3'>
 								<p className='text-lg h-auto'>Event Capacity:</p>
-								<input className="appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded h-7 w-16 py-1 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-product-name" type="text" placeholder={`${event.entry.eventCapacity || 0}`} minLength={1} maxLength={64} {...register('eventCapacity', { required: false })} />
+								<input className='appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded h-7 w-16 py-1 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-name' type='text' placeholder={`${event.entry.eventCapacity || 0}`} minLength={1} maxLength={64} {...register('eventCapacity', { required: false })} />
 							</div>
 						</div>
-						<div className="grid justify-items-center">
-							<button type="submit" className='absolute bottom-1 h-10 w-20 bg-gray-300 shadow-md flex items-center justify-center rounded-full p-2 hover:bg-red-500 transition-all duration-300 ease-in-out'>
+						<div className='grid justify-items-center'>
+							<button type='submit' className='absolute bottom-1 h-10 w-20 bg-gray-300 shadow-md flex items-center justify-center rounded-full p-2 hover:bg-red-500 transition-all duration-300 ease-in-out'>
 								<p>Save</p>
 							</button>
 						</div>
