@@ -4,7 +4,7 @@ import { isSameDay, getDayOfWeek, CalendarDate } from '@internationalized/date';
 import { CalendarState } from 'react-stately';
 
 interface Props {
-	state: CalendarState
+	state: CalendarState;
 	date: CalendarDate;
 }
 
@@ -19,16 +19,20 @@ const CalendarCell: FC<Props> = ({ state, date }) => {
 		formattedDate,
 		isInvalid,
 	} = useCalendarCell({ date }, state, ref);
-  
+
 	// The start and end date of the selected range will have
 	// an emphasized appearance.
+	// @ts-ignore
 	const isSelectionStart = state.highlightedRange
+		// @ts-ignore
 		? isSameDay(date, state.highlightedRange.start)
 		: isSelected;
+	// @ts-ignore
 	const isSelectionEnd = state.highlightedRange
+		// @ts-ignore
 		? isSameDay(date, state.highlightedRange.end)
 		: isSelected;
-  
+
 	// We add rounded corners on the left for the first day of the month,
 	// the first day of each week, and the start date of the selection.
 	// We add rounded corners on the right for the last day of the month,
@@ -36,15 +40,15 @@ const CalendarCell: FC<Props> = ({ state, date }) => {
 	const { locale } = useLocale();
 	const dayOfWeek = getDayOfWeek(date, locale);
 	const isRoundedLeft =
-	isSelected && (isSelectionStart || dayOfWeek === 0 || date.day === 1);
+		isSelected && (isSelectionStart || dayOfWeek === 0 || date.day === 1);
 	const isRoundedRight =
-	isSelected &&
-	(isSelectionEnd ||
-		dayOfWeek === 6 ||
-		date.day === date.calendar.getDaysInMonth(date));
-  
+		isSelected &&
+		(isSelectionEnd ||
+			dayOfWeek === 6 ||
+			date.day === date.calendar.getDaysInMonth(date));
+
 	const { focusProps, isFocusVisible } = useFocusRing();
-  
+
 	return (
 		<td
 			{...cellProps}
@@ -54,38 +58,28 @@ const CalendarCell: FC<Props> = ({ state, date }) => {
 				{...mergeProps(buttonProps, focusProps)}
 				ref={ref}
 				hidden={isOutsideVisibleRange}
-				className={`w-10 h-10 outline-none group ${
-					isRoundedLeft ? 'rounded-l-lg' : ''
-				} ${isRoundedRight ? 'rounded-r-lg' : ''} ${
-					isSelected ? (isInvalid ? 'bg-red-300' : 'bg-red-300') : ''
-				} ${isDisabled ? 'disabled' : ''}`}
+				className={`w-10 h-10 outline-none group ${isRoundedLeft ? 'rounded-l-lg' : ''} ${isRoundedRight ? 'rounded-r-lg' : ''} ${isSelected ? (isInvalid ? 'bg-red-300' : 'bg-red-300') : ''} ${isDisabled ? 'disabled' : ''}`}
 			>
 				<div
-					className={`w-full h-full rounded-lg flex items-center justify-center ${
-						isDisabled && !isInvalid ? 'text-gray-400' : ''
-					} ${
+					className={`w-full h-full rounded-lg flex items-center justify-center ${isDisabled && !isInvalid ? 'text-gray-400' : ''} ${
 						// Focus ring, visible while the cell has keyboard focus.
 						isFocusVisible
 							? 'ring-2 group-focus:z-2 ring-red-600 ring-offset-2'
-							: ''
-					} ${
+							: ''} ${
 						// Darker selection background for the start and end.
 						isSelectionStart || isSelectionEnd
 							? isInvalid
 								? 'bg-red-600 text-gray-50 hover:bg-red-700'
 								: 'bg-red-600 text-gray-50 hover:bg-red-700'
-							: ''
-					} ${
+							: ''} ${
 						// Hover state for cells in the middle of the range.
 						isSelected && !isDisabled && !(isSelectionStart || isSelectionEnd)
 							? isInvalid
 								? 'hover:bg-red-400'
 								: 'hover:bg-red-400'
-							: ''
-					} ${
+							: ''} ${
 						// Hover state for non-selected cells.
-						!isSelected && !isDisabled ? 'hover:bg-red-100' : ''
-					} cursor-default`}
+						!isSelected && !isDisabled ? 'hover:bg-red-100' : ''} cursor-default`}
 				>
 					{formattedDate}
 				</div>
@@ -93,6 +87,6 @@ const CalendarCell: FC<Props> = ({ state, date }) => {
 		</td>
 	);
 };
-  
+
 
 export default CalendarCell;

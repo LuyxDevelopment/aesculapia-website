@@ -7,7 +7,7 @@ interface Props {
 	order: Stripe.PaymentIntent;
 }
 
-const OrderPage: FC<Props> = ({   order }) => {
+const OrderPage: FC<Props> = ({ order }) => {
 	const created = useHydrationSafeDate(order.created);
 
 	return (
@@ -35,13 +35,13 @@ const OrderPage: FC<Props> = ({   order }) => {
 				<p>
 					Name:{' '}
 					<span className='text-gray-500 italic underline'>
-						{order.entry.paidEntry ? 'Yes' : 'No'}
+						{order.shipping!.name}
 					</span>
 				</p>
 				<p>
 					Billing Address:{' '}
 					<span className='text-gray-500 italic underline'>
-						{order.entry.entryCost}
+						{!order.shipping!.address}
 					</span>
 				</p>
 				<p>
@@ -50,18 +50,18 @@ const OrderPage: FC<Props> = ({   order }) => {
 						{order.currency}
 					</span>
 				</p>
-				<p>
+				{/* <p>
 					Registered:{' '}
 					<span className='text-gray-500 italic underline'>
-						{order.entry.registeredCount}
+						{order.metadata.registeredCount}
 					</span>
 				</p>
 				<p>
 					Remaining:{' '}
 					<span className='text-gray-500 italic underline'>
-						{order.entry.eventCapacity - order.entry.registeredCount}
+						{order.metadata.eventCapacity - order.metadata.registeredCount}
 					</span>
-				</p>
+				</p> */}
 			</div>
 		</div>
 	);

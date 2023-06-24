@@ -2,7 +2,6 @@ import { Schema, Model, default as mongoose, HydratedDocument } from 'mongoose';
 import { Order, OrderDocument } from './Order';
 
 export interface IProduct {
-	_id: string;
 	name: string;
 	imageURL: string;
 	price: number;
@@ -19,7 +18,6 @@ export type ProductDocument = HydratedDocument<IProduct, ProductMethods>;
 export type ProductModel = Model<IProduct, {}, ProductMethods>;
 
 export const productSchema = new Schema<IProduct, ProductModel, ProductMethods>({
-	_id: { type: Schema.Types.String, required: true },
 	name: { type: Schema.Types.String, minlength: 1, maxLength: 64, required: true },
 	imageURL: { type: Schema.Types.String, minLength: 1, maxLength: 1024, required: true },
 	price: { type: Schema.Types.Number, min: 0, required: true },

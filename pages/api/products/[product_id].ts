@@ -53,7 +53,7 @@ export default withIronSessionApiRoute(async function productId(
 				return;
 			}
 
-			await stripe.products.update(product._id, { active: false });
+			await stripe.products.update(product.id, { active: false });
 
 			res.status(StatusCodes.OK).json({
 				error: false,

@@ -3,7 +3,6 @@ import { ProductDocument } from './Product';
 import { IProduct } from './Product';
 
 export interface IOrder {
-	_id: string;
 	email: string;
 	firstName: string;
 	lastName: string;
@@ -28,7 +27,6 @@ export type OrderDocument = HydratedDocument<IOrder, OrderMethods>;
 export type OrderModel = Model<IOrder, {}, OrderMethods>;
 
 export const orderSchema = new Schema<IOrder, OrderModel, OrderMethods>({
-	_id: Schema.Types.String,
 	email: Schema.Types.String,
 	firstName: Schema.Types.String,
 	lastName: Schema.Types.String,
