@@ -54,7 +54,7 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 				{!cart || !cart.length && (
 					<div className='container flex flex-row'>
 						<div className='mb-12'>
-							<h1 className='text-4xl font-bold mb-5'>Winkelwagen</h1>
+							<h1 className='text-5xl font-bold mb-5'>Winkelwagen</h1>
 							<p>Er zitten geen producten in de winkelwagen.</p>
 						</div>
 					</div>
@@ -64,7 +64,7 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 						<div>
 							<div className='2xl:ml-48 flex flex-col xl:flex-row container xl:divide-x'>
 								<div className='mb-12 mr-2'>
-									<h1 className='text-4xl font-bold mb-5'>Winkelwagen</h1>
+									<h1 className='text-5xl font-bold mb-5'>Winkelwagen</h1>
 									<div className='grid grid-cols-1 divide-y w-[25rem] sm:w-[40rem] md:w-[39rem] lg:w-[60rem]'>
 										{cart.map((item, i) => {
 											return (
@@ -78,7 +78,7 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 									</div>
 								</div>
 								<div className='h-screen xl:sticky top-0 px-2'>
-									<h1 className='text-4xl font-bold mb-5'>Bestel</h1>
+									<h1 className='text-5xl font-bold mb-5'>Bestel</h1>
 									<div className='lg:divide-y'>
 										<div>
 											<p className='font-bold'>Samenvatting van de bestelling</p>
@@ -102,7 +102,7 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 									</button>
 								</div>
 							</div>
-						</div>	
+						</div>
 					</>
 				)}
 			</Layout>
