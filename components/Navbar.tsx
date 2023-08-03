@@ -17,16 +17,16 @@ const shopping: DropdownItem[] = [
 
 const about: DropdownItem[] = [
 	{
-		text: 'Praesidium',
-		href: '/praesidium',
+		text: 'Clublied',
+		href: '/clublied',
 	},
-	// {
-	// 	text: 'News',
-	// 	href: '/news',
-	// },
 	{
 		text: 'Events',
 		href: '/events',
+	},
+	{
+		text: 'Praesidium',
+		href: '/praesidium',
 	},
 ];
 
@@ -114,7 +114,7 @@ const Navbar: FC = () => {
 					>
 						<div className='flex flex-row gap-0 hover:bg-red-600 rounded-lg transition-all duration-300 ease-in-out pr-3'>
 							<h1 className='cursor-pointer font-bold py-2 px-3 ml-1'>
-							About
+								About
 							</h1>
 							<Image
 								src='/assets/icons/down.svg'
@@ -131,7 +131,7 @@ const Navbar: FC = () => {
 					>
 						<div className='flex flex-row gap-0 hover:bg-red-600 rounded-2xl transition-all duration-300 ease-in-out pr-3'>
 							<h1 className='cursor-pointer font-bold py-2 px-3 ml-1 h-full'>
-							Shopping
+								Shopping
 							</h1>
 							<Image
 								src='/assets/icons/down.svg'
@@ -155,7 +155,7 @@ const Navbar: FC = () => {
 				</span>
 			</nav>
 			{showMenu && (
-				<div className='animate-translate_top flex flex-col items-center justify-center sm:hidden bg-gray-200 shadow-xl p-3 font-extrabold mt-5'>
+				<div className='animate-translate_top flex flex-col items-center justify-center sm:hidden bg-gray-200 shadow-xl p-3 font-extrabold mt-5 z-10'>
 					{mobilePages.map(({ name, url }, i) => {
 						return (
 							<h1

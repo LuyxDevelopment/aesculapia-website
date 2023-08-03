@@ -12,7 +12,7 @@ interface Props {
 	fullScreen?: boolean;
 }
 
-const Carousel: FC<Props> = ({ images, fullScreen }) => {
+const Carousel: FC<Props> = ({ images }) => {
 	const [current, setCurrent] = useState(0);
 
 	const next = (): void => {
@@ -20,7 +20,7 @@ const Carousel: FC<Props> = ({ images, fullScreen }) => {
 		setCurrent((current + 1) % images.length);
 		image!.style.backgroundImage = `url(${images[current].url})`;
 	};
-	
+
 	const prev = (): void => {
 		const image = document.getElementById('bgimage');
 		setCurrent((current - 1 + images.length) % images.length);
@@ -32,9 +32,9 @@ const Carousel: FC<Props> = ({ images, fullScreen }) => {
 			style={{ backgroundImage: `url(${images[0].url})` }}>
 			<button
 				onClick={prev}
-				className='text-4xl h-full font-bold bg-transparent hover:bg-gray-800 hover:bg-opacity-20 transition-all ease-in-out duration-300 w-36 rounded-l-lg'
+				className='text-4xl h-full font-bold bg-transparent hover:bg-gray-800 hover:bg-opacity-20 transition-all ease-in-out duration-300 w-16 lg:w-36 rounded-l-lg'
 			>
-				<Image
+				<Image className='z-10 left-0 absolute'
 					src='/assets/icons/left.svg'
 					width={50}
 					height={50}
@@ -43,9 +43,9 @@ const Carousel: FC<Props> = ({ images, fullScreen }) => {
 			</button>
 			<button
 				onClick={next}
-				className='text-4xl font-bold bg-transparent hover:bg-gray-800 hover:bg-opacity-20 transition-all ease-in-out duration-300 w-36 rounded-r-lg float-right h-full'
+				className='text-4xl font-bold bg-transparent hover:bg-gray-800 hover:bg-opacity-20 transition-all ease-in-out duration-300 w-16 lg:w-36 rounded-r-lg h-full right-0 absolute'
 			>
-				<Image className='z-10'
+				<Image className='z-10 right-0 absolute'
 					src='/assets/icons/right.svg'
 					width={50}
 					height={50}

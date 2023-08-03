@@ -1,8 +1,6 @@
 import { NextPage } from 'next';
-import InProgress from '../components/InProgress';
 import Layout from '../components/Layout';
 import { useMetaData } from '../lib/hooks/useMetaData';
-import { MoonLoader } from 'react-spinners';
 import Image from 'next/image';
 
 const KnuppeltjePage: NextPage = () => {
@@ -17,8 +15,8 @@ const KnuppeltjePage: NextPage = () => {
 					height={619}
 					alt='Beer'
 				/>
-				<p className='mt-6 w-4/12 text-lg font-semibold'>
-				Het Knuppeltje is het studentenbier van Aesculapia. Dit kwaliteitsvolle, blonde bier heeft een heerlijke, fruitige smaak en bevat maar liefst 8%! Klinkt toch superlekker? Zelfs personen die bier niet lusten, waren positief over de smaak en de kwaliteit. Kom zeker eens proeven op 1 van onze evenementen!
+				<p className='mt-6 lg:w-1/3 text-lg font-semibold'>
+					Het Knuppeltje is het studentenbier van Aesculapia. Dit kwaliteitsvolle, blonde bier heeft een heerlijke, fruitige smaak en bevat maar liefst 8%! Klinkt toch superlekker? Zelfs personen die bier niet lusten, waren positief over de smaak en de kwaliteit. Kom zeker eens proeven op 1 van onze evenementen!
 				</p>
 			</div>
 		</Layout>

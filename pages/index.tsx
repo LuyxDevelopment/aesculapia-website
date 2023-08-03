@@ -2,27 +2,22 @@ import Image from 'next/image';
 import type { NextPage } from 'next';
 import Layout from '../components/Layout';
 import { useMetaData } from '../lib/hooks/useMetaData';
-import Carousel, { ImageData } from '../components/Carousel';
+import { ImageData } from '../components/Carousel';
 import Dropdown from '../components/Dropdown';
 import { useState } from 'react';
 import Carousel2 from '../components/Carousel2';
 
 const images: ImageData[] = [
 	{
-		name: 'hello',
+		name: 'Aesculapia Group',
 		id: 1,
-		url: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/group.jpg`,
 	},
 	{
 		name: 'hello',
 		id: 2,
-		url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=2`,
-	},
-	{
-		name: 'hello',
-		id: 3,
-		url: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=3`,
-	},
+		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/stairs.jpg`,
+	}
 ];
 
 const events = [
@@ -54,16 +49,16 @@ const Index: NextPage = () => {
 
 	const next = (): void => setCurrent((current + 1) % images.length);
 	const prev = (): void => setCurrent((current - 1 + images.length) % images.length);
-	
+
 	return (
 		<>
 			{useMetaData('Home', 'Home Page', '/')}
 			<Layout>
 				<div className='h-screen w-screen bg-gray-800'>
-					<Carousel2 images={images} fullScreen={true} />
-					<div className='absolute top-36 left-20 xl:top-36 xl:left-48 text-gray-50'>
-						<div className='flex flex-wrap w-56 sm:w-96'>
-							<h1 className='text-5xl pb-6 font-bold break-normal'>
+					<Carousel2 images={images} />
+					<div className='bg-gray-900 bg-opacity-50 p-4 rounded-md absolute top-2/3 lg:top-3/4 lg:left-1/3 lg:right-1/3 text-gray-50 z-10'>
+						<div className='flex flex-wrap mx-auto text-center'>
+							<h1 className='text-3xl lg:text-7xl pb-6 font-bold break-normal'>
 								Welkom op de website van Aesculapia!
 							</h1>
 							<p className='text-xl break-normal'>
@@ -77,8 +72,8 @@ const Index: NextPage = () => {
 					<div className='my-6 flex flex-col sm:flex-row justify-between items-center'>
 						<div>
 							<h1 className='font-semibold text-4xl'>Wie zijn wij?</h1>
-							<p className='italic'>
-								We zijn een groep studenten met zoveel talent!
+							<p className='text-lg italic'>
+								We zijn een studentenvereniging van en voor studenten Geneeskunde in Antwerpen. Wij zijn er zodat studenten zich naast hun studies ook kunnen ontspannen en elkaar beter leren kennen. Zo liggen we aan de basis van vele hechte vriendschappen. Dit door onze bijna wekelijkse activiteiten van TD’s en cantussen tot lezingen en meer. Verder ondersteunen we studenten ook bij hun studie onder andere door onze survivalgids.
 							</p>
 						</div>
 						<div className='px-5'></div>

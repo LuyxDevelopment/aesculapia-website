@@ -15,7 +15,7 @@ const InProgress: NextPage<Props> = ({ pageName }) => {
 				<div className='relative'>
 					<div className='absolute top-10 left-14 sm:left-20'>
 						<div className='flex flex-wrap w-56 sm:w-96 text-gray-800'>
-							<h1 className='text-5xl pb-2 font-bold'>
+							<h1 className='text-2xl lg:text-5xl pb-2 font-bold'>
 								Deze pagina is in ontwikkeling.
 							</h1>
 							<p className='text-xl'>
@@ -24,7 +24,7 @@ const InProgress: NextPage<Props> = ({ pageName }) => {
 						</div>
 					</div>
 				</div>
-				<div className='grid place-items-center h-96'>
+				<div className='grid place-items-center justify-center items-center h-full'>
 					<MoonLoader
 						color={'#ef4444'}
 						loading={true}

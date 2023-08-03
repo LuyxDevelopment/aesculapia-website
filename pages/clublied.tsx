@@ -29,7 +29,7 @@ const SongIndex: NextPage = () => {
 							</h1>
 						</div>
 						<div className='my-5'>
-							<p className='text-lg font-bold'>Refrein:</p>
+							<p className='text-lg font-bold italic'>Refrein:</p>
 							<h1 className='text-md font-semibold'>
 								Met ons kapotje, met ons klein zotje,
 							</h1>
