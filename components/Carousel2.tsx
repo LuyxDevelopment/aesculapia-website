@@ -31,7 +31,7 @@ const Carousel: FC<Props> = ({ images }) => {
 				onClick={prev}
 				className='flex text-4xl h-full font-bold bg-transparent items-center hover:bg-gray-800 hover:bg-opacity-20 transition-all ease-in-out duration-300 w-10 lg:w-36 rounded-l-lg'
 			>
-				<Image className='z-10 left-10 hidden lg:block'
+				<Image className='z-10 absolute left-10 hidden lg:block'
 					src='/assets/icons/left.svg'
 					width={50}
 					height={50}
@@ -45,7 +45,7 @@ const Carousel: FC<Props> = ({ images }) => {
 				onClick={next}
 				className='flex text-4xl h-full font-bold bg-transparent items-center hover:bg-gray-800 hover:bg-opacity-20 transition-all ease-in-out duration-300 w-10 lg:w-36 rounded-r-lg'
 			>
-				<Image className='z-10 hidden lg:block'
+				<Image className='z-10 absolute right-10 hidden lg:block'
 					src='/assets/icons/right.svg'
 					width={50}
 					height={50}

@@ -95,24 +95,6 @@ const Index: NextPage = () => {
 							alt='Alt'
 						/>
 					</div>
-					<div className='mt-20'>
-						<div className='flex flex-col-reverse sm:flex-row justify-between items-center'>
-							<Image
-								src={process.env.NEXT_PUBLIC_DOMAIN + '/images/party2.jpg'}
-								width={1200}
-								height={630}
-								className='w-60 lg:w-96 rounded-md'
-								alt='Alt'
-							/>
-							<div className='px-5'></div>
-							<div>
-								<h1 className='font-semibold text-4xl'>
-									Waar streven we naar?
-								</h1>
-								<p className='italic'>De wereld verbeteren!</p>
-							</div>
-						</div>
-					</div>
 					<div className='mt-32 mb-32'>
 						<h1 className='text-center text-4xl font-bold mb-5'>
 							Komende evenementen
