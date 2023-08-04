@@ -78,7 +78,7 @@ const Index: NextPage = () => {
 						</div>
 					</div>
 				</div>
-				<div className='container md:w-3/4 mx-auto md:mt-72 lg:mt-96'>
+				<div className='container md:w-3/4 mx-auto md:mt-72 lg:mt-[20vw]'>
 					<div className='my-6 flex flex-col sm:flex-row justify-between items-center'>
 						<div className='m-5'>
 							<h1 className='font-semibold text-4xl'>Wie zijn wij?</h1>
