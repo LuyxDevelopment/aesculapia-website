@@ -7,18 +7,19 @@ const Footer: FC = () => {
 		<footer className='flex flex-col p-10 bg-red-500 text-gray-100'>
 			<div className='flex flex-row justify-around pb-3'>
 				<Image
+					className='m-4'
 					src='/assets/logo.png'
 					alt='Logo'
 					width='100'
 					height='100'
 				/>
 				<div className='flex flex-col'>
-					<h1 className='text-xl font-bold hover:no-underline transition ease-in-out duration-150'>
+					<h1 className='text-md md:text-3xl font-bold hover:no-underline transition ease-in-out duration-150'>
 						Over ons
 					</h1>
-					<h2>Email: Aesculapia@uantwerpen.be</h2>
-					<h2>Adres: Universiteitsplein 1 Antwerpen 2610, Belgium</h2>
-					<h2>Ondernemingsnummer: 0642590158</h2>
+					<h2 className='lg:text-lg'>Email: Aesculapia@uantwerpen.be</h2>
+					<h2 className='lg:text-lg'>Adres: Universiteitsplein 1 Antwerpen 2610, Belgium</h2>
+					<h2 className='lg:text-lg'>Ondernemingsnummer: 0642590158</h2>
 				</div>
 			</div>
 			<div className='py-8 flex flex-row items-center justify-center'>

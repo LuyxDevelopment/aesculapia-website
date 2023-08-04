@@ -47,6 +47,10 @@ const mobilePages: NavBarPage[] = [
 		url: '/',
 	},
 	{
+		name: 'Clublied',
+		url: '/clublied',
+	},
+	{
 		name: 'Knuppeltje',
 		url: '/knuppeltje',
 	},

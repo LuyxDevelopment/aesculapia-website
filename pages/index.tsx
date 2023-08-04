@@ -11,12 +11,22 @@ const images: ImageData[] = [
 	{
 		name: 'Aesculapia Group',
 		id: 1,
-		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/group.jpg`,
+		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/group2.jpg`,
 	},
 	{
 		name: 'hello',
 		id: 2,
-		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/stairs.jpg`,
+		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/party1.jpg`,
+	},
+	{
+		name: 'Party 1',
+		id: 2,
+		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/group1.jpg`,
+	},
+	{
+		name: 'Party 2',
+		id: 2,
+		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/party2.jpg`,
 	}
 ];
 
@@ -54,11 +64,11 @@ const Index: NextPage = () => {
 		<>
 			{useMetaData('Home', 'Home Page', '/')}
 			<Layout>
-				<div className='h-screen w-screen bg-gray-800'>
+				<div className='h-96 lg:h-1/3 w-screen'>
 					<Carousel2 images={images} />
-					<div className='bg-gray-900 bg-opacity-50 p-4 rounded-md absolute top-2/3 lg:top-3/4 lg:left-1/3 lg:right-1/3 text-gray-50 z-10'>
+					<div className='bg-gray-900 bg-opacity-50 p-4 rounded-md absolute top-80 lg:top-2/3 lg:left-1/3 lg:right-1/3 text-gray-50 z-10'>
 						<div className='flex flex-wrap mx-auto text-center'>
-							<h1 className='text-3xl lg:text-7xl pb-6 font-bold break-normal'>
+							<h1 className='text-3xl md:text-5xl lg:text-5xl xl:text-6xl pb-6 font-bold break-normal'>
 								Welkom op de website van Aesculapia!
 							</h1>
 							<p className='text-xl break-normal'>
@@ -68,9 +78,9 @@ const Index: NextPage = () => {
 						</div>
 					</div>
 				</div>
-				<div className='container mt-24'>
+				<div className='container md:w-3/4 mx-auto md:mt-72 lg:mt-96'>
 					<div className='my-6 flex flex-col sm:flex-row justify-between items-center'>
-						<div>
+						<div className='m-5'>
 							<h1 className='font-semibold text-4xl'>Wie zijn wij?</h1>
 							<p className='text-lg italic'>
 								We zijn een studentenvereniging van en voor studenten Geneeskunde in Antwerpen. Wij zijn er zodat studenten zich naast hun studies ook kunnen ontspannen en elkaar beter leren kennen. Zo liggen we aan de basis van vele hechte vriendschappen. Dit door onze bijna wekelijkse activiteiten van TD’s en cantussen tot lezingen en meer. Verder ondersteunen we studenten ook bij hun studie onder andere door onze survivalgids.
@@ -78,26 +88,20 @@ const Index: NextPage = () => {
 						</div>
 						<div className='px-5'></div>
 						<Image
-							src={
-								process.env.NEXT_PUBLIC_DOMAIN +
-								'/api/og?description=group%20photo%201'
-							}
+							src={process.env.NEXT_PUBLIC_DOMAIN + '/images/group1.jpg'}
 							width={1200}
 							height={630}
-							className='w-60 sm:w-72'
+							className='w-60 lg:w-96 rounded-md mt-16'
 							alt='Alt'
 						/>
 					</div>
 					<div className='mt-20'>
 						<div className='flex flex-col-reverse sm:flex-row justify-between items-center'>
 							<Image
-								src={
-									process.env.NEXT_PUBLIC_DOMAIN +
-									'/api/og?description=group%20photo%202'
-								}
+								src={process.env.NEXT_PUBLIC_DOMAIN + '/images/party2.jpg'}
 								width={1200}
 								height={630}
-								className='w-60 sm:w-72'
+								className='w-60 lg:w-96 rounded-md'
 								alt='Alt'
 							/>
 							<div className='px-5'></div>
