@@ -81,7 +81,7 @@ const SongIndex: NextPage = () => {
 						</div>
 					</div>
 					<h1 className='my-5 text-xl font-bold ml-10'>
-						Prosit Aesculasemibold{' '}
+						Prosit Aesculapia{' '}
 					</h1>
 				</div>
 			</Layout>
