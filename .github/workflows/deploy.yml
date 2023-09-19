@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -33,6 +33,6 @@ jobs:
           ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
     - run: | 
         echo "${{ secrets.ENV_FILE }}" > .env.local
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: pm2 restart aesculapia-website
+    - run: sudo npm ci
+    - run: sudo npm run build --if-present
+    - run: sudo pm2 restart aesculapia-website
