@@ -43,7 +43,7 @@ const PaymentStatus: FC = () => {
 		);
 
 		if (!clientSecret) return setRedirect(true);
-		if (typeof window === undefined) return setRedirect(true);
+		if (window === undefined) return setRedirect(true);
 		if (!window.localStorage.getItem('cart')) return setRedirect(true);
 
 		stripe

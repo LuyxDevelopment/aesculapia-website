@@ -3,10 +3,11 @@ import { NextPage, NextPageContext } from 'next';
 import OrderPage from '../../../components/OrderPage';
 import { AdminProps } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
-import { Stripe } from 'stripe'; 
- 
+import { Stripe } from 'stripe';
+import { IEntry } from '../../../src/models/Event';
+
 interface Props {
-	order: Stripe.PaymentIntent;
+	order: Stripe.PaymentIntent & { metadata: { entry: IEntry; }; };
 }
 
 const AdminOrdersDynamic: NextPage<Props> = ({ order }) => {

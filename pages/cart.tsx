@@ -19,7 +19,7 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 	const router = useRouter();
 
 	useEffect(() => {
-		if (typeof window === undefined) return;
+		if (window === undefined) return;
 		const storage = JSON.parse(window.localStorage.getItem('cart')!);
 		if (!storage) return;
 		let p = 0;
@@ -33,7 +33,7 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 	}, [data, setCart, setPrice]);
 
 	useEffect(() => {
-		if (typeof window === undefined) return;
+		if (window === undefined) return;
 		if (!modified) return;
 		const cart = JSON.parse(window.localStorage.getItem('cart')!);
 		let p = 0;

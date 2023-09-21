@@ -2,12 +2,13 @@ import { FC } from 'react';
 import { Stripe } from 'stripe';
 import { useHydrationSafeDate } from '../lib/hooks/useHydrationSafeDate';
 import Image from 'next/image';
+import { IEntry } from '../src/models/Event';
 
 interface Props {
-	order: Stripe.PaymentIntent;
+	order: Stripe.PaymentIntent & { metadata: {entry:IEntry}; };
 }
 
-const OrderPage: FC<Props> = ({   order }) => {
+const OrderPage: FC<Props> = ({ order }) => {
 	const created = useHydrationSafeDate(order.created);
 
 	return (
@@ -35,13 +36,13 @@ const OrderPage: FC<Props> = ({   order }) => {
 				<p>
 					Name:{' '}
 					<span className='text-gray-500 italic underline'>
-						{order.entry.paidEntry ? 'Yes' : 'No'}
+						{order.metadata.entry.paidEntry ? 'Yes' : 'No'}
 					</span>
 				</p>
 				<p>
 					Billing Address:{' '}
 					<span className='text-gray-500 italic underline'>
-						{order.entry.entryCost}
+						{order.metadata.entry.entryCost}
 					</span>
 				</p>
 				<p>
@@ -53,13 +54,13 @@ const OrderPage: FC<Props> = ({   order }) => {
 				<p>
 					Registered:{' '}
 					<span className='text-gray-500 italic underline'>
-						{order.entry.registeredCount}
+						{order.metadata.entry.registeredCount}
 					</span>
 				</p>
 				<p>
 					Remaining:{' '}
 					<span className='text-gray-500 italic underline'>
-						{order.entry.eventCapacity - order.entry.registeredCount}
+						{order.metadata.entry.eventCapacity - order.metadata.entry.registeredCount}
 					</span>
 				</p>
 			</div>

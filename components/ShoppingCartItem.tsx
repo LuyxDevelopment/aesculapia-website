@@ -15,7 +15,7 @@ const ShoppingCartItem: FC<Props> = ({ item, setModified }) => {
 	const [price, setPrice] = useState(item.price);
 
 	const removeFromCart = (): void => {
-		if (typeof window === undefined) return;
+		if (window === undefined) return;
 		if (!window.localStorage.getItem('cart')) return;
 		if (!cart.length) setCart(JSON.parse(window.localStorage.getItem('cart')!));
 		setCart(cart.filter((e: Product) => e.id !== item.id));
@@ -26,7 +26,7 @@ const ShoppingCartItem: FC<Props> = ({ item, setModified }) => {
 	};
 
 	const increaseAmount = (): void => {
-		if (typeof window === undefined) return;
+		if (window === undefined) return;
 		if (!window.localStorage.getItem('cart')) return;
 		if (!cart.length) setCart(JSON.parse(window.localStorage.getItem('cart')!));
 		if (item.stock < amount + 1) return;
@@ -44,7 +44,7 @@ const ShoppingCartItem: FC<Props> = ({ item, setModified }) => {
 	};
 
 	const decreaseAmount = (): void => {
-		if (typeof window === undefined) return;
+		if (window === undefined) return;
 		if (!window.localStorage.getItem('cart')) return;
 		if (!cart.length) setCart(JSON.parse(window.localStorage.getItem('cart')!));
 		if (amount - 1 < 0) return;

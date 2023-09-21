@@ -38,11 +38,10 @@ export default function ogHandler(req: NextRequest): ImageResponse {
 				height: 630,
 			},
 		);
-	} catch (error: any) {
-		console.log(
-			`An error occured trying to generate OG image: ${error.message}`,
-		);
-		return new Response(`Failed to generate the image`, {
+	} catch (error) {
+		console.log('An error occured trying to generate OG image');
+		console.log(error);
+		return new Response('Failed to generate the image', {
 			status: 500,
 		});
 	}
