@@ -34,7 +34,7 @@ const Checkout: NextPage = () => {
 			{useMetaData('Checkout', 'Checkout', '/checkout')}
 			<Layout>
 				{clientSecret && (
-					<Elements options={{clientSecret, appearance: { theme: 'flat', variables: { colorPrimary: '#EF4444' } }, loader: 'always' }} stripe={stripePromise}>
+					<Elements options={{ clientSecret, appearance: { theme: 'flat', variables: { colorPrimary: '#EF4444' } }, loader: 'always' }} stripe={stripePromise}>
 						<CheckoutForm paymentIntent={paymentIntent} />
 					</Elements>
 				)}

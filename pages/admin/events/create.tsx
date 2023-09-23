@@ -122,7 +122,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 								<div className='flex flex-wrap -mx-3 mb-2'>
 									<div className='w-full h-full md:w-1/3 px-3 mb-6 md:mb-0'>
 										<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' htmlFor='grid-banner-url'>
-											EVENT DAY START
+											STARTTIJD EVENEMENT
 										</label>
 										<input
 											className='appearance-none block w-96 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
@@ -135,7 +135,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 								<div className='flex flex-wrap -mx-3 mb-2'>
 									<div className='w-full h-full md:w-1/3 px-3 mb-6 md:mb-0'>
 										<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' htmlFor='grid-banner-url'>
-											EVENT DAY END
+											EINDTIJD EVENEMENT
 										</label>
 										<input
 											className='appearance-none block w-96 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'

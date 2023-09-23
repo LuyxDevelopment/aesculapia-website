@@ -4,7 +4,7 @@ import { useHydrationSafeDate } from '../lib/hooks/useHydrationSafeDate';
 import { IEvent } from '../src/models/Event';
 
 interface Props {
-	event: IEvent & { _id: string };
+	event: IEvent & { _id: string; };
 }
 
 const EventCard: FC<Props> = ({ event }) => {
@@ -23,7 +23,7 @@ const EventCard: FC<Props> = ({ event }) => {
 				alt={event.name}
 			/>
 			<div className='text-gray-100 flex flex-col flex-wrap'>
-				<h1 className='text-5xl font-bold pt-3 pb-3'>{event.name}</h1>
+				<h1 className='text-xl lg:text-5xl font-bold pt-3 pb-3'>{event.name}</h1>
 				<h2 className='text-lg font-semibold'>{event.description}</h2>
 				<p className='font-bold text-gray-200 text-lg pt-3'>
 					Begint bij:{' '}
