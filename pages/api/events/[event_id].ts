@@ -12,137 +12,133 @@ import { ironOptions } from '../../../src/util/ironConfig';
 dbConnect();
 
 export default withIronSessionApiRoute(async function loginHandler(
-	req: NextApiRequest & { body: IEvent } & { query: { event_id?: string } },
+	req: NextApiRequest & { body: IEvent; } & { query: { event_id?: string; }; },
 	res: NextApiResponse<ResponseData<EventDocument | EventDocument[]>>,
 ): Promise<void> {
 	switch (req.method) {
-		case 'DELETE':
-			{
-				if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
-					res.status(StatusCodes.FORBIDDEN).json({
-						error: true,
-						message: getReasonPhrase(StatusCodes.FORBIDDEN),
-						data: null,
-					});
+		case 'DELETE': {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+				res.status(StatusCodes.FORBIDDEN).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.FORBIDDEN),
+					data: null,
+				});
 
-					return;
-				}
+				return;
+			}
 
-				if (!isValidObjectId(req.query.event_id)) {
-					res.status(StatusCodes.BAD_REQUEST).json({
-						error: true,
-						message: getReasonPhrase(StatusCodes.BAD_REQUEST),
-						data: null,
-					});
+			if (!isValidObjectId(req.query.event_id)) {
+				res.status(StatusCodes.BAD_REQUEST).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
+				});
 
-					return;
-				}
+				return;
+			}
 
-				const event = await Event.findByIdAndDelete(req.query.event_id);
+			const event = await Event.findByIdAndDelete(req.query.event_id);
 
-				if (!event) {
-					res.status(StatusCodes.NOT_FOUND).json({
-						error: true,
-						message: getReasonPhrase(StatusCodes.NOT_FOUND),
-						data: null,
-					});
+			if (!event) {
+				res.status(StatusCodes.NOT_FOUND).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: null,
+				});
 
-					return;
-				}
+				return;
+			}
+
+			res.status(StatusCodes.OK).json({
+				error: false,
+				message: getReasonPhrase(StatusCodes.OK),
+				data: event,
+			});
+		}
+			break;
+
+		case 'GET': {
+			if (!isValidObjectId(req.query.event_id)) {
+				res.status(StatusCodes.BAD_REQUEST).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
+				});
+
+				return;
+			}
+
+			const event = await Event.findById(req.query.event_id);
+
+			if (!event) {
+				res.status(StatusCodes.NOT_FOUND).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: null,
+				});
+
+				return;
+			}
+
+			res.status(StatusCodes.OK).json({
+				error: false,
+				message: getReasonPhrase(StatusCodes.OK),
+				data: event,
+			});
+		}
+			break;
+
+		case 'PATCH': {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+				res.status(StatusCodes.FORBIDDEN).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.FORBIDDEN),
+					data: null,
+				});
+
+				return;
+			}
+
+			if (!isValidObjectId(req.query.event_id)) {
+				res.status(StatusCodes.BAD_REQUEST).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
+					data: null,
+				});
+
+				return;
+			}
+
+			const event = await Event.findById(req.query.event_id);
+
+			if (!event) {
+				res.status(StatusCodes.NOT_FOUND).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.NOT_FOUND),
+					data: null,
+				});
+
+				return;
+			}
+
+			try {
+				await event.updateOne({ $set: req.body });
 
 				res.status(StatusCodes.OK).json({
 					error: false,
-					message: getReasonPhrase(StatusCodes.OK),
+					message: getReasonPhrase(StatusCodes.NOT_FOUND),
 					data: event,
 				});
-			}
-			break;
+			} catch (error) {
+				console.log(error);
 
-		case 'GET':
-			{
-				if (!isValidObjectId(req.query.event_id)) {
-					res.status(StatusCodes.BAD_REQUEST).json({
-						error: true,
-						message: getReasonPhrase(StatusCodes.BAD_REQUEST),
-						data: null,
-					});
-
-					return;
-				}
-
-				const event = await Event.findById(req.query.event_id);
-
-				if (!event) {
-					res.status(StatusCodes.NOT_FOUND).json({
-						error: true,
-						message: getReasonPhrase(StatusCodes.NOT_FOUND),
-						data: null,
-					});
-
-					return;
-				}
-
-				res.status(StatusCodes.OK).json({
-					error: false,
-					message: getReasonPhrase(StatusCodes.OK),
-					data: event,
+				res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+					error: true,
+					message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
+					data: null,
 				});
 			}
-			break;
-
-		case 'PATCH':
-			{
-				if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
-					res.status(StatusCodes.FORBIDDEN).json({
-						error: true,
-						message: getReasonPhrase(StatusCodes.FORBIDDEN),
-						data: null,
-					});
-
-					return;
-				}
-
-				if (!isValidObjectId(req.query.event_id)) {
-					res.status(StatusCodes.BAD_REQUEST).json({
-						error: true,
-						message: getReasonPhrase(StatusCodes.BAD_REQUEST),
-						data: null,
-					});
-
-					return;
-				}
-
-				const event = await Event.findById(req.query.event_id);
-
-				if (!event) {
-					res.status(StatusCodes.NOT_FOUND).json({
-						error: true,
-						message: getReasonPhrase(StatusCodes.NOT_FOUND),
-						data: null,
-					});
-
-					return;
-				}
-
-				try {
-					event.set(req.body);
-					await event.save();
-
-					res.status(StatusCodes.OK).json({
-						error: false,
-						message: getReasonPhrase(StatusCodes.NOT_FOUND),
-						data: event,
-					});
-				} catch (error) {
-					console.log(error);
-
-					res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-						error: true,
-						message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
-						data: null,
-					});
-				}
-			}
+		}
 			break;
 	}
 }, ironOptions);

@@ -17,8 +17,9 @@ const ShoppingCartItem: FC<Props> = ({ item, setModified }) => {
 	const removeFromCart = (): void => {
 		if (window === undefined) return;
 		if (!window.localStorage.getItem('cart')) return;
-		if (!cart.length) setCart(JSON.parse(window.localStorage.getItem('cart')!));
-		setCart(cart.filter((e: Product) => e.id !== item.id));
+		if (!cart.length) setCart([...cart, ...JSON.parse(window.localStorage.getItem('cart')!)]);
+
+		setCart(cart.filter((e: Product) => e._id !== item._id));
 		setDeleted(true);
 
 		window.localStorage.setItem('cart', JSON.stringify(cart));
@@ -28,11 +29,11 @@ const ShoppingCartItem: FC<Props> = ({ item, setModified }) => {
 	const increaseAmount = (): void => {
 		if (window === undefined) return;
 		if (!window.localStorage.getItem('cart')) return;
-		if (!cart.length) setCart(JSON.parse(window.localStorage.getItem('cart')!));
+		if (!cart.length) setCart([...cart,...JSON.parse(window.localStorage.getItem('cart')!)]);
 		if (item.stock < amount + 1) return;
 
 		const newCart = cart;
-		const newItem = newCart.find(cartItem => cartItem.id === item.id);
+		const newItem = newCart.find(cartItem => cartItem._id === item._id);
 		if (!newItem) return;
 		newItem.amount++;
 		setCart(newCart);
@@ -46,14 +47,17 @@ const ShoppingCartItem: FC<Props> = ({ item, setModified }) => {
 	const decreaseAmount = (): void => {
 		if (window === undefined) return;
 		if (!window.localStorage.getItem('cart')) return;
-		if (!cart.length) setCart(JSON.parse(window.localStorage.getItem('cart')!));
+		if (!cart.length) setCart([...cart, ...JSON.parse(window.localStorage.getItem('cart')!)]);
 		if (amount - 1 < 0) return;
 		if (amount - 1 === 0) return removeFromCart();
 
 		const newCart = cart;
-		const newItem = newCart.find(cartItem => cartItem.id === item.id);
+		const newItem = newCart.find(cartItem => cartItem._id === item._id);
+
 		if (!newItem) return;
+
 		newItem.amount--;
+
 		setCart(newCart);
 		setAmount(newItem.amount);
 		setPrice(newItem.amount * (price / amount));
@@ -61,7 +65,7 @@ const ShoppingCartItem: FC<Props> = ({ item, setModified }) => {
 		window.localStorage.setItem('cart', JSON.stringify(cart));
 		setModified(true);
 	};
-	
+
 	return <>
 		{!deleted && (
 			<div className='flex'>

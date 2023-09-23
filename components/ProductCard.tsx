@@ -10,7 +10,7 @@ interface Props {
 }
 
 export interface Product {
-	id: string;
+	_id: string;
 	name: string;
 	amount: number;
 	price: number;
@@ -26,8 +26,8 @@ const ProductCard: FC<Props> = ({ product, cartable, addCart, getStorage: storag
 	useEffect(() => {
 		if (ar === 0) return;
 		if (!storage()) return;
-		
-		const cart = addCart({ id: product._id, name: product.name, price: product.price, amount: ar === 1 ? 1 : -1, stock: product.stock, imageURL: product.imageURL });
+
+		const cart = addCart({ _id: product._id, name: product.name, price: product.price, amount: ar === 1 ? 1 : -1, stock: product.stock, imageURL: product.imageURL });
 		setAr(0);
 
 		if (!cart) return;

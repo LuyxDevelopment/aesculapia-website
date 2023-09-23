@@ -24,10 +24,11 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 		if (!storage) return;
 		let p = 0;
 		for (let i = 0; i < storage.length; i++) {
-			const item = data.find(e => e._id === storage[i].id)!;
+			const item = data.find(e => e._id === storage[i]._id)!;
 			if (item.stock < storage[i].amount) storage[i].amount = item.stock;
 			p += item.price * storage[i].amount;
 		}
+
 		setPrice(p);
 		setCart(storage);
 	}, [data, setCart, setPrice]);
@@ -38,7 +39,7 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 		const cart = JSON.parse(window.localStorage.getItem('cart')!);
 		let p = 0;
 		for (let i = 0; i < cart.length; i++) {
-			const item = data.find(e => e._id === cart[i].id)!;
+			const item = data.find(e => e._id === cart[i]._id)!;
 			if (item.stock < cart[i].amount) cart[i].amount = item.stock;
 			p += item.price * cart[i].amount;
 		}
@@ -102,7 +103,7 @@ const ShoppingCart: NextPage<Props> = ({ data }) => {
 									</button>
 								</div>
 							</div>
-						</div>	
+						</div>
 					</>
 				)}
 			</Layout>

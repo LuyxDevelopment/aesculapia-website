@@ -1,5 +1,4 @@
-import Image from 'next/image';
-import { BaseSyntheticEvent, FC, useCallback, useEffect, useState } from 'react';
+import { BaseSyntheticEvent, FC, useCallback, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 
 import { IEvent } from '../src/models';
@@ -28,9 +27,9 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 		const req = await fetch(`/api/events/${event._id}`, {
 			method: 'DELETE',
 		});
-	
+
 		const data = await req.json();
-	
+
 		if (!data.error) return setDeleted(true);
 	}, [event._id]);
 
@@ -41,7 +40,7 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 		e?.preventDefault();
 
 		Object.keys(data).forEach(key => !data[key] && delete data[key]);
-		
+
 		try {
 			const req = await fetch(`/api/events/${event._id}`, {
 				method: 'PATCH',
@@ -50,10 +49,13 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 				},
 				body: JSON.stringify(data),
 			});
+
 			if (req.ok) {
 				if (data.name) setName(data.name);
 				if (data.entryCapacity) setCapacity(data.entryCapacity);
 				if (data.entryCost) setEntryCost(data.entryCost);
+				setMessage({ type: 'success', text: 'Event successfully updated!' });
+				clearMessage(setMessage);
 			} else if (req.status === 500) {
 				setMessage({ type: 'error', text: 'An error occurred.' });
 				clearMessage(setMessage);
@@ -106,10 +108,10 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 							</button>
 						</div>
 					</form>
-					{trashShown ? 
+					{trashShown ?
 						(<button onClick={(): void => setConfirmationOpen(true)} className='absolute -bottom-3 -right-3 h-10 w-10 bg-red-500 shadow-md flex items-center justify-center rounded-full p-2 hover:bg-red-700 transition-all duration-300 ease-in-out'>
 							<img src='/assets/icons/trashcan.svg' width={900} height={900} alt='Delete' />
-						</button>) 
+						</button>)
 						: undefined}
 				</div>
 			</>

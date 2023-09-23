@@ -23,7 +23,7 @@ export default withIronSessionApiRoute(async function eventsHandler(
 		} break;
 
 		case 'POST': {
-			if (await !Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
+			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),

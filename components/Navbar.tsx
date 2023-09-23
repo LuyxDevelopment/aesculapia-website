@@ -114,7 +114,7 @@ const Navbar: FC = () => {
 					>
 						<div className='flex flex-row gap-0 hover:bg-red-600 rounded-lg transition-all duration-300 ease-in-out pr-3'>
 							<h1 className='cursor-pointer font-bold py-2 px-3 ml-1'>
-							About
+								About
 							</h1>
 							<Image
 								src='/assets/icons/down.svg'
@@ -124,7 +124,7 @@ const Navbar: FC = () => {
 							/>
 						</div>
 					</Dropdown>
-					<Dropdown
+					{/* <Dropdown
 						direction='bottom'
 						items={shopping}
 						tw='z-10'
@@ -140,7 +140,7 @@ const Navbar: FC = () => {
 								alt='Dropdown arrow'
 							/>
 						</div>
-					</Dropdown>
+					</Dropdown> */}
 				</div>
 				<span
 					className='block float-right sm:hidden cursor-pointer hover:scale-90 transition-all duration-300 ease-in-out'

@@ -8,13 +8,7 @@ import { AdminProps } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
 import Toast, { clearMessage } from '../../../components/Toast';
 import { useRouter } from 'next/router';
-import { format } from 'date-fns';
-import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
-import DatePicker from '../../../components/date/DatePicker';
-import { today, getLocalTimeZone, DateFormatter, parseAbsoluteToLocal } from '@internationalized/date';
-import { SSRProvider } from 'react-aria';
-import TimeField from '../../../components/date/TimeField';
 
 const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: boolean; }; }> = ({ user }) => {
 
@@ -43,8 +37,8 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 					bannerURL: data.bannerURL,
 					name: data.name,
 					description: data.description,
-					startsAtTimestamp: data.startsAtTimestamp,
-					endsAtTimestamp: data.endsAtTimestamp,
+					startsAtTimestamp: Date.parse(data.startsAtTimestamp),
+					endsAtTimestamp: Date.parse(data.endsAtTimestamp),
 					entry: {
 						paidEntry: data.paidEntry,
 						...(data.paidEntry && {
@@ -128,28 +122,27 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 								<div className='flex flex-wrap -mx-3 mb-2'>
 									<div className='w-full h-full md:w-1/3 px-3 mb-6 md:mb-0'>
 										<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' htmlFor='grid-banner-url'>
-											EVENT DAY
+											EVENT DAY START
 										</label>
-										<SSRProvider>
-											<DatePicker
-												onChange={(date): void => setSelected(date!)}
-												minValue={today(getLocalTimeZone())}
-											/>
-											<label className='mt-2 block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' htmlFor='grid-banner-url'>
-											EVENT TIME
-											</label>
-											<TimeField
-												flex={true}></TimeField>
-										</SSRProvider>
-
-										<div className='w-full'>
-											<p></p>
-											{selected && selected.getUTCDate() ? (
-												<p className='text-black'>You picked {new DateFormatter('en-US').format(selected!)} at  {new Date().toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ')[2]}.</p>
-											) : (
-												<p className='text-black'>Please select a day.</p>
-											)}
-										</div>
+										<input
+											className='appearance-none block w-96 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
+											type='datetime-local'
+											required
+											{...register('startsAtTimestamp', { required: true })}
+										/>
+									</div>
+								</div>
+								<div className='flex flex-wrap -mx-3 mb-2'>
+									<div className='w-full h-full md:w-1/3 px-3 mb-6 md:mb-0'>
+										<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' htmlFor='grid-banner-url'>
+											EVENT DAY END
+										</label>
+										<input
+											className='appearance-none block w-96 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
+											type='datetime-local'
+											required
+											{...register('endsAtTimestamp', { required: true })}
+										/>
 									</div>
 								</div>
 								<div>
