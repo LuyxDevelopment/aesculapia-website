@@ -52,39 +52,6 @@ export default AdminEventsIndex;
 export const getServerSideProps = withIronSessionSsr(async function ({ req, resolvedUrl }): Promise<AdminProps<EventDocument>> {
 	const user = req.session.user;
 
-	const eventRequest = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/events`, {
-		method: 'GET',
-		headers: { 'Content-Type': 'application/json' },
-	});
-
-	const eventResponse = await eventRequest.json();
-
-	if (user?.email) {
-		const request = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/2fa/generate`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(user),
-		});
-
-		const json = await request.json();
-
-		if (json.data) return {
-			props: {
-				user: { email: user.email, has2faEnabled: true, completed2fa: false },
-				otpAuthUri: json.data,
-			},
-		};
-		return {
-			props: {
-				user: { email: user.email, has2faEnabled: false, completed2fa: false },
-				otpAuthUri: '',
-				data: eventResponse.data,
-			},
-		};
-	}
-
 	if (!user) {
 		return {
 			props: {
@@ -96,6 +63,13 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, reso
 			},
 		};
 	}
+
+	const eventRequest = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/events`, {
+		method: 'GET',
+		headers: { 'Content-Type': 'application/json' },
+	});
+
+	const eventResponse = await eventRequest.json();
 
 	if (!user.has2faEnabled) {
 		return {

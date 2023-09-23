@@ -50,50 +50,6 @@ export default AdminOrderIndex;
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res, resolvedUrl }): Promise<AdminProps<Stripe.PaymentIntent[]>> {
 	const user = req.session.user;
 
-	res?.setHeader(
-		'Cache-Control',
-		'public, s-maxage=10, stale-while-revalidate=59',
-	);
-
-	const payoutRequest = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/stripe/orders`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-
-	const orderResponse = await payoutRequest.json() as ResponseData<Stripe.PaymentIntent[]>;
-
-	console.log(orderResponse);
-	
-	
-	if (user?.email) {
-		const request = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/2fa/generate`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(user),
-		});
-
-		const json = await request.json();
-
-		if (json.data) return {
-			props: {
-				user: { email: user.email, has2faEnabled: true, completed2fa: false },
-				otpAuthUri: json.data,
-			},
-		};
-
-		return {
-			props: {
-				user: { email: user.email, has2faEnabled: false, completed2fa: false },
-				otpAuthUri: '',
-				data: orderResponse.data,
-			},
-		};
-	}
-
 	if (!user) {
 		return {
 			props: {
@@ -106,20 +62,19 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res,
 		};
 	}
 
-	if (!user.has2faEnabled) {
-		return {
-			props: {
-				user: { email: user.email, has2faEnabled: false, completed2fa: false },
-			},
-			redirect: {
-				destination: '/admin/settings',
-				permanent: false,
-			},
-		};
-	}
+	const payoutRequest = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/stripe/orders`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+
+	const orderResponse = await payoutRequest.json() as ResponseData<Stripe.PaymentIntent[]>;
+
+	console.log(orderResponse);
 
 	return {
-		props: { 
+		props: {
 			user: req.session.user,
 			data: orderResponse.data,
 		},
