@@ -28,7 +28,7 @@ const AdminEventsIndex: NextPage<Props> = ({ data }) => {
 										Event creëren
 									</button>
 								</div>
-								<div className='grid grid-cols-1 gap-y-5 divide-y w-[35rem] sm:w-[40rem] md:w-[39rem] lg:w-[60rem]'>
+								<div className='grid grid-cols-1 gap-y-5 divide-y w-full sm:w-[40rem] md:w-[39rem] lg:w-[60rem]'>
 									{data.map((event, i) => {
 										return (
 											<AdminEventCard

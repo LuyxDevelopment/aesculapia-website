@@ -72,7 +72,7 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 	return <>
 		{deleted ? (<></>) : (
 			<>
-				<div className='group bg-gray-200 p-4 rounded-lg shadow-md transition-all duration-[400ms] ease-in-out relative sm:w-full sm:h-[30rem]'>
+				<div className='group bg-gray-200 p-4 rounded-lg shadow-md transition-all duration-[400ms] ease-in-out relative w-[24rem] sm:w-full sm:h-[30rem]'>
 					{confirmation ? (<>
 						<div>
 							<Confirmation
@@ -85,7 +85,7 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 						</div>
 					</>) : undefined}
 					<form onSubmit={handleSubmit((data, event) => onSubmit(data, event))}>
-						<div className='grid grid-cols-2'>
+						<div className='grid grid-cols-2 gap-x-2 mb-5'>
 							<div>
 								<img className={(event.entry.eventCapacity === 0 ? 'grayscale ' : '') + 'sm:w-64 rounded-lg transition-all duration-[400ms] ease-in-out group-hover:shadow-md group-hover:scale-[0.96]'} draggable={false} src={event.bannerURL} alt={event.name} width='256' height='256' />
 
@@ -111,7 +111,7 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 											Starttijd Evenement
 										</label>
 										<input
-											className='appearance-none block w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
+											className='appearance-none block w-[11rem] lg:w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
 											type='datetime-local'
 											required
 											{...register('startsAtTimestamp', { required: true })}
@@ -124,7 +124,7 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 											Eindtijd Evenement
 										</label>
 										<input
-											className='appearance-none block w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
+											className='appearance-none block w-[11rem] lg:w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
 											type='datetime-local'
 											required
 											{...register('endsAtTimestamp', { required: true })}
@@ -134,7 +134,7 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 							</div>
 						</div>
 						<div className='grid justify-items-center'>
-							<button type='submit' className='absolute bottom-1 h-10 w-20 bg-gray-300 shadow-md flex items-center justify-center rounded-full p-2 hover:bg-red-500 transition-all duration-300 ease-in-out'>
+							<button type='submit' className='absolute bottom-2 h-10 w-20 bg-gray-300 shadow-md flex items-center justify-center rounded-full hover:bg-red-500 transition-all duration-300 ease-in-out'>
 								<p>Save</p>
 							</button>
 						</div>
