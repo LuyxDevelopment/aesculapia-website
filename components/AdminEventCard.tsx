@@ -16,6 +16,8 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 	const [name, setName] = useState(event.name);
 	const [entryCost, setEntryCost] = useState(event.entry.entryCost);
 	const [capacity, setCapacity] = useState(event.entry.eventCapacity);
+	const [startsAtTimestamp, setStartsAtTimestamp] = useState(event.startsAtTimestamp);
+	const [endsAtTimestamp, setEndsAtTimestamp] = useState(event.endsAtTimestamp);
 	const [message, setMessage] = useState<{
 		type: 'success' | 'error' | 'info';
 		text: string;
@@ -70,7 +72,7 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 	return <>
 		{deleted ? (<></>) : (
 			<>
-				<div className='group bg-gray-200 p-4 rounded-lg shadow-md hover:scale-[1.04] transition-all duration-[400ms] ease-in-out relative sm:w-full sm:h-[30rem]'>
+				<div className='group bg-gray-200 p-4 rounded-lg shadow-md transition-all duration-[400ms] ease-in-out relative sm:w-full sm:h-[30rem]'>
 					{confirmation ? (<>
 						<div>
 							<Confirmation
@@ -82,24 +84,53 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 							/>
 						</div>
 					</>) : undefined}
-					<div className='grid justify-items-start'>
-						<img className={(event.entry.eventCapacity === 0 ? 'grayscale ' : '') + 'sm:w-64 rounded-lg transition-all duration-[400ms] ease-in-out group-hover:shadow-md group-hover:scale-[0.96]'} draggable={false} src={event.bannerURL} alt={event.name} width='256' height='256' />
-					</div>
 					<form onSubmit={handleSubmit((data, event) => onSubmit(data, event))}>
-						<div className='md:w-1/2 px-3 mb-6 md:mb-0 mt-4'>
-							<input className='appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-name' type='text' placeholder={name || 'Name goes here'} minLength={1} maxLength={64} {...register('name', { required: false })} />
-						</div>
-						<div className='justify-items-center'>
-							<div className='flex flex-row gap-3'>
-								<p className='text-lg h-auto'>Entry Cost:</p>
-								<div className='relative divide-x'>
-									<p className='absolute ml-[2px] mt-[2.5px]'>€</p>
-									<input className='appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded h-7 w-16 pl-[18px] py-1 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-name' type='text' placeholder={`${(entryCost / 100).toFixed(2)}`} minLength={1} maxLength={64} {...register('entryCost', { required: false })} />
+						<div className='grid grid-cols-2'>
+							<div>
+								<img className={(event.entry.eventCapacity === 0 ? 'grayscale ' : '') + 'sm:w-64 rounded-lg transition-all duration-[400ms] ease-in-out group-hover:shadow-md group-hover:scale-[0.96]'} draggable={false} src={event.bannerURL} alt={event.name} width='256' height='256' />
+
+								<div className='md:w-1/2 px-3 mb-6 md:mb-0 mt-4'>
+									<p className='text-lg h-auto'>Naam Evenement:</p>
+									<input className='appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-name' type='text' placeholder={name || 'Name goes here'} minLength={1} maxLength={64} {...register('name', { required: false })} />
+								</div>
+								<div className='justify-items-center'>
+									<div className='flex flex-row gap-3'>
+										<p className='text-lg h-auto'>Kosten Evenement (Euros):</p>
+										<input className='appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded h-7 w-16 py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-name' type='text' placeholder={`${(entryCost / 100).toFixed(2)}`} minLength={1} maxLength={64} {...register('entryCost', { required: false })} />
+									</div>
+									<div className='flex flex-row gap-3'>
+										<p className='text-lg h-auto'>Capaciteit Evenement:</p>
+										<input className='appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded h-7 w-16 py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-name' type='text' placeholder={`${event.entry.eventCapacity || 0}`} minLength={1} maxLength={64} {...register('eventCapacity', { required: false })} />
+									</div>
 								</div>
 							</div>
-							<div className='flex flex-row gap-3'>
-								<p className='text-lg h-auto'>Event Capacity:</p>
-								<input className='appearance-none block bg-gray-200 text-gray-700 border border-slate-500 rounded h-7 w-16 py-1 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-name' type='text' placeholder={`${event.entry.eventCapacity || 0}`} minLength={1} maxLength={64} {...register('eventCapacity', { required: false })} />
+							<div>
+								<div className='flex flex-wrap -mx-3 mb-2'>
+									<div className='w-full h-full md:w-1/3 px-3 mb-6 md:mb-0'>
+										<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' htmlFor='grid-banner-url'>
+											Starttijd Evenement
+										</label>
+										<input
+											className='appearance-none block w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
+											type='datetime-local'
+											required
+											{...register('startsAtTimestamp', { required: true })}
+										/>
+									</div>
+								</div>
+								<div className='flex flex-wrap -mx-3 mb-2'>
+									<div className='w-full h-full md:w-1/3 px-3 mb-6 md:mb-0'>
+										<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' htmlFor='grid-banner-url'>
+											Eindtijd Evenement
+										</label>
+										<input
+											className='appearance-none block w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
+											type='datetime-local'
+											required
+											{...register('endsAtTimestamp', { required: true })}
+										/>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div className='grid justify-items-center'>

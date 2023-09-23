@@ -13,7 +13,7 @@ type FieldValues =
 		email: string;
 		password: string;
 	}
-	| { [x: string]: unknown };
+	| { [x: string]: unknown; };
 
 const Index: NextPage = () => {
 	const [isAllowed, setIsAllowed] = useState(false);
@@ -48,7 +48,7 @@ const Index: NextPage = () => {
 				setIsAllowed(true);
 				setMessage({ type: 'info', text: 'Please put in your 2FA code!' });
 			} else if (req.status === 401) {
-				await router.push('/admin/settings');
+				await router.push('/admin');
 				setMessage({ type: 'info', text: 'You must enable 2FA to login!' });
 			} else if (req.status === 400) {
 				setMessage({ type: 'error', text: 'Invalid email or password!' });
@@ -83,7 +83,7 @@ const Index: NextPage = () => {
 		setMessage({ type: 'error', text: 'Invalid code!' });
 		clearMessage(setMessage);
 		return;
-		
+
 	};
 
 	return (

@@ -19,15 +19,16 @@ interface RegisterNextApiRequest extends NextApiRequest {
 
 const validateRegisterBody = ajv.compile<RegisterNextApiRequest['body']>({
 	type: 'object',
+	properties: {
+		email: {
+			type: 'string',
+		},
+		password: {
+			type: 'string',
+			minLength: 6,
+		},
+	},
 	required: ['email', 'password'],
-	email: {
-		type: 'string',
-		format: '.+@.+..+',
-	},
-	password: {
-		type: 'string',
-		minLength: 6,
-	},
 });
 
 export default async function registerHandler(
@@ -53,6 +54,7 @@ export default async function registerHandler(
 			const admin = new Admin({
 				email,
 				password: '',
+				secret: 'SDF7H8H9A7F',
 			});
 
 			genSalt(parseInt(process.env.SALT_ROUNDS), (saltError, salt) => {
