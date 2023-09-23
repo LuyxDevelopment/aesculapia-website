@@ -145,9 +145,9 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 										/>
 									</div>
 								</div>
-								<div>
+								<div className='mb-10'>
 									<button className='h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-800'>
-										<input className='cursor-pointer' type='submit' value='Maak'></input>
+										<input className='cursor-pointer' type='submit'	></input>
 									</button>
 								</div>
 							</form>
@@ -166,33 +166,9 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 	);
 };
 
+// eslint-disable-next-line require-await
 export const getServerSideProps = withIronSessionSsr(async function ({ req, resolvedUrl }): Promise<AdminProps> {
 	const user = req.session.user;
-
-	if (user?.email) {
-		const request = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/2fa/generate`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(user),
-		});
-
-		const json = await request.json();
-
-		if (json.data) return {
-			props: {
-				user: { email: user.email, has2faEnabled: true, completed2fa: false },
-				otpAuthUri: json.data,
-			},
-		};
-		return {
-			props: {
-				user: { email: user.email, has2faEnabled: false, completed2fa: false },
-				otpAuthUri: '',
-			},
-		};
-	}
 
 	if (!user) {
 		return {
@@ -201,18 +177,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, reso
 			},
 			redirect: {
 				destination: `/admin/login?from=${encodeURIComponent(resolvedUrl)}`,
-				permanent: false,
-			},
-		};
-	}
-
-	if (!user.has2faEnabled) {
-		return {
-			props: {
-				user: { email: user.email, has2faEnabled: false, completed2fa: false },
-			},
-			redirect: {
-				destination: '/admin/settings',
 				permanent: false,
 			},
 		};

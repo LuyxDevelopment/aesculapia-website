@@ -76,33 +76,9 @@ const AdminSettings: NextPage<{ user: { email: string, has2faEnabled: boolean; }
 
 export default AdminSettings;
 
+// eslint-disable-next-line require-await
 export const getServerSideProps = withIronSessionSsr(async function ({ req, resolvedUrl }): Promise<AdminProps> {
 	const user = req.session.user;
-
-	if (user?.email) {
-		const request = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/2fa/generate`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(user),
-		});
-
-		const json = await request.json();
-
-		if (json.data) return {
-			props: {
-				user: { email: user.email, has2faEnabled: true, completed2fa: false },
-				otpAuthUri: json.data,
-			},
-		};
-		return {
-			props: {
-				user: { email: user.email, has2faEnabled: false, completed2fa: false },
-				otpAuthUri: '',
-			},
-		};
-	}
 
 	if (!user) {
 		return {

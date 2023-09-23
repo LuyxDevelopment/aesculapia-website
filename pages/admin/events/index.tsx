@@ -71,18 +71,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, reso
 
 	const eventResponse = await eventRequest.json();
 
-	if (!user.has2faEnabled) {
-		return {
-			props: {
-				user: { email: user.email, has2faEnabled: false, completed2fa: false },
-			},
-			redirect: {
-				destination: '/admin/settings',
-				permanent: false,
-			},
-		};
-	}
-
 	return {
 		props: {
 			user: req.session.user,

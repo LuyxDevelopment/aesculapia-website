@@ -21,16 +21,16 @@ const about: DropdownItem[] = [
 		href: '/clublied',
 	},
 	{
-		text: 'Events',
-		href: '/events',
-	},
-	{
 		text: 'Praesidium',
 		href: '/praesidium',
 	},
 ];
 
 const pages: NavBarPage[] = [
+	{
+		name: 'Events',
+		url: '/events',
+	},
 	{
 		name: 'Knuppeltje',
 		url: '/knuppeltje',
@@ -58,14 +58,14 @@ const mobilePages: NavBarPage[] = [
 		name: 'Events',
 		url: '/events',
 	},
-	{
-		name: 'News',
-		url: '/news',
-	},
-	{
-		name: 'Webshop',
-		url: '/webshop',
-	},
+	// {
+	// 	name: 'News',
+	// 	url: '/news',
+	// },
+	// {
+	// 	name: 'Webshop',
+	// 	url: '/webshop',
+	// },
 	{
 		name: 'Praesidium',
 		url: '/praesidium',
@@ -74,10 +74,10 @@ const mobilePages: NavBarPage[] = [
 		name: 'Sponsors',
 		url: '/sponsors',
 	},
-	{
-		name: '🛒',
-		url: '/cart',
-	},
+	// {
+	// 	name: '🛒',
+	// 	url: '/cart',
+	// },
 ];
 
 const Navbar: FC = () => {

@@ -71,8 +71,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res,
 
 	const orderResponse = await payoutRequest.json() as ResponseData<Stripe.PaymentIntent[]>;
 
-	console.log(orderResponse);
-
 	return {
 		props: {
 			user: req.session.user,

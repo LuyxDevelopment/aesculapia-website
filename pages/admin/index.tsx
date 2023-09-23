@@ -22,21 +22,21 @@ const pages: { name: string, url: string, svg: string; }[] = [
 		svg: '/assets/icons/order.svg',
 		url: '/admin/orders',
 	},
-	{
-		name: 'Sponsors',
-		svg: '/assets/icons/handshake.svg',
-		url: '/admin/sponsors',
-	},
-	{
-		name: 'Webshop',
-		svg: '/assets/icons/box.svg',
-		url: '/admin/webshop',
-	},
-	{
-		name: 'Settings',
-		svg: '/assets/icons/settings.svg',
-		url: '/admin/settings',
-	},
+	// {
+	// 	name: 'Sponsors',
+	// 	svg: '/assets/icons/handshake.svg',
+	// 	url: '/admin/sponsors',
+	// },
+	// {
+	// 	name: 'Webshop',
+	// 	svg: '/assets/icons/box.svg',
+	// 	url: '/admin/webshop',
+	// },
+	// {
+	// 	name: 'Settings',
+	// 	svg: '/assets/icons/settings.svg',
+	// 	url: '/admin/settings',
+	// },
 ];
 
 const AdminIndex: NextPage = () => {
