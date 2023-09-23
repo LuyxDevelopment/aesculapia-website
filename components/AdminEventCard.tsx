@@ -72,7 +72,7 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 	return <>
 		{deleted ? (<></>) : (
 			<>
-				<div className='group bg-gray-200 p-4 rounded-lg shadow-md transition-all duration-[400ms] ease-in-out relative w-[24rem] sm:w-full sm:h-[30rem]'>
+				<div className='group bg-gray-200 p-4 rounded-lg shadow-md transition-all duration-[400ms] ease-in-out relative w-[90vw] sm:w-full sm:h-[30rem]'>
 					{confirmation ? (<>
 						<div>
 							<Confirmation
@@ -111,7 +111,7 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 											Starttijd Evenement
 										</label>
 										<input
-											className='appearance-none block w-[11rem] lg:w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
+											className='appearance-none block w-[40vw] lg:w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
 											type='datetime-local'
 											required
 											{...register('startsAtTimestamp', { required: true })}
@@ -124,7 +124,7 @@ const AdminEventCard: FC<Props> = ({ event }) => {
 											Eindtijd Evenement
 										</label>
 										<input
-											className='appearance-none block w-[11rem] lg:w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
+											className='appearance-none block w-[40vw] lg:w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:bg-white focus:ring-red-500 outline-none focus:border-red-500'
 											type='datetime-local'
 											required
 											{...register('endsAtTimestamp', { required: true })}
