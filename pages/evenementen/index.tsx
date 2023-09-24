@@ -12,7 +12,7 @@ interface Props {
 const EventsIndex: NextPage<Props> = ({ data }) => {
 	return (
 		<>
-			{useMetaData('Events', 'Events', '/events')}
+			{useMetaData('Evenementen', 'Evenementen', '/evenementen')}
 			<Layout>
 				<div className='container mb-10'>
 					<div className='flex flex-col items-center justify-center space-y-5'>

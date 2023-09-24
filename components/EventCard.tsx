@@ -13,7 +13,7 @@ const EventCard: FC<Props> = ({ event }) => {
 	return (
 		<div
 			className='hover:scale-103 transition-all duration-500 ease-out cursor-pointer hover:-translate-y-1 flex flex-row-reverse items-center justify-around bg-gradient-to-l from-orange-500 to-red-600 h-auto w-full p-5 rounded-lg'
-			onClick={(): string => (window.location.href = `/events/${event._id}`)}
+			onClick={(): string => (window.location.href = `/evenementen/${event._id}`)}
 		>
 			<Image
 				src={event.bannerURL}

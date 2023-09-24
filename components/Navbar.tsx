@@ -28,8 +28,8 @@ const about: DropdownItem[] = [
 
 const pages: NavBarPage[] = [
 	{
-		name: 'Events',
-		url: '/events',
+		name: 'Evenementen',
+		url: '/evenementen',
 	},
 	{
 		name: 'Knuppeltje',
@@ -55,8 +55,8 @@ const mobilePages: NavBarPage[] = [
 		url: '/knuppeltje',
 	},
 	{
-		name: 'Events',
-		url: '/events',
+		name: 'Evenementen',
+		url: '/evenementen',
 	},
 	// {
 	// 	name: 'News',

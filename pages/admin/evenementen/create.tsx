@@ -56,7 +56,7 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 					type: 'success',
 					text: 'Event is succesvol aangemaakt!',
 				});
-				await router.push('/admin/events/');
+				await router.push('/admin/evenements/');
 			} else if (req.status === 401) {
 				setMessage({
 					type: 'error',

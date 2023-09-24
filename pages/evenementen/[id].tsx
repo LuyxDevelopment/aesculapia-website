@@ -12,7 +12,7 @@ interface Props {
 const EventDynamic: NextPage<Props> = ({ data }) => {
 	return (
 		<>
-			{useMetaData(data.name, data.description, `/events/${data._id}`)}
+			{useMetaData(data.name, data.description, `/evenements/${data._id}`)}
 			<Layout>
 				<div className='container'>
 					<EventPage event={data} />
