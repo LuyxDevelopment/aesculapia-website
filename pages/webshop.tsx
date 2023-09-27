@@ -33,7 +33,7 @@ const Webshop: NextPage<Props> = ({ data }) => {
 				{!data && <ErrorPage />}
 				{data && (
 					<div className='container mb-12 w-screen'>
-						<div className='flex basis-3/4 gap-x-10'>
+						<div className='lg:flex gap-x-10 h-full'>
 							<div>
 								<h1 className='text-5xl font-bold mb-5'>Webshop</h1>
 								{data.length ? (
@@ -53,7 +53,7 @@ const Webshop: NextPage<Props> = ({ data }) => {
 									<p className='pt-4'>Er zijn geen producten gemaakt.</p>
 								)}
 							</div>
-							<div className='bg-gray-200 basis-1/4 rounded-lg shadow-lg'>
+							<div className='bg-gray-200 rounded-lg shadow-lg'>
 								<h2 className='font-bold text-3xl text-center m-4'>Summary</h2>
 								<div className='grid grid-cols-1 place-items-left gap-y-5'>
 									{cart.map((product, i) => {
