@@ -6,6 +6,7 @@ import CheckoutForm from '../components/CheckoutForm';
 import { NextPage } from 'next';
 import Layout from '../components/Layout';
 import { useMetaData } from '../lib/hooks/useMetaData';
+import Cookies from 'js-cookie';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
@@ -14,18 +15,19 @@ const Checkout: NextPage = () => {
 	const [paymentIntent, setPaymentIntent] = useState('');
 
 	useEffect(() => {
-		const item = window.localStorage.getItem('cart');
-		if (!item) return;
+		const items = JSON.parse(Cookies.get('cart') ?? '[]');
+		if (!items.length) return;
+
 		fetch('/api/stripe/create_payment_intent', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ items: item }),
+			body: JSON.stringify({ items: items }),
 		})
 			.then((res) => res.json())
 			.then((data) => {
 				setPaymentIntent(data.data.id);
 				setClientSecret(data.data.clientSecret);
-			});
+			}).catch(console.error);
 	}, []);
 
 

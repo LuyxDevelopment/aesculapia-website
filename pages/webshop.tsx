@@ -1,18 +1,30 @@
 import { NextPage, NextPageContext } from 'next';
-import ProductCard from '../components/ProductCard';
+import ProductCard, { Product } from '../components/ProductCard';
 import { IProduct, ProductDocument } from '../src/models/Product';
 import { useMetaData } from '../lib/hooks/useMetaData';
 import Layout from '../components/Layout';
 import ErrorPage from '../components/Error';
-import { useLocalStorage } from '../lib/hooks/useLocalStorage';
 import { BaseProps, ResponseData } from '../src/types/index';
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import Link from 'next/link.js';
 
 interface Props {
 	data: (IProduct & { _id: string; })[];
 }
 
-const ProductsIndex: NextPage<Props> = ({ data }) => {
-	const [, , addCart, getStorage] = useLocalStorage('cart', []);
+const Webshop: NextPage<Props> = ({ data }) => {
+	const [cart, setCart] = useState<Product[]>([]);
+
+	useEffect(() => {
+		if (!cart.length && Cookies.get('cart')) {
+			setCart([...JSON.parse(Cookies.get('cart')!)]);
+		}
+	}, []);
+
+	useEffect(() => {
+		Cookies.set('cart', JSON.stringify(cart));
+	}, [cart]);
 
 	return (
 		<>
@@ -20,26 +32,47 @@ const ProductsIndex: NextPage<Props> = ({ data }) => {
 			<Layout>
 				{!data && <ErrorPage />}
 				{data && (
-					<div className='container mb-12'>
-						<h1 className='text-5xl font-bold mb-5'>Webshop</h1>
-						{data.length ? (
-							<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-								{data.map((product, i) => {
-									return (
-										<ProductCard
-											// @ts-ignore
-											addCart={addCart}
-											getStorage={getStorage}
-											product={product}
-											cartable={2}
-											key={i}
-										/>
-									);
-								})}
+					<div className='container mb-12 w-screen'>
+						<div className='flex basis-3/4 gap-x-10'>
+							<div>
+								<h1 className='text-5xl font-bold mb-5'>Webshop</h1>
+								{data.length ? (
+									<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+										{data.map((product, i) => {
+											return (
+												<ProductCard
+													cart={cart}
+													setCart={setCart}
+													product={product}
+													key={i}
+												/>
+											);
+										})}
+									</div>
+								) : (
+									<p className='pt-4'>Er zijn geen producten gemaakt.</p>
+								)}
 							</div>
-						) : (
-							<p className='pt-4'>Er zijn geen producten gemaakt.</p>
-						)}
+							<div className='bg-gray-200 basis-1/4 rounded-lg shadow-lg'>
+								<h2 className='font-bold text-3xl text-center m-4'>Summary</h2>
+								<div className='grid grid-cols-1 place-items-left gap-y-5'>
+									{cart.map((product, i) => {
+										return (
+											<p className='ml-5' key={i}><span className='font-bold'>{product.name}</span> {product.price.toLocaleString('de')} EUR ({product.amount.toLocaleString('de')}x)</p>
+										);
+									})}
+									{cart.length > 0 ? <>
+										<div className='flex flex-col w-full mx-auto'>
+											<p className='font-bold ml-5'>Total: {cart.reduce((a, b) => a + b.price * b.amount, 0).toLocaleString('de')} EUR</p>
+											<Link href={'/checkout'} className='font-bold bg-red-500 p-2 m-2 rounded-md shadow-lg text-center'>
+												<p>Checkout</p>
+											</Link>
+										</div>
+									</>
+										: <></>}
+								</div>
+							</div>
+						</div>
 					</div>
 				)}
 			</Layout>
@@ -47,9 +80,7 @@ const ProductsIndex: NextPage<Props> = ({ data }) => {
 	);
 };
 
-export const getServerSideProps = async ({
-	res,
-}: NextPageContext): Promise<BaseProps<ProductDocument>> => {
+export const getServerSideProps = async ({ res }: NextPageContext): Promise<BaseProps<ProductDocument>> => {
 	const request = await fetch(
 		`${process.env.NEXT_PUBLIC_DOMAIN}/api/products`,
 		{
@@ -67,4 +98,4 @@ export const getServerSideProps = async ({
 	};
 };
 
-export default ProductsIndex;
+export default Webshop;

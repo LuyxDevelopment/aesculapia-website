@@ -2,10 +2,9 @@ import Image from 'next/image';
 import type { NextPage, NextPageContext } from 'next';
 import Layout from '../components/Layout';
 import { useMetaData } from '../lib/hooks/useMetaData';
-import { ImageData } from '../components/Carousel';
 import Dropdown from '../components/Dropdown';
 import { useState } from 'react';
-import Carousel2 from '../components/Carousel2';
+import Carousel2, { ImageData } from '../components/Carousel2';
 import { EventDocument } from '../src/models/Event';
 import { BaseProps, ResponseData } from '../src/types/index.js';
 

@@ -11,7 +11,7 @@ declare global {
 			NEXT_POSTMARK_MESSAGE_STREAM: string;
 			NEXT_PUBLIC_DOMAIN: string;
 			NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: string;
-			NEXT_STRIPE_SECRET_KEY: string;
+			NEXT_PUBLIC_STRIPE_SECRET_KEY: string;
 		}
 	}
 }

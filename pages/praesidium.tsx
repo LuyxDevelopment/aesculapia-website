@@ -5,78 +5,98 @@ import Profile, { UserProfile } from '../components/Profile';
 
 const people: UserProfile[] = [
 	{
-		name: 'Lena Ceulemans',
+		name: 'Margot Dellaert',
 		role: 'Praeses',
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
 	},
 	{
-		name: 'Margot Dellaert',
-		role: 'Vice-praeses',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
-	},
-	{
-		name: 'Floris Van Hemel',
-		role: 'Quaestor',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
-	},
-	{
 		name: 'Noa van Mook',
-		role: 'Cantor',
+		role: 'Vice - praeses bal',
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
 	},
 	{
 		name: 'Siebe Van Poeyer',
-		role: 'Schachtentemmer',
+		role: 'Vice praeses ski',
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
 	},
 	{
 		name: 'Dries Van der Paal',
-		role: 'Zedenmeester',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
-	},
-	{
-		name: 'Victor Van den Bosch',
-		role: 'Feest',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
-	},
-	{
-		name: 'Timo Dobbeleir',
-		role: 'Feest',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
-	},
-	{
-		name: 'Charlotte Breems',
-		role: 'Cultuur',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
-	},
-	{
-		name: 'Wout Van Opdenbosch',
-		role: 'Media',
+		role: 'Quaestor',
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
 	},
 	{
 		name: 'Stan Reijnen',
-		role: 'P.R',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
-	},
-	{
-		name: 'Fynn Hille',
 		role: 'Sport',
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
 	},
 	{
-		name: 'Evy Janssens',
+		name: 'Nina Ramezani',
 		role: 'Sport',
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
 	},
 	{
-		name: 'Adriana Dane',
+		name: 'Eros BLoemen',
+		role: 'Media',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
+	},
+	{
+		name: 'Eline Derkoningen',
+		role: 'Cultuur',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
+	},
+	{
+		name: 'Silke Roymans',
+		role: 'Ab-actis',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
+	},
+	{
+		name: 'Maithé Hendricx',
 		role: 'Scriptor',
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
 	},
 	{
-		name: 'Ilsa Bons',
+		name: 'Wout Van Opdenbosch',
+		role: 'Feest',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
+	},
+	{
+		name: 'Sterre Vanderghinste',
+		role: 'Feest',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
+	},
+	{
+		name: 'Xavier Bogman',
+		role: 'Feest',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
+	},
+	{
+		name: 'Floris Van Hemel',
+		role: 'Schachtentemmer',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
+	},
+	{
+		name: 'Fynn Hille',
+		role: 'Zedenmeester',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
+	},
+	{
+		name: 'Charlotte Peeters',
 		role: 'Mentor',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
+	},
+	{
+		name: 'Enya Moerbeek',
+		role: 'Cantor',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
+	},
+	{
+		name: 'Delano Creton',
+		role: 'P.R.',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
+	},
+	{
+		name: 'Lena Ceulemans',
+		role: 'Praegustator',
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/api/og?description=foto`,
 	},
 ];
