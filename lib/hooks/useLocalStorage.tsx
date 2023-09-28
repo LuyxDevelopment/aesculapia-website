@@ -35,8 +35,8 @@ export const useLocalStorage = <T extends object,>(key: string, initialValue: T)
 			const index = (storedValue as []).findIndex((o: DisplayProduct) => o.name === (value as DisplayProduct).name);
 
 			if (index !== -1) {
-				if ((value as DisplayProduct).stock === 0) return undefined;
-				if ((value as DisplayProduct).amount + (storedValue as DisplayProduct[])[index].amount > (value as DisplayProduct).stock) return undefined;
+				// if ((value as DisplayProduct).stock === 0) return undefined;
+				// if ((value as DisplayProduct).amount + (storedValue as DisplayProduct[])[index].amount > (value as DisplayProduct).stock) return undefined;
 				if ((value as DisplayProduct).amount + (storedValue as DisplayProduct[])[index].amount < 0) return undefined;
 				setStoredValue((storedValue as DisplayProduct[]).filter(p => p.name !== (value as DisplayProduct).name) as SetStateAction<T>);
 				const amount = (storedValue as DisplayProduct[])[index].amount + (value as DisplayProduct).amount;

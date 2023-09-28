@@ -6,14 +6,14 @@ import { Stripe } from 'stripe';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../../src/util/ironConfig';
 
-const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY, {
+const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY, {
 	apiVersion: '2022-11-15',
 });
 
 dbConnect();
 
 export default withIronSessionApiRoute(async function paymentHandler(
-	req: Omit<NextApiRequest, 'body'> & { body: Body },
+	req: Omit<NextApiRequest, 'body'> & { body: Body; },
 	res: NextApiResponse<ResponseData<Stripe.PaymentIntent[]>>,
 ): Promise<void> {
 	switch (req.method) {

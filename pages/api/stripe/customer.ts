@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../src/util/dbConnect';
 import { Stripe } from 'stripe';
 
-const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY, {
+const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY, {
 	apiVersion: '2022-11-15',
 });
 
@@ -16,8 +16,8 @@ interface Body {
 			name: string;
 			email: string;
 			payment_intent: string;
-		}
-	}
+		};
+	};
 }
 
 export default async function customerHandler(
