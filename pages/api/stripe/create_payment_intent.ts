@@ -4,6 +4,7 @@ import { Product } from '../../../src/models/index';
 import { ResponseData } from '../../../src/types';
 import dbConnect from '../../../src/util/dbConnect';
 import { Stripe } from 'stripe';
+import { DisplayProduct } from '../../../components/ProductCard';
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY, {
 	apiVersion: '2022-11-15',
@@ -11,10 +12,10 @@ const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY, {
 
 dbConnect();
 
-const calculateOrderAmount = async (items: string): Promise<number> => {
+const calculateOrderAmount = async (items: DisplayProduct[]): Promise<number> => {
 	let price = 0;
-	for (const item of JSON.parse(items)) {
-		const product = await Product.findOne({ _id: item.id });
+	for (const item of items) {
+		const product = await Product.findOne({ _id: item._id });
 		if (product!.stock < item.amount) item.amount = product!.stock;
 		price += product!.price * item.amount;
 	}
@@ -22,14 +23,12 @@ const calculateOrderAmount = async (items: string): Promise<number> => {
 };
 
 export default async function createPaymentIntent(
-	req: Omit<NextApiRequest, 'body'> & { body: { items: string }; },
-	res: NextApiResponse<ResponseData<{ id: string, clientSecret: string } | null>>,
+	req: Omit<NextApiRequest, 'body'> & { body: { items: DisplayProduct[]; }; },
+	res: NextApiResponse<ResponseData<{ id: string, clientSecret: string; } | null>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'POST': {
 			const { items } = req.body;
-
-			console.log(JSON.parse(items));
 
 			const paymentIntent = await stripe.paymentIntents.create({
 				amount: await calculateOrderAmount(items),

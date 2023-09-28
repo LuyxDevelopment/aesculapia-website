@@ -1,16 +1,15 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { IProduct } from '../src/models/Product';
 import Image from 'next/image';
-import Cookies from 'js-cookie';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 
 interface Props {
 	product: IProduct & { _id: string; };
-	cart: Product[];
-	setCart: Dispatch<SetStateAction<Product[]>>;
+	cart: DisplayProduct[];
+	setCart: Dispatch<SetStateAction<DisplayProduct[]>>;
 }
 
-export interface Product {
+export interface DisplayProduct {
 	_id: string;
 	name: string;
 	amount: number;

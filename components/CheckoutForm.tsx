@@ -33,7 +33,8 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 				name: data.fullName,
 				email: data.email,
 				payment_intent: paymentIntent,
-			}}));
+			}
+		}));
 
 		window.localStorage.setItem('customer', `{'name':'${data.fullName}','email':'${data.email}'}`);
 		setStep(2);
@@ -72,7 +73,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 			setIsLoading(false);
 			return setMessage('We were unable to validate your information.');
 		}
-		
+
 		setIsLoading(false);
 		await router.push(`${process.env.NEXT_PUBLIC_DOMAIN}/order?payment_intent=${result.paymentIntent?.id}&payment_intent_client_secret=${result.paymentIntent?.client_secret}&redirect_status=${result.paymentIntent?.status}`);
 	};
@@ -109,10 +110,12 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 							placeholder='First and last name'
 							minLength={1}
 							required
-							{...register('fullName', { required: true, pattern: {
-								value: /^[a-zA-Z]+\s[a-zA-Z]+\s?$/,
-								message: 'Please submit only your first and last name',
-							} })}
+							{...register('fullName', {
+								required: true, pattern: {
+									value: /^[a-zA-Z]+\s[a-zA-Z]+\s?$/,
+									message: 'Please submit only your first and last name',
+								}
+							})}
 						/>
 						<label>
 							Email
@@ -123,10 +126,12 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 							placeholder='Email'
 							minLength={1}
 							required
-							{...register('email', { required: true, pattern: {
-								value: /\S+@\S+\.\S+/,
-								message: 'Entered value does not match email format',
-							}})}
+							{...register('email', {
+								required: true, pattern: {
+									value: /\S+@\S+\.\S+/,
+									message: 'Entered value does not match email format',
+								}
+							})}
 						/>
 						<button type='submit' disabled={isLoading || !stripe || !elements} className='bottom-0 h-10 w-16 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
 							Next
@@ -134,8 +139,8 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 					</form>
 				)}
 				{step === 2 && (
-					<form id='payment-form' onSubmit={onSubmit}>
-						<PaymentElement id='payment-element' options={{ layout: 'tabs', business: { name: 'Aesculapia' }}} />
+					<form id='payment-form' onSubmit={onSubmit} className='my-5'>
+						<PaymentElement id='payment-element' options={{ layout: 'tabs', business: { name: 'Aesculapia' } }} />
 						<div className='flex-row flex gap-2 mt-2'>
 							<button disabled={isLoading || !stripe || !elements} type='submit' className='bottom-0 h-10 w-24 bg-red-500 text-gray-50 font-semibold shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-red-700 transition-all duration-300 ease-in-out'>
 								{isLoading ? <MoonLoader

@@ -1,5 +1,5 @@
 import { NextPage, NextPageContext } from 'next';
-import ProductCard, { Product } from '../components/ProductCard';
+import ProductCard, { DisplayProduct } from '../components/ProductCard';
 import { IProduct, ProductDocument } from '../src/models/Product';
 import { useMetaData } from '../lib/hooks/useMetaData';
 import Layout from '../components/Layout';
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Webshop: NextPage<Props> = ({ data }) => {
-	const [cart, setCart] = useState<Product[]>([]);
+	const [cart, setCart] = useState<DisplayProduct[]>([]);
 
 	useEffect(() => {
 		if (!cart.length && Cookies.get('cart')) {

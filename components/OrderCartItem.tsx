@@ -1,16 +1,16 @@
 import { FC } from 'react';
 
-import { Product } from './ProductCard';
+import { DisplayProduct } from './ProductCard';
 
 interface Props {
-	item: Product & { _id: string; };
+	item: DisplayProduct & { _id: string; };
 }
 
 const OrderCartItem: FC<Props> = ({ item }) => {
 	return <>
 		<tr>
 			<td className='px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap'>
-				<img className='w-24 sm:w-36 md:w-44 rounded-lg mt-2 mb-2' draggable={false} src={item.imageURL} alt={item.name} />
+				{/* <img className='w-24 sm:w-36 md:w-44 rounded-lg mt-2 mb-2' draggable={false} src={item.imageURL} alt={item.name} /> */}
 			</td>
 			<td className='px-6 py-4 text-gray-800 whitespace-nowrap'>
 				<p>{item.name}</p>

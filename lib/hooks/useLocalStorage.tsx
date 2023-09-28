@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Product } from '../../components/ProductCard';
+import { DisplayProduct } from '../../components/ProductCard';
 
 export const useLocalStorage = <T extends object,>(key: string, initialValue: T): readonly [T, Dispatch<SetStateAction<T>>, (value: T) => void, () => string | null] => {
 	const [storedValue, setStoredValue] = useState<T>(() => {
@@ -32,22 +32,22 @@ export const useLocalStorage = <T extends object,>(key: string, initialValue: T)
 			return value;
 		}
 		try {
-			const index = (storedValue as []).findIndex((o: Product) => o.name === (value as Product).name);
+			const index = (storedValue as []).findIndex((o: DisplayProduct) => o.name === (value as DisplayProduct).name);
 
 			if (index !== -1) {
-				if ((value as Product).stock === 0) return undefined;
-				if ((value as Product).amount + (storedValue as Product[])[index].amount > (value as Product).stock) return undefined;
-				if ((value as Product).amount + (storedValue as Product[])[index].amount < 0) return undefined;
-				setStoredValue((storedValue as Product[]).filter(p => p.name !== (value as Product).name) as SetStateAction<T>);
-				const amount = (storedValue as Product[])[index].amount + (value as Product).amount;
+				if ((value as DisplayProduct).stock === 0) return undefined;
+				if ((value as DisplayProduct).amount + (storedValue as DisplayProduct[])[index].amount > (value as DisplayProduct).stock) return undefined;
+				if ((value as DisplayProduct).amount + (storedValue as DisplayProduct[])[index].amount < 0) return undefined;
+				setStoredValue((storedValue as DisplayProduct[]).filter(p => p.name !== (value as DisplayProduct).name) as SetStateAction<T>);
+				const amount = (storedValue as DisplayProduct[])[index].amount + (value as DisplayProduct).amount;
 				// @ts-ignore
 				setStoredValue(arr => [...arr, { id: value.id, name: value.name, price: value.price * amount, amount, stock: value.stock, imageURL: value.imageURL }]);
-				return (value as Product).amount + (storedValue as Product[])[index].amount;
+				return (value as DisplayProduct).amount + (storedValue as DisplayProduct[])[index].amount;
 			}
 
 			// @ts-ignore
 			setStoredValue(arr => [...arr, value]);
-			return (value as Product).amount;
+			return (value as DisplayProduct).amount;
 
 		} catch (error) {
 			console.log(error);

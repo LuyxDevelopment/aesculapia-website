@@ -1,16 +1,16 @@
 import { FC, useState } from 'react';
 
-import { Product } from './ProductCard';
+import { DisplayProduct } from './ProductCard';
 import { PlusIcon, MinusIcon, CloseIcon } from './Icons';
 
 interface Props {
-	item: Product & { _id: string; };
+	item: DisplayProduct & { _id: string; };
 	setModified: (modified: boolean) => void;
 }
 
 const ShoppingCartItem: FC<Props> = ({ item, setModified }) => {
 	const [deleted, setDeleted] = useState(false);
-	const [cart, setCart] = useState<Product[]>([]);
+	const [cart, setCart] = useState<DisplayProduct[]>([]);
 	const [amount, setAmount] = useState(item.amount);
 	const [price, setPrice] = useState(item.price);
 
@@ -19,7 +19,7 @@ const ShoppingCartItem: FC<Props> = ({ item, setModified }) => {
 		if (!window.localStorage.getItem('cart')) return;
 		if (!cart.length) setCart([...cart, ...JSON.parse(window.localStorage.getItem('cart')!)]);
 
-		setCart(cart.filter((e: Product) => e._id !== item._id));
+		setCart(cart.filter((e: DisplayProduct) => e._id !== item._id));
 		setDeleted(true);
 
 		window.localStorage.setItem('cart', JSON.stringify(cart));
@@ -29,7 +29,7 @@ const ShoppingCartItem: FC<Props> = ({ item, setModified }) => {
 	const increaseAmount = (): void => {
 		if (window === undefined) return;
 		if (!window.localStorage.getItem('cart')) return;
-		if (!cart.length) setCart([...cart,...JSON.parse(window.localStorage.getItem('cart')!)]);
+		if (!cart.length) setCart([...cart, ...JSON.parse(window.localStorage.getItem('cart')!)]);
 		if (item.stock < amount + 1) return;
 
 		const newCart = cart;

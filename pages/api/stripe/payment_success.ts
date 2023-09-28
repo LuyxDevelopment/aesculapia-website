@@ -6,7 +6,7 @@ import { Stripe } from 'stripe';
 import { mail } from '../../../src/mail';
 import { IProduct, Order, Product } from '../../../src/models';
 
-const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY, {
+const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY, {
 	apiVersion: '2022-11-15',
 });
 
@@ -15,9 +15,12 @@ dbConnect();
 const parseCart = async (items: string): Promise<IProduct[]> => {
 	const cart = [];
 	const parsedItems = JSON.parse(items);
+
 	for (const item of parsedItems) {
 		const product = await Product.findOne({ _id: item.id });
+
 		if (product!.stock < item.amount) item.amount = product!.stock;
+
 		cart.push(item);
 	}
 	return parsedItems;
@@ -37,12 +40,12 @@ interface PaymentIntent {
 	customer: {
 		email: string;
 		name: string;
-	}
+	};
 }
 
 export default async function paymentHandler(
-	req: Omit<NextApiRequest, 'body'> & { body: Body },
-	res: NextApiResponse<ResponseData<PaymentIntent & { cart: IProduct[] } | null>>,
+	req: Omit<NextApiRequest, 'body'> & { body: Body; },
+	res: NextApiResponse<ResponseData<PaymentIntent & { cart: IProduct[]; } | null>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'POST': {
