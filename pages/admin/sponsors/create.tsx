@@ -25,6 +25,7 @@ const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: bool
 					url: data.url,
 				}),
 			});
+			
 			if (req.ok) {
 				console.log('ok');
 			} else if (req.status === 401) {

@@ -1,6 +1,6 @@
 import { Schema, Model, default as mongoose, HydratedDocument } from 'mongoose';
 import { ProductDocument } from './Product';
-import { IProduct } from './Product';
+import { DisplayProduct } from '../../components/ProductCard';
 
 export interface IOrder {
 	_id: string;
@@ -9,7 +9,7 @@ export interface IOrder {
 	lastName: string;
 	issuedAt: number;
 	receivedAt: number | null;
-	products: IProduct[];
+	products: DisplayProduct[];
 	delivered: boolean;
 	emailSent: boolean;
 }

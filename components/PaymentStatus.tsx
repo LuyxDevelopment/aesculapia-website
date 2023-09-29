@@ -2,6 +2,7 @@ import { useState, useEffect, FC } from 'react';
 import { useStripe } from '@stripe/react-stripe-js';
 import { useRouter } from 'next/router';
 import OrderCartItem from './OrderCartItem';
+import Cookies from 'js-cookie';
 
 interface PaymentData {
 	amount: number,
@@ -28,6 +29,7 @@ const PaymentStatus: FC = () => {
 			name: '',
 		},
 	});
+	
 	const [cart, setCart] = useState([]);
 	const [message, setMessage] = useState('');
 	const [redirect, setRedirect] = useState(false);
@@ -44,20 +46,20 @@ const PaymentStatus: FC = () => {
 
 		if (!clientSecret) return setRedirect(true);
 		if (window === undefined) return setRedirect(true);
-		if (!window.localStorage.getItem('cart')) return setRedirect(true);
+		if (!Cookies.get('cart')) return setRedirect(true);
 
 		stripe
 			.retrievePaymentIntent(clientSecret)
 			.then(({ paymentIntent }) => {
 				switch (paymentIntent?.status) {
 					case 'succeeded':
-						setMessage('Success! Payment received.');
+						setMessage('Succes! Betaling ontvangen.');
 						fetch('/api/stripe/payment_success', {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/json' },
-							body: JSON.stringify({ paymentIntent: paymentIntent.id, items: window.localStorage.getItem('cart') }),
+							body: JSON.stringify({ paymentIntent: paymentIntent.id, items: Cookies.get('cart') }),
 						}).then((req) => {
-							if (req.ok) window.localStorage.setItem('cart', '[]');
+							if (req.ok) Cookies.set('cart', '[]');
 							return req.json();
 						}).then(data => {
 							setData({
@@ -73,16 +75,16 @@ const PaymentStatus: FC = () => {
 						break;
 
 					case 'processing':
-						setMessage('Payment processing. We\'ll update you when payment is received.');
+						setMessage('Verwerking van betaling. We houden je op de hoogte wanneer de betaling is ontvangen.');
 						break;
 
 					case 'requires_payment_method':
-						setMessage('Payment failed. Please try another payment method.');
+						setMessage('Betaling mislukt. Probeer een andere betaalmethode.');
 						setRedirect(true);
 						break;
 
 					default:
-						setMessage('Something went wrong.');
+						setMessage('Er ging iets mis.');
 						setRedirect(true);
 						break;
 				}
@@ -95,12 +97,12 @@ const PaymentStatus: FC = () => {
 				<div className='grid place-items-center absolute inset-0 z-50 bg-black bg-opacity-80 w-full h-full rounded-lg'>
 					<div className='relative w-[25rem] h-11/12 right-0 left-0 z-51 bg-gray-200 rounded-lg'>
 						<div className='mt-2 mb-2 grid place-items-center text-center'>
-							<h2 className='text-xl'>{message || 'It looks like your checkout expired.'}</h2>
+							<h2 className='text-xl'>{message || 'Het lijkt erop dat je kassa is verlopen.'}</h2>
 							<div className='flex gap-3'>
 								<button onClick={(): void => {
-									router.push('/cart');
+									router.push('/webshop');
 								}} className='bottom-0 h-10 w-30 bg-red-500 shadow-md flex items-center justify-center rounded-full p-2 hover:bg-red-700 transition-all duration-300 ease-in-out'>
-									<p>Back to cart</p>
+									<p>Terug naar Webshop</p>
 								</button>
 							</div>
 						</div>
@@ -110,8 +112,8 @@ const PaymentStatus: FC = () => {
 			{!redirect && (
 				<div className='container flex flex-row text-black'>
 					<div>
-						<h1 className='text-2xl font-bold'>{message}</h1>
-						<p>Thank you for ordering, {data.customer.name}!</p>
+						<h1 className='text-3xl font-bold'>{message}</h1>
+						<p>Bedankt voor uw bestelling!</p>
 						<p>A confirmation email has been sent to <b>{data.customer.email}</b>.</p>
 						<table className='min-w-full divide-y divide-gray-200'>
 							<thead>
@@ -126,19 +128,19 @@ const PaymentStatus: FC = () => {
 										scope='col'
 										className='px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase '
 									>
-										Name
+										Product
 									</th>
 									<th
 										scope='col'
 										className='px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase '
 									>
-										Amount
+										Bedrag
 									</th>
 									<th
 										scope='col'
 										className='px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase '
 									>
-										Price
+										Kosten
 									</th>
 								</tr>
 							</thead>
@@ -157,7 +159,7 @@ const PaymentStatus: FC = () => {
 									<td className='px-6 py-4 text-gray-800 whitespace-nowrap'>
 									</td>
 									<td className='px-6 py-4 text-sm text-gray-800 whitespace-nowrap'>
-										<p className='font-bold'>Total</p>
+										<p className='font-bold'>Totale</p>
 									</td>
 									<td className='px-6 py-4 text-sm font-medium text-right whitespace-nowrap'>
 										<p>€{(data.amount / 100).toFixed(2)}</p>
@@ -167,8 +169,8 @@ const PaymentStatus: FC = () => {
 							</tbody>
 						</table>
 						<div>
-							<p className='font-bold'>Payment Details</p>
-							<p>Paid with {data.type}</p>
+							<p className='font-bold text-2xl'>Betalingsgegevens</p>
+							<p>Betaald met {data.type}</p>
 							<p>**** **** **** {data.last4}</p>
 						</div>
 					</div>

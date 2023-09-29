@@ -37,7 +37,7 @@ const Webshop: NextPage<Props> = ({ data }) => {
 							<div>
 								<h1 className='text-5xl font-bold mb-5'>Webshop</h1>
 								{data.length ? (
-									<div className='grid grid-cols-1 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+									<div className='grid grid-cols-2 place-items-center gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
 										{data.map((product, i) => {
 											return (
 												<ProductCard
@@ -54,7 +54,7 @@ const Webshop: NextPage<Props> = ({ data }) => {
 								)}
 							</div>
 							<div className='bg-gray-200 rounded-lg shadow-lg'>
-								<h2 className='font-bold text-3xl text-center m-4'>Summary</h2>
+								<h2 className='font-bold text-3xl text-center m-4'>Samenvatting</h2>
 								<div className='grid grid-cols-1 place-items-left gap-y-5'>
 									{cart.map((product, i) => {
 										return (
@@ -63,9 +63,9 @@ const Webshop: NextPage<Props> = ({ data }) => {
 									})}
 									{cart.length > 0 ? <>
 										<div className='flex flex-col w-full mx-auto'>
-											<p className='font-bold ml-5'>Total: {cart.reduce((a, b) => a + b.price * b.amount, 0).toLocaleString('de')} EUR</p>
-											<Link href={'/checkout'} className='font-bold bg-red-500 p-2 m-2 rounded-md shadow-lg text-center'>
-												<p>Checkout</p>
+											<p className='font-bold ml-5'>Totale: {cart.reduce((a, b) => a + b.price * b.amount, 0).toLocaleString('de')} EUR</p>
+											<Link href={'/kassa'} className='font-bold bg-red-500 p-2 m-2 rounded-md shadow-lg text-center hover:bg-red-600 duration-300	'>
+												<p>Kassa</p>
 											</Link>
 										</div>
 									</>

@@ -1,9 +1,8 @@
-import { BaseSyntheticEvent, FC, useEffect, useState } from 'react';
+import { BaseSyntheticEvent, FC, useState } from 'react';
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 import { FieldValues, useForm } from 'react-hook-form';
 import { MoonLoader } from 'react-spinners';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { CloseIcon } from './Icons';
 
@@ -26,17 +25,15 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 	const nameSubmit = (data: FieldValues, e: BaseSyntheticEvent): void => {
 		e.preventDefault();
 
-		console.log(paymentIntent, 'customer');
 		setCustomer(prevCustomer => ({
 			...prevCustomer,
 			customer: {
 				name: data.fullName,
 				email: data.email,
 				payment_intent: paymentIntent,
-			}
+			},
 		}));
 
-		window.localStorage.setItem('customer', `{'name':'${data.fullName}','email':'${data.email}'}`);
 		setStep(2);
 	};
 
@@ -101,40 +98,40 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 				{step === 1 && (
 					<form id='address-form' onSubmit={handleSubmit((data, event) => nameSubmit(data, event!))}>
 						<label>
-							Full name
+							Volledige Naam
 						</label>
 						<input
 							className='appearance-none block w-full bg-[#F1F1F1] text-gray-700 rounded-lg py-3 px-4 mb-3 leading-tight border-[3.2px] border-white focus:border-[#F58989] focus:outline-[#FBD0D0] '
 							id='full-name'
 							type='text'
-							placeholder='First and last name'
+							placeholder='Voor- en achternaam'
 							minLength={1}
 							required
 							{...register('fullName', {
 								required: true, pattern: {
 									value: /^[a-zA-Z]+\s[a-zA-Z]+\s?$/,
-									message: 'Please submit only your first and last name',
+									message: 'Geef alleen je voor- en achternaam op.',
 								}
 							})}
 						/>
 						<label>
-							Email
+							E-mail
 						</label>
 						<input
 							className='block w-full bg-[#F1F1F1] text-gray-700 rounded-lg py-3 px-4 mb-3 leading-tight border-[3.2px] border-white focus:border-[#F58989] focus:outline-[#FBD0D0] '
 							type='email'
-							placeholder='Email'
+							placeholder='e-mailadres'
 							minLength={1}
 							required
 							{...register('email', {
 								required: true, pattern: {
 									value: /\S+@\S+\.\S+/,
-									message: 'Entered value does not match email format',
+									message: 'Voer een geldig e-mailadres in.',
 								}
 							})}
 						/>
-						<button type='submit' disabled={isLoading || !stripe || !elements} className='bottom-0 h-10 w-16 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
-							Next
+						<button type='submit' disabled={isLoading || !stripe || !elements} className='bottom-0 p-2 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
+							Volgende
 						</button>
 					</form>
 				)}

@@ -4,7 +4,8 @@ import { ResponseData } from '../../../src/types';
 import dbConnect from '../../../src/util/dbConnect';
 import { Stripe } from 'stripe';
 import { mail } from '../../../src/mail';
-import { IProduct, Order, Product } from '../../../src/models';
+import { Order, Product } from '../../../src/models';
+import { DisplayProduct } from '../../../components/ProductCard';
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY, {
 	apiVersion: '2022-11-15',
@@ -12,17 +13,15 @@ const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY, {
 
 dbConnect();
 
-const parseCart = async (items: string): Promise<IProduct[]> => {
-	const cart = [];
-	const parsedItems = JSON.parse(items);
+const parseCart = async (items: string): Promise<DisplayProduct[]> => {
+	const parsedItems = JSON.parse(items) as DisplayProduct[];
 
-	for (const item of parsedItems) {
-		const product = await Product.findOne({ _id: item.id });
+	for (let i = 0; i < parsedItems.length; i++) {
+		const product = await Product.findOne({ _id: parsedItems[i]._id });
 
-		if (product!.stock < item.amount) item.amount = product!.stock;
-
-		cart.push(item);
+		if (product!.stock < parsedItems[i].amount) parsedItems[i].amount = product!.stock;
 	}
+
 	return parsedItems;
 };
 
@@ -45,15 +44,18 @@ interface PaymentIntent {
 
 export default async function paymentHandler(
 	req: Omit<NextApiRequest, 'body'> & { body: Body; },
-	res: NextApiResponse<ResponseData<PaymentIntent & { cart: IProduct[]; } | null>>,
+	res: NextApiResponse<ResponseData<PaymentIntent & { cart: DisplayProduct[]; } | null>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'POST': {
 			const paymentIntent = await stripe.paymentIntents.retrieve(req.body.paymentIntent);
+
 			switch (paymentIntent?.status) {
 				case 'succeeded': {
+					console.log(paymentIntent.customer);
 					const customer = await stripe.customers.retrieve(paymentIntent.customer as string) as Stripe.Customer;
 					const cart = await parseCart(req.body.items);
+
 					const paymentMethod = await stripe.paymentMethods.retrieve(paymentIntent.payment_method as string);
 
 					if (!customer) {

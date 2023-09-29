@@ -28,6 +28,8 @@ export default async function customerHandler(
 		case 'POST': {
 			const { customer } = req.body.customer;
 
+			console.log(customer);
+
 			if (!customer.payment_intent || !customer.email || !customer.name || !customer.name.match(/^[a-zA-Z]+\s[a-zA-Z]+\s?$/)) {
 				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,

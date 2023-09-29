@@ -22,11 +22,10 @@ const AdminCreateProducts: NextPage<{ user: { email: string, has2faEnabled: bool
 	const router = useRouter();
 
 	const [selected, setSelected] = useState<Date>();
-	console.log(selected);
 
 	const onSubmit = async (data: FieldValues, event?: BaseSyntheticEvent): Promise<void> => {
 		event?.preventDefault();
-		console.log(data);
+
 		try {
 			const req = await fetch('/api/events', {
 				method: 'POST',

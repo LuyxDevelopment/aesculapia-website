@@ -65,9 +65,9 @@ const ProductCard: FC<Props> = ({ product, cart, setCart }) => {
 		<>
 			<div className='group bg-gray-200 p-4 rounded-lg shadow-md hover:scale-[1.04] transiton-all duration-[400ms] ease-in-out relative'>
 				<Image className={(product.stock === 0 ? 'grayscale ' : '') + 'w-52 rounded-lg transition-all duration-[400ms] ease-in-out group-hover:shadow-md group-hover:scale-[0.96]'} draggable={false} src={product.imageURL} alt={product.name} width='256' height='256' />
-				<h2 className='text-3xl font-bold m-1'>{product.name}</h2>
+				<h2 className='text-3xl font-bold my-1'>{product.name}</h2>
 				<p className='text-xl'>{product.price.toLocaleString('de')} EUR</p>
-				<h3>{product.stock.toLocaleString('de')} left in stock!</h3>
+				<p className='text-md'>Nog {product.stock.toLocaleString('de')} op voorraad!</p>
 				<div className='flex flex-row text-3xl items-center justify-center'>
 					<AiOutlinePlus className={product.stock === 0 ? 'cursor-not-allowed' : 'hover:cursor-pointer'} onClick={addItem} />
 					<AiOutlineMinus className={amount === 0 ? 'cursor-not-allowed' : 'hover:cursor-pointer'} onClick={removeItem} />

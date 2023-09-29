@@ -30,16 +30,19 @@ const Checkout: NextPage = () => {
 			}).catch(console.error);
 	}, []);
 
-
 	return (
 		<>
-			{useMetaData('Checkout', 'Checkout', '/checkout')}
+			{useMetaData('Kassa', 'Kassa', '/kassa')}
 			<Layout>
-				{clientSecret && (
+				{clientSecret.length ? (
 					<Elements options={{ clientSecret, appearance: { theme: 'flat', variables: { colorPrimary: '#EF4444' } }, loader: 'always' }} stripe={stripePromise}>
 						<CheckoutForm paymentIntent={paymentIntent} />
 					</Elements>
-				)}
+				) :
+					(<div className='container'>
+						<h1 className='text-5xl my-5'>Je winkelwagentje is leeg.</h1>
+						<p className='text-2xl'> Maak een selectie in de <button className='text-red-500 hover:text-red-600 duration-300' onClick={(): string => window.location.href = '/webshop'}>webshop</button>.</p>
+					</div>)}
 			</Layout>
 		</>
 	);

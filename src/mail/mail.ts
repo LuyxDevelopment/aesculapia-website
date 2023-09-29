@@ -1,5 +1,5 @@
 import { ServerClient } from 'postmark';
-import { IProduct } from '../models';
+import { DisplayProduct } from '../../components/ProductCard';
 
 export class Mail {
 	private readonly postmark: ServerClient;
@@ -8,7 +8,7 @@ export class Mail {
 		this.postmark = new ServerClient(process.env.NEXT_POSTMARK_API_KEY);
 	}
 
-	public async sendConfirmationMail(to: string, orderId: string, name: string, total: number, cart: IProduct[], type: string, card: { last4: string, brand: string } | null): Promise<void> {
+	public async sendConfirmationMail(to: string, orderId: string, name: string, total: number, cart: DisplayProduct[], type: string, card: { last4: string, brand: string; } | null): Promise<void> {
 		for (let i = 0; i < cart.length; i++) {
 			cart[i].price /= 100;
 		}
