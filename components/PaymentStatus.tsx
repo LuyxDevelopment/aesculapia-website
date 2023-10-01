@@ -29,7 +29,7 @@ const PaymentStatus: FC = () => {
 			name: '',
 		},
 	});
-	
+
 	const [cart, setCart] = useState([]);
 	const [message, setMessage] = useState('');
 	const [redirect, setRedirect] = useState(false);
@@ -114,7 +114,7 @@ const PaymentStatus: FC = () => {
 					<div>
 						<h1 className='text-3xl font-bold'>{message}</h1>
 						<p>Bedankt voor uw bestelling!</p>
-						<p>A confirmation email has been sent to <b>{data.customer.email}</b>.</p>
+						<p>Er is een bevestigingsmail verzonden naar <b>{data.customer.email}</b>.</p>
 						<table className='min-w-full divide-y divide-gray-200'>
 							<thead>
 								<tr>
@@ -122,7 +122,6 @@ const PaymentStatus: FC = () => {
 										scope='col'
 										className='px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase '
 									>
-
 									</th>
 									<th
 										scope='col'

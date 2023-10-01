@@ -4,7 +4,7 @@ import { ResponseData } from '../../../src/types';
 import dbConnect from '../../../src/util/dbConnect';
 import { Stripe } from 'stripe';
 import { mail } from '../../../src/mail';
-import { Order, Product } from '../../../src/models';
+import { IProduct, Order, Product } from '../../../src/models';
 import { DisplayProduct } from '../../../components/ProductCard';
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY, {
@@ -52,7 +52,6 @@ export default async function paymentHandler(
 
 			switch (paymentIntent?.status) {
 				case 'succeeded': {
-					console.log(paymentIntent.customer);
 					const customer = await stripe.customers.retrieve(paymentIntent.customer as string) as Stripe.Customer;
 					const cart = await parseCart(req.body.items);
 
@@ -64,12 +63,15 @@ export default async function paymentHandler(
 							message: getReasonPhrase(StatusCodes.FORBIDDEN),
 							data: null,
 						});
+
 						return;
 					}
 
 					const order = await Order.findOne({ _id: paymentIntent.id });
+
 					if (!order) {
 						const card = paymentMethod.card ? { last4: paymentMethod.card.last4, brand: paymentMethod.card.brand } : null;
+
 						mail.sendConfirmationMail(
 							customer.email!,
 							paymentIntent.id,
@@ -90,7 +92,18 @@ export default async function paymentHandler(
 							products: cart,
 							emailSent: true,
 						});
+
 						await newOrder.save();
+
+						for (const cartProduct of cart) {
+							const product = await Product.findById(cartProduct._id);
+
+							if (!product) return;
+
+							product.stock -= cartProduct.amount;
+
+							await product.save();
+						}
 
 						res.status(StatusCodes.OK).json({
 							error: false,
@@ -108,6 +121,7 @@ export default async function paymentHandler(
 								},
 							},
 						});
+
 						return;
 					}
 
@@ -127,8 +141,10 @@ export default async function paymentHandler(
 							},
 						},
 					});
+
 					break;
 				}
+
 				default:
 					break;
 			}
