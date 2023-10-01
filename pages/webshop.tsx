@@ -23,7 +23,7 @@ const Webshop: NextPage<Props> = ({ data }) => {
 	}, []);
 
 	useEffect(() => {
-		Cookies.set('cart', JSON.stringify(cart));
+		Cookies.set('cart', JSON.stringify(cart), { expires: new Date(new Date().getTime() + 15 * 60 * 1000) });
 	}, [cart]);
 
 	return (

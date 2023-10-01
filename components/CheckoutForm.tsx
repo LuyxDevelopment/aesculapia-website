@@ -130,7 +130,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 								}
 							})}
 						/>
-						<button type='submit' disabled={isLoading || !stripe || !elements} className='bottom-0 p-2 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
+						<button type='submit' disabled={isLoading || !stripe || !elements} className='bottom-0 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
 							Volgende
 						</button>
 					</form>
@@ -139,7 +139,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 					<form id='payment-form' onSubmit={onSubmit} className='my-5'>
 						<PaymentElement id='payment-element' options={{ layout: 'tabs', business: { name: 'Aesculapia' } }} />
 						<div className='flex-row flex gap-2 mt-2'>
-							<button disabled={isLoading || !stripe || !elements} type='submit' className='bottom-0 h-10 w-24 bg-red-500 text-gray-50 font-semibold shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-red-700 transition-all duration-300 ease-in-out'>
+							<button disabled={isLoading || !stripe || !elements} type='submit' className='bottom-0 bg-red-500 text-gray-50 font-semibold shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-red-700 transition-all duration-300 ease-in-out'>
 								{isLoading ? <MoonLoader
 									color={'#fff'}
 									loading={true}
@@ -147,10 +147,10 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 									speedMultiplier={0.5}
 									aria-label='Loading Spinner'
 									data-testid='loader'
-								/> : 'Pay now'}
+								/> : 'Nu Betalen'}
 							</button>
-							<button onClick={(): void => setStep(1)} disabled={isLoading || !stripe || !elements} className='bottom-0 h-10 w-16 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
-								Back
+							<button onClick={(): void => setStep(1)} disabled={isLoading || !stripe || !elements} className='bottom-0 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
+								Terug
 							</button>
 						</div>
 					</form>
