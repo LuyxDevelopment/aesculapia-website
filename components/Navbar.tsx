@@ -4,16 +4,16 @@ import { useState } from 'react';
 import Dropdown, { DropdownItem } from './Dropdown';
 import { NavBarPage } from '../src/types';
 
-// const shopping: DropdownItem[] = [
-// 	{
-// 		text: 'Webshop',
-// 		href: '/webshop',
-// 	},
-// 	{
-// 		text: 'Cart',
-// 		href: '/cart',
-// 	},
-// ];
+const shopping: DropdownItem[] = [
+	{
+		text: 'Webshop',
+		href: '/webshop',
+	},
+	{
+		text: 'Kassa',
+		href: '/kassa',
+	},
+];
 
 const about: DropdownItem[] = [
 	{
@@ -62,10 +62,10 @@ const mobilePages: NavBarPage[] = [
 	// 	name: 'News',
 	// 	url: '/news',
 	// },
-	// {
-	// 	name: 'Webshop',
-	// 	url: '/webshop',
-	// },
+	{
+		name: 'Webshop',
+		url: '/webshop',
+	},
 	{
 		name: 'Praesidium',
 		url: '/praesidium',
@@ -128,7 +128,7 @@ const Navbar: FC = () => {
 							/>
 						</div>
 					</Dropdown>
-					{/* <Dropdown
+					<Dropdown
 						direction='bottom'
 						items={shopping}
 						tw='z-10'
@@ -144,7 +144,7 @@ const Navbar: FC = () => {
 								alt='Dropdown arrow'
 							/>
 						</div>
-					</Dropdown> */}
+					</Dropdown>
 				</div>
 				<span
 					className='block float-right sm:hidden cursor-pointer hover:scale-90 transition-all duration-300 ease-in-out'
