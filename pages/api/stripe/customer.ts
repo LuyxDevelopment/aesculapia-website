@@ -69,8 +69,6 @@ export default async function customerHandler(
 				console.log(await stripe.customers.retrieve(customer.id));
 			}
 
-
-
 			res.status(StatusCodes.OK).json({
 				error: false,
 				message: getReasonPhrase(StatusCodes.OK),
