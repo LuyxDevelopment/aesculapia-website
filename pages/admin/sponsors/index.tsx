@@ -5,7 +5,7 @@ import InProgress from '../../../components/InProgress';
 import { AdminProps } from '../../../src/types/index';
 import { SponsorDocument } from '../../../src/models/Sponsor';
 
-const AdminSponsorsIndex: NextPage =() => {
+const AdminSponsorsIndex: NextPage = () => {
 	return (
 		<InProgress pageName='sponsors'></InProgress>
 	);
@@ -26,36 +26,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res,
 
 	const data = await request.json();
 
-	if (user?.email) {
-		const request = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/2fa/generate`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(user),
-		});
-
-		const json = await request.json();
-
-		if (json.data) return {
-			props: {
-				user: { email: user.email, has2faEnabled: true, completed2fa: false },
-				otpAuthUri: json.data,
-			},
-		};
-		return {
-			props: {
-				user: {
-					email: user.email,
-					has2faEnabled: false,
-					completed2fa: false,
-				},
-				otpAuthUri: '',
-				data: data.data,
-			},
-		};
-	}
-
 	if (!user) {
 		return {
 			props: {
@@ -63,18 +33,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res,
 			},
 			redirect: {
 				destination: `/admin/login?from=${encodeURIComponent(resolvedUrl)}`,
-				permanent: false,
-			},
-		};
-	}
-
-	if (!user.has2faEnabled) {
-		return {
-			props: {
-				user: { email: user.email, has2faEnabled: false, completed2fa: false },
-			},
-			redirect: {
-				destination: '/admin/settings',
 				permanent: false,
 			},
 		};
