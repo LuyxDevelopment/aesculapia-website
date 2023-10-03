@@ -88,6 +88,7 @@ const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: bool
 	);
 };
 
+// eslint-disable-next-line require-await
 export const getServerSideProps = withIronSessionSsr(async function ({ req, resolvedUrl }): Promise<AdminProps> {
 	const user = req?.session.user;
 
