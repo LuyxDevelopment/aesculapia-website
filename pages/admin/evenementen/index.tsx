@@ -15,7 +15,7 @@ interface Props {
 const AdminEventsIndex: NextPage<Props> = ({ data }) => {
 	return (
 		<>
-			{useMetaData('Admin Orders', 'Admin Orders Page', '/admin/orders')}
+			{useMetaData('Evenementen', 'Evenementen', '/admin/evenementen')}
 			<Layout>
 				{!data && <ErrorPage />}
 				{data && (
@@ -23,7 +23,7 @@ const AdminEventsIndex: NextPage<Props> = ({ data }) => {
 						<div className='container flex flex-row'>
 							<div className='mb-12'>
 								<div className='flex flex-col items-start justify-start mb-7'>
-									<h1 className='text-4xl font-bold mb-5'>Winkelwagen</h1>
+									<h1 className='text-4xl font-bold mb-5'>Evenementen</h1>
 									<button className='h-10 px-5 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-900' onClick={(): void => { window.location.href = '/admin/evenementen/create'; }}>
 										Event creëren
 									</button>

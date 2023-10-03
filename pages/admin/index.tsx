@@ -18,20 +18,20 @@ const pages: { name: string, url: string, svg: string; }[] = [
 		url: '/admin/news',
 	},
 	{
-		name: 'Orders',
+		name: 'Bestelgeschiedenis',
 		svg: '/assets/icons/order.svg',
-		url: '/admin/orders',
+		url: '/admin/bestellingen',
 	},
 	// {
 	// 	name: 'Sponsors',
 	// 	svg: '/assets/icons/handshake.svg',
 	// 	url: '/admin/sponsors',
 	// },
-	// {
-	// 	name: 'Webshop',
-	// 	svg: '/assets/icons/box.svg',
-	// 	url: '/admin/webshop',
-	// },
+	{
+		name: 'Webshop',
+		svg: '/assets/icons/box.svg',
+		url: '/admin/webshop',
+	},
 	// {
 	// 	name: 'Settings',
 	// 	svg: '/assets/icons/settings.svg',
@@ -42,10 +42,10 @@ const pages: { name: string, url: string, svg: string; }[] = [
 const AdminIndex: NextPage = () => {
 	return (
 		<>
-			{useMetaData('Aesculapia Admin | Home', 'Admin Page', '/admin')}
+			{useMetaData('Admin-menu', 'Admin-menu', '/admin')}
 			<Layout>
 				<div className='container mb-12'>
-					<h1 className='text-5xl font-bold mb-5'>Admin Menu</h1>
+					<h1 className='text-5xl font-bold mb-5'>Admin-menu</h1>
 					<p className='text-xl'>
 						Selecteer een pagina om te beheren.
 					</p>

@@ -28,7 +28,7 @@ const AdminProductsIndex: NextPage<Props> = ({ data }) => {
 						</div>
 						{
 							data.length ?
-								<div className='grid grid-cols-1 gap-7 mt-7 sm:grid-cols-2 sm:gap-15 md:grid-cols-2 md:gap-15 lg:grid-cols-4 lg:gap-20'>
+								<div className='grid grid-cols-1 gap-7 mt-7 sm:grid-cols-2 sm:gap-15 md:grid-cols-2 md:gap-15 lg:grid-cols-3 xl:grid-cols-4 lg:gap-20'>
 									{data.map((product, i) => {
 										return (
 											<AdminProductCard product={product} key={i} />
