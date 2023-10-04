@@ -22,11 +22,11 @@ const pages: { name: string, url: string, svg: string; }[] = [
 		svg: '/assets/icons/order.svg',
 		url: '/admin/bestellingen',
 	},
-	// {
-	// 	name: 'Sponsors',
-	// 	svg: '/assets/icons/handshake.svg',
-	// 	url: '/admin/sponsors',
-	// },
+	{
+		name: 'Sponsors',
+		svg: '/assets/icons/handshake.svg',
+		url: '/admin/sponsors',
+	},
 	{
 		name: 'Webshop',
 		svg: '/assets/icons/box.svg',
