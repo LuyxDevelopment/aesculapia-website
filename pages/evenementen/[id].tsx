@@ -12,7 +12,7 @@ interface Props {
 const EventDynamic: NextPage<Props> = ({ data }) => {
 	return (
 		<>
-			{useMetaData(data.name, data.description, `/evenements/${data._id}`)}
+			{useMetaData(data.name, data.description, `/evenementen/${data._id}`)}
 			<Layout>
 				<div className='container'>
 					<EventPage event={data} />
@@ -22,7 +22,7 @@ const EventDynamic: NextPage<Props> = ({ data }) => {
 	);
 };
 
-export const getServerSideProps = async ({ query }: NextPageContext & { query: { id: string } }): Promise<BaseProps<EventDocument>> => {
+export const getServerSideProps = async ({ query }: NextPageContext & { query: { id: string; }; }): Promise<BaseProps<EventDocument>> => {
 	const req = await fetch(
 		`${process.env.NEXT_PUBLIC_DOMAIN}/api/events/${query.id}`,
 	);

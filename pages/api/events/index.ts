@@ -33,6 +33,8 @@ export default withIronSessionApiRoute(async function eventsHandler(
 				return;
 			}
 
+			console.log(req.body);
+
 			const event = new Event(req.body);
 
 			try {

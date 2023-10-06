@@ -93,7 +93,7 @@ const Index: NextPage<{ data: EventDocument[]; }> = ({ data }) => {
 												},
 												{
 													text: 'Purchase tickets!',
-													href: `/evenements/${event._id}`,
+													href: `/evenementen/${event._id}`,
 													tw: 'text-red-500',
 												},
 											]}
