@@ -21,6 +21,10 @@ const about: DropdownItem[] = [
 		href: '/clublied',
 	},
 	{
+		text: 'Lidkaart',
+		href: '/lidkaart',
+	},
+	{
 		text: 'Praesidium',
 		href: '/praesidium',
 	},
@@ -58,10 +62,10 @@ const mobilePages: NavBarPage[] = [
 		name: 'Evenementen',
 		url: '/evenementen',
 	},
-	// {
-	// 	name: 'News',
-	// 	url: '/news',
-	// },
+	{
+		name: 'Lidkaart',
+		url: '/lidkaart',
+	},
 	{
 		name: 'Webshop',
 		url: '/webshop',

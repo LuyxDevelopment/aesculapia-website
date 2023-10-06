@@ -1,8 +1,6 @@
 import { NextPage } from 'next';
-import InProgress from '../components/InProgress';
 import Layout from '../components/Layout';
 import { useMetaData } from '../lib/hooks/useMetaData';
-import { MoonLoader } from 'react-spinners';
 import Image from 'next/image';
 
 const KnuppeltjePage: NextPage = () => {
