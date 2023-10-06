@@ -43,19 +43,20 @@ const AdminCreateProducts: NextPage<{
 					stock: data.stock,
 					user,
 				}),
+			}).catch(e => {
+				console.log(e);
+				setMessage({
+					type: 'error',
+					text: 'Er was een fout bij het maken van het product.',
+				});
 			});
 
-			if (req.ok) {
+			if (req && req.ok) {
 				setMessage({
 					type: 'success',
 					text: 'Product is succesvol aangemaakt!',
 				});
 				await router.push('/admin/webshop/');
-			} else if (req.status === 401) {
-				setMessage({
-					type: 'error',
-					text: 'Er was een fout bij het maken van het product.',
-				});
 			}
 		} catch (error) {
 			console.error(error);

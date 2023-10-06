@@ -14,7 +14,7 @@ const Lidkaart: NextPage = () => {
 				</p>
 				<p className='text-2xl'>
 					Twijfel je nog?
-					Hier nog eens alle voordelen die je uit een lidmaatschap haalt.
+					Hier nog eens alle <span className='font-bold'>voordelen</span> die je uit een lidmaatschap haalt.
 				</p>
 				<ul className='mb-5 text-lg'>
 					<li>
@@ -32,7 +32,7 @@ const Lidkaart: NextPage = () => {
 					<li>
 						⁃	Unieke kans om jouw netwerk uit te breiden
 					</li>
-					Dit alles voor maar 10 euro!
+					Dit alles voor maar <span className='font-bold'>10 euro</span>!
 				</ul>
 
 				<h2 className='text-2xl'>
