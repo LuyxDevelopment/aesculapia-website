@@ -122,6 +122,7 @@ const AdminCreateProducts: NextPage<{
 											type='number'
 											step={0.01}
 											placeholder='5.31'
+											required
 											{...register('price', { required: true })}
 										/>
 									</div>

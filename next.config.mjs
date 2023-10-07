@@ -6,8 +6,12 @@ const nextConfig = {
 		domains: [
 			'aesculapia-vzw.be',
 			'127.0.0.1',
-			'avatars.githubusercontent.com',
-			'i.imgur.com',
+		],
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: '**',
+			},
 		],
 	},
 };
