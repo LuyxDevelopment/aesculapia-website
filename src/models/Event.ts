@@ -34,7 +34,7 @@ export interface IEntry {
 export const eventSchema = new Schema<IEvent, EventModel, EventMethods>(
 	{
 		name: { type: Schema.Types.String, minLength: 1, maxLength: 64, required: true },
-		description: { type: Schema.Types.String, minLength: 1, maxLength: 512, required: true },
+		description: { type: Schema.Types.String, minLength: 1, maxLength: 1024, required: true },
 		bannerURL: { type: Schema.Types.String, minLength: 1, maxLength: 1024, required: true },
 		startsAtTimestamp: { type: Schema.Types.Number, required: true },
 		endsAtTimestamp: { type: Schema.Types.Number, required: true },
