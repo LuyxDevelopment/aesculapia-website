@@ -12,16 +12,8 @@ const EventPage: FC<Props> = ({ event }) => {
 	const endDate = useHydrationSafeDate(event.endsAtTimestamp);
 
 	return (
-		<div className='flex flex-col justify-center bg-red-100 p-5 rounded-md'>
-			<div
-				style={{
-					background: `url(${event.bannerURL}) no-repeat center`,
-					backgroundSize: 'cover',
-					width: '100%',
-					height: '11rem',
-				}}
-			>
-			</div>
+		<div className='flex flex-col justify-center bg-red-100 p-5 rounded-md mb-10'>
+			<img src={event.bannerURL} alt='Event Banner Image'></img>
 			<div className='text-center content-center'>
 				<h1 className='pb-3 pt-3 text-3xl font-bold'>{event.name}</h1>
 				<h2 className='mb-3 rounded-lg bg-red-500 p-2 text-gray-50 text-xl font-bold'>

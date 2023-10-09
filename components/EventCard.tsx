@@ -12,16 +12,10 @@ const EventCard: FC<Props> = ({ event }) => {
 	const endDate = useHydrationSafeDate(event.endsAtTimestamp);
 	return (
 		<div
-			className='hover:scale-103 transition-all duration-500 ease-out cursor-pointer hover:-translate-y-1 flex flex-row-reverse items-center justify-around bg-gradient-to-l from-orange-500 to-red-600 h-auto w-full p-5 rounded-lg'
+			className='hover:scale-103 transition-all duration-500 ease-out cursor-pointer hover:-translate-y-1 flex flex-col items-center justify-around bg-gradient-to-l from-orange-500 to-red-600 h-auto w-full p-5 rounded-lg'
 			onClick={(): string => (window.location.href = `/evenementen/${event._id}`)}
 		>
-			<Image
-				src={event.bannerURL}
-				width='250'
-				height='250'
-				className='rounded-lg'
-				alt={event.name}
-			/>
+			<img src={event.bannerURL} className='rounded-lg' alt={event.name}></img>
 			<div className='text-gray-100 flex flex-col flex-wrap'>
 				<h1 className='text-xl lg:text-5xl font-bold pt-3 pb-3'>{event.name}</h1>
 				<h2 className='text-lg font-semibold'>{event.description}</h2>
