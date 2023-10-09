@@ -53,16 +53,6 @@ export default withIronSessionApiRoute(async function productId(
 		} break;
 
 		case 'GET': {
-			if (!isValidObjectId(req.query.product_id)) {
-				res.status(StatusCodes.BAD_REQUEST).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
-					data: null,
-				});
-
-				return;
-			}
-
 			const product = await Product.findById(req.query.product_id);
 
 			if (!product) {

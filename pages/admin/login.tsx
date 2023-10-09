@@ -149,7 +149,7 @@ const Index: NextPage = () => {
 							</div>
 						</form>
 					)}
-					{isAllowed && (
+					{/* {isAllowed && (
 						<div>
 							<label className='font-bold text-2xl'>
 								Please fill-in your 2FA Code
@@ -169,7 +169,7 @@ const Index: NextPage = () => {
 								Submit
 							</button>
 						</div>
-					)}
+					)} */}
 				</div>
 				{message.text !== '' && (
 					<Toast
