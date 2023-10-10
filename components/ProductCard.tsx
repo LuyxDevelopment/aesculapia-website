@@ -36,7 +36,7 @@ const ProductCard: FC<Props> = ({ product, cart, setCart }) => {
 		if (findItem >= 0) {
 			cart[findItem].amount = amount + 1;
 		} else {
-			cart.push({ _id: product._id, amount: 1, name: product.name, price: product.price });
+			cart.push({ _id: product._id, amount: 1, name: product.name, price: product.price / 100 });
 		}
 
 		setCart([...cart]);
