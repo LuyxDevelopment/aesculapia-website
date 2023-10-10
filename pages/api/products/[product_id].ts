@@ -1,6 +1,5 @@
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { withIronSessionApiRoute } from 'iron-session/next';
-import { isValidObjectId } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Authentication } from '../../../src/auth/auth';
 import { AuthorityLevel, IProduct, Product, ProductDocument } from '../../../src/models/index';
@@ -77,16 +76,6 @@ export default withIronSessionApiRoute(async function productId(
 				res.status(StatusCodes.FORBIDDEN).json({
 					error: true,
 					message: getReasonPhrase(StatusCodes.FORBIDDEN),
-					data: null,
-				});
-
-				return;
-			}
-
-			if (!isValidObjectId(req.query.product_id)) {
-				res.status(StatusCodes.BAD_REQUEST).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.BAD_REQUEST),
 					data: null,
 				});
 
