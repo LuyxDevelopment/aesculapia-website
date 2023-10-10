@@ -43,8 +43,6 @@ const AdminProductCard: FC<Props> = ({ product }) => {
 
 		Object.keys(data).forEach(key => !data[key] && delete data[key]);
 
-		if (data.price) data.price *= 100;
-
 		try {
 			const req = await fetch(`/api/products/${product._id}`, {
 				method: 'PATCH',
