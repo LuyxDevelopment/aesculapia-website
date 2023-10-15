@@ -92,12 +92,12 @@ const people: UserProfile[] = [
 	{
 		name: 'Delano Creton',
 		role: 'P.R.',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Delano.png`,
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Delano.jpg`,
 	},
 	{
 		name: 'Lena Ceulemans',
 		role: 'Praegustator',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Lena.png`,
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Lena.jpg`,
 	},
 ];
 
