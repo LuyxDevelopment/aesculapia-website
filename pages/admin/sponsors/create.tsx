@@ -1,18 +1,27 @@
 import { withIronSessionSsr } from 'iron-session/next';
 import { NextPage } from 'next';
-import { BaseSyntheticEvent } from 'react';
+import { BaseSyntheticEvent, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import Layout from '../../../components/Layout';
 import { useMetaData } from '../../../lib/hooks/useMetaData';
 import { AdminProps } from '../../../src/types/index';
 import { ironOptions } from '../../../src/util/ironConfig';
+import { useRouter } from 'next/router';
+import Toast, { clearMessage } from '../../../components/Toast';
 
 const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: boolean; }; }> = ({ user }) => {
 	const { register, handleSubmit, formState: { errors } } = useForm();
 
+	const [message, setMessage] = useState<{
+		type: 'success' | 'error' | 'info';
+		text: string;
+	}>({ type: 'success', text: '' });
+
+	const router = useRouter();
+
 	const onSubmit = async (data: FieldValues, event?: BaseSyntheticEvent): Promise<void> => {
 		event?.preventDefault();
-		console.log(data);
+
 		try {
 			const req = await fetch('/api/sponsors', {
 				method: 'POST',
@@ -24,15 +33,30 @@ const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: bool
 					name: data.name,
 					url: data.url,
 				}),
+			}).catch(e => {
+				console.log(e);
+				setMessage({
+					type: 'error',
+					text: 'Er was een fout bij het maken van het product.',
+				});
 			});
 
-			if (req.ok) {
-				console.log('ok');
-			} else if (req.status === 401) {
-				console.log('error');
+			if (req && req.ok) {
+				setMessage({
+					type: 'success',
+					text: 'Product is succesvol aangemaakt!',
+				});
+
+				await router.push('/admin/webshop/');
 			}
 		} catch (error) {
 			console.error(error);
+			setMessage({
+				type: 'error',
+				text: 'Er is een onverwachte fout opgetreden.',
+			});
+
+			clearMessage(setMessage);
 		}
 	};
 
@@ -63,7 +87,7 @@ const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: bool
 										<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' htmlFor='grid-product-price'>
 											Sponsor afbeelding URL
 										</label>
-										<input className='appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-price' type='text' placeholder='https://i.imgur.com' {...register('imageurl', { required: true })} />
+										<input className='appearance-none block w-full bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-product-price' type='text' placeholder='https://images.com/image.png' {...register('imageurl', { required: true })} />
 									</div>
 								</div>
 								<div className='flex flex-wrap -mx-3 mb-2'>
@@ -71,7 +95,7 @@ const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: bool
 										<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' htmlFor='grid-image-url'>
 											Sponsor Media URL
 										</label>
-										<input className='appearance-none block w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-image-url' type='text' placeholder='https://example.com/image.png' minLength={1} maxLength={1024} required {...register('url', { required: true })} />
+										<input className='appearance-none block w-96 bg-gray-200 text-gray-700 border border-slate-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-image-url' type='text' placeholder='https://instagram.com/aesculapia' minLength={1} maxLength={1024} required {...register('url', { required: true })} />
 									</div>
 								</div>
 								<div>
@@ -83,6 +107,13 @@ const AdminCreateSponsors: NextPage<{ user: { email: string, has2faEnabled: bool
 						</div>
 					</div>
 				</div>
+				{message.text !== '' && (
+					<Toast
+						type={message.type}
+						title={message.type[0].toUpperCase() + message.type.slice(1)}
+						description={message.text}
+					/>
+				)}
 			</Layout>
 		</>
 	);

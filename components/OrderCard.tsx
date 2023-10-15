@@ -11,15 +11,20 @@ const OrderCard: FC<Props> = ({ order }) => {
 
 	const [name, setName] = useState('Unknown');
 	const [address, setAddress] = useState('Unknown');
-	const [billingDetails, setBillingDetails] = useState(null);
+	const [billingDetails, setBillingDetails] = useState<Partial<Stripe.PaymentMethod.BillingDetails>>();
 
 	useEffect(() => {
 		const customer = order.customer as Stripe.Customer;
 		const paymentMethod = order.payment_method as Stripe.PaymentMethod;
+
+		if (paymentMethod && paymentMethod.billing_details) {
+			setBillingDetails(paymentMethod.billing_details);
+		}
+
 		if (customer && customer.name) {
 			setName(customer.name);
 		} else if (paymentMethod && paymentMethod.billing_details) {
-			setName((order.payment_method as Stripe.PaymentMethod).billing_details.name!);
+			setName(paymentMethod.billing_details.name!);
 		}
 
 		if (customer && customer.address) {
@@ -32,7 +37,7 @@ const OrderCard: FC<Props> = ({ order }) => {
 		<div className={`flex ${order.metadata.delivered ? 'bg-green-200' : 'bg-red-100'} rounded-lg mb-5 cursor-pointer`} onClick={(): string => (window.location.href = `/admin/orders/${order.id}`)}>
 			<div className='flex-col mt-2 mb-2 ml-2'>
 				<h1 className='text-xl font-bold'>Order ID: {order.id}</h1>
-				<p>{`Order Name: ${name}`}</p>
+				<p>{`Order Name: ${name} ${billingDetails?.email ?? ''}`}</p>
 				<p>{`Address: ${address}`}</p>
 				<p>{`Created At: ${created}`}</p>
 				<p className='font-bold'>{`${order.metadata.delivered ? 'Delivered' : 'Not Delivered'}`}</p>

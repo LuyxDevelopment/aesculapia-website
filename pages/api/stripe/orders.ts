@@ -22,8 +22,6 @@ export default withIronSessionApiRoute(async function paymentHandler(
 				expand: ['data.customer', 'data.payment_method'],
 			});
 
-			console.log(payouts.data);
-
 			res.status(StatusCodes.OK).json({
 				error: false,
 				message: getReasonPhrase(StatusCodes.OK),

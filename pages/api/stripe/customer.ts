@@ -28,8 +28,6 @@ export default async function customerHandler(
 		case 'POST': {
 			const { customer } = req.body.customer;
 
-			console.log(customer);
-
 			if (!customer.payment_intent || !customer.email || !customer.name || !customer.name.match(/^[a-zA-Z]+\s[a-zA-Z]+\s?$/)) {
 				res.status(StatusCodes.BAD_REQUEST).json({
 					error: true,
@@ -48,8 +46,6 @@ export default async function customerHandler(
 			}
 
 			if (!customer.id || !await stripe.customers.retrieve(customer.id)) {
-				console.log('CUSTOMER CREATED');
-				console.log(customer);
 				const newCustomer = await stripe.customers.create({
 					name: customer.name,
 					email: customer.email,

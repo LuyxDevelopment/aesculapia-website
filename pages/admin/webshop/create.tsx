@@ -16,6 +16,7 @@ const AdminCreateProducts: NextPage<{
 		type: 'success' | 'error' | 'info';
 		text: string;
 	}>({ type: 'success', text: '' });
+
 	const {
 		register,
 		handleSubmit,
@@ -29,7 +30,7 @@ const AdminCreateProducts: NextPage<{
 		event?: BaseSyntheticEvent,
 	): Promise<void> => {
 		event?.preventDefault();
-		console.log(data);
+
 		try {
 			const req = await fetch('/api/products', {
 				method: 'POST',
@@ -56,7 +57,8 @@ const AdminCreateProducts: NextPage<{
 					type: 'success',
 					text: 'Product is succesvol aangemaakt!',
 				});
-				await router.push('/admin/webshop/');
+
+				await router.push('/admin/sponsors/');
 			}
 		} catch (error) {
 			console.error(error);
@@ -64,6 +66,7 @@ const AdminCreateProducts: NextPage<{
 				type: 'error',
 				text: 'Er is een onverwachte fout opgetreden.',
 			});
+
 			clearMessage(setMessage);
 		}
 	};
