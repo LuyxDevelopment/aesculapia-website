@@ -10,23 +10,28 @@ import { BaseProps, ResponseData } from '../src/types/index.js';
 
 const images: ImageData[] = [
 	{
-		name: 'Aesculapia Group',
+		name: 'Aesculapia Group 2',
 		id: 1,
 		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/group2.jpg`,
 	},
 	{
-		name: 'hello',
+		name: 'Aesculapia Group 3',
 		id: 2,
+		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/group3.jpg`,
+	},
+	{
+		name: 'hello',
+		id: 3,
 		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/party1.jpg`,
 	},
 	{
 		name: 'Party 1',
-		id: 2,
+		id: 4,
 		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/group1.jpg`,
 	},
 	{
 		name: 'Party 2',
-		id: 2,
+		id: 5,
 		url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/party2.jpg`,
 	}
 ];
