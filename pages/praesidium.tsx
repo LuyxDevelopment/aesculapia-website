@@ -25,51 +25,6 @@ const people: UserProfile[] = [
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Dries.png`,
 	},
 	{
-		name: 'Stan Reijnen',
-		role: 'Sport',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Stan.png`,
-	},
-	{
-		name: 'Nina Ramezani',
-		role: 'Sport',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Nina.png`,
-	},
-	{
-		name: 'Eros BLoemen',
-		role: 'Media',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Eros.png`,
-	},
-	{
-		name: 'Eline Derkoningen',
-		role: 'Cultuur',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Eline.png`,
-	},
-	{
-		name: 'Silke Roymans',
-		role: 'Ab-actis',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Silke.png`,
-	},
-	{
-		name: 'Maithé Hendricx',
-		role: 'Scriptor',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Maithe.png`,
-	},
-	{
-		name: 'Wout Van Opdenbosch',
-		role: 'Feest',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Wout.png`,
-	},
-	{
-		name: 'Sterre Vanderghinste',
-		role: 'Feest',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Sterre.png`,
-	},
-	{
-		name: 'Xavier Bogman',
-		role: 'Feest',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Xavier.png`,
-	},
-	{
 		name: 'Floris Van Hemel',
 		role: 'Schachtentemmer',
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Floris.png`,
@@ -80,19 +35,64 @@ const people: UserProfile[] = [
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Fynn.png`,
 	},
 	{
-		name: 'Charlotte Peeters',
-		role: 'Mentor',
-		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Charlotte.png`,
-	},
-	{
 		name: 'Enya Moerbeek',
 		role: 'Cantor',
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Enya.png`,
 	},
 	{
+		name: 'Silke Roymans',
+		role: 'Ab-actis',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Silke.png`,
+	},
+	{
+		name: 'Sterre Vanderghinste',
+		role: 'Feest',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Sterre.png`,
+	},
+	{
+		name: 'Wout Van Opdenbosch',
+		role: 'Feest',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Wout.png`,
+	},
+	{
+		name: 'Xavier Bogman',
+		role: 'Feest',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Xavier.png`,
+	},
+	{
 		name: 'Delano Creton',
 		role: 'P.R.',
 		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Delano.jpg`,
+	},
+	{
+		name: 'Eros BLoemen',
+		role: 'Media',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Eros.png`,
+	},
+	{
+		name: 'Maithé Hendricx',
+		role: 'Scriptor',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Maithe.png`,
+	},
+	{
+		name: 'Nina Ramezani',
+		role: 'Sport',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Nina.png`,
+	},
+	{
+		name: 'Stan Reijnen',
+		role: 'Sport',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Stan.png`,
+	},
+	{
+		name: 'Eline Derkoningen',
+		role: 'Cultuur',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Eline.png`,
+	},
+	{
+		name: 'Charlotte Peeters',
+		role: 'Mentor',
+		photo: `${process.env.NEXT_PUBLIC_DOMAIN}/praesidium/Charlotte.png`,
 	},
 	{
 		name: 'Lena Ceulemans',
