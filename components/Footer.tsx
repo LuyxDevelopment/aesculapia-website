@@ -13,7 +13,7 @@ const Footer: FC = () => {
 					width='100'
 					height='100'
 				/>
-				<div className='w-fit my-auto'>
+				<div className='w-fit my-auto hover:cursor-pointer' onClick={() => window.location.href = 'https://www.trooper.be/nl/trooperverenigingen/aesculapia'}>
 					<Image
 						src='/images/footer.jpg'
 						width='600'
