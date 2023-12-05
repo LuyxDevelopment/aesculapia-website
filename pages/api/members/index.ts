@@ -12,6 +12,14 @@ export default withIronSessionApiRoute(async function createMember(
 	res: NextApiResponse<ResponseData<MemberDocument | MemberDocument[]>>,
 ): Promise<void> {
 	switch (req.method) {
+		case 'GET': {
+			res.status(StatusCodes.OK).json({
+				error: false,
+				message: getReasonPhrase(StatusCodes.OK),
+				data: await Member.find({ ...req.query }),
+			});
+
+		} break;
 		case 'POST': {
 			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
 				res.status(StatusCodes.FORBIDDEN).json({

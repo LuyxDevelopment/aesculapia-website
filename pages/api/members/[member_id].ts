@@ -42,25 +42,5 @@ export default withIronSessionApiRoute(async function createMember(
 				data: member,
 			});
 		} break;
-
-		case 'POST': {
-			if (!Authentication.authenticate(AuthorityLevel.ADMIN, req)) {
-				res.status(StatusCodes.FORBIDDEN).json({
-					error: true,
-					message: getReasonPhrase(StatusCodes.FORBIDDEN),
-					data: null,
-				});
-
-				return;
-			}
-
-			const member = await Member.create(req.body);
-
-			res.status(StatusCodes.CREATED).json({
-				error: false,
-				message: getReasonPhrase(StatusCodes.CREATED),
-				data: member,
-			});
-		} break;
 	}
 }, ironOptions);

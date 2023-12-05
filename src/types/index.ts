@@ -1,4 +1,5 @@
 import { EventDocument } from '../models/Event';
+import { MemberDocument } from '../models/Member.js';
 import { NewsDocument } from '../models/News';
 import { OrderDocument } from '../models/Order';
 import { ProductDocument } from '../models/Product';
@@ -10,7 +11,7 @@ export interface ResponseData<D = null> {
 	data: D | null;
 }
 
-export type Documents = EventDocument | NewsDocument | OrderDocument | ProductDocument | SponsorDocument;
+export type Documents = EventDocument | NewsDocument | OrderDocument | ProductDocument | SponsorDocument | MemberDocument;
 
 export interface BaseProps<T extends Documents | null> {
 	props: {

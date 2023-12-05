@@ -4,9 +4,8 @@ export interface IMember {
 	name: string;
 	email: string;
 	paymentMethod: string;
-	memberNumber: string;
-	idc: string;
-	indeks: string;
+	memberId: string;
+	ldc: string;
 }
 
 export type MemberDocument = HydratedDocument<IMember>;
@@ -17,9 +16,8 @@ export const memberSchema = new Schema<IMember, MemberModel>({
 	name: { type: Schema.Types.String, required: true },
 	email: { type: Schema.Types.String, required: true },
 	paymentMethod: { type: Schema.Types.String, required: true },
-	memberNumber: { type: Schema.Types.String, required: true },
-	idc: { type: Schema.Types.String, required: true },
-	indeks: { type: Schema.Types.String, required: true },
+	memberId: { type: Schema.Types.String, required: true },
+	ldc: { type: Schema.Types.String, required: true },
 }, {
 	collection: 'members',
 });
