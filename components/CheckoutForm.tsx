@@ -5,6 +5,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { MoonLoader } from 'react-spinners';
 import { useRouter } from 'next/router';
 import { CloseIcon } from './Icons';
+import MemberValidateCheckout from './MemberValidateCheckout';
 
 interface Props {
 	paymentIntent: string;
@@ -16,6 +17,8 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 	const router = useRouter();
 
 	const { register, handleSubmit, formState: { errors } } = useForm();
+
+	const [memberValidateMenu, setMemberValidateMenu] = useState(false);
 
 	const [message, setMessage] = useState('');
 	const [step, setStep] = useState(1);
@@ -130,6 +133,17 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 								}
 							})}
 						/>
+						<div className='my-4'>
+							<button className='bottom-0 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out' onClick={() => setMemberValidateMenu(!memberValidateMenu)}>
+								{memberValidateMenu ? 'Annuleren' : 'Info voor leden toevoegen'}
+							</button>
+
+							{memberValidateMenu && (
+								<div>
+									<MemberValidateCheckout />
+								</div>
+							)}
+						</div>
 						<button type='submit' disabled={isLoading || !stripe || !elements} className='bottom-0 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
 							Volgende
 						</button>
