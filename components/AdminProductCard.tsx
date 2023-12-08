@@ -17,6 +17,7 @@ const AdminProductCard: FC<Props> = ({ product }) => {
 	const [name, setName] = useState(product.name);
 	const [price, setPrice] = useState(product.price);
 	const [stock, setStock] = useState(product.stock);
+	const [isShirt, setIsShirt] = useState(product.isShirt);
 	const [message, setMessage] = useState<{
 		type: 'success' | 'error' | 'info';
 		text: string;
@@ -55,6 +56,7 @@ const AdminProductCard: FC<Props> = ({ product }) => {
 				if (data.name) setName(data.name);
 				if (data.stock) setStock(data.stock);
 				if (data.price) setPrice(data.price);
+				if (data.isShirt) setIsShirt(data.isShirt);
 			} else if (req.status === 500) {
 				setMessage({ type: 'error', text: 'Er heeft zich een fout voorgedaan. Neem contact op met een ontwikkelaar.' });
 				clearMessage(setMessage);

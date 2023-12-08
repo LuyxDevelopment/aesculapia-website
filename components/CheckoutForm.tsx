@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, FC, useState } from 'react';
+import { BaseSyntheticEvent, FC, useEffect, useState } from 'react';
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 import { FieldValues, useForm } from 'react-hook-form';
@@ -6,9 +6,17 @@ import { MoonLoader } from 'react-spinners';
 import { useRouter } from 'next/router';
 import { CloseIcon } from './Icons';
 import MemberValidateCheckout from './MemberValidateCheckout';
+import Cookies from 'js-cookie';
 
 interface Props {
 	paymentIntent: string;
+}
+
+interface Customer {
+	name: string;
+	email: string;
+	idNumber?: number;
+	payment_intent: string;
 }
 
 const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
@@ -22,7 +30,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 
 	const [message, setMessage] = useState('');
 	const [step, setStep] = useState(1);
-	const [customer, setCustomer] = useState({});
+	const [customer, setCustomer] = useState<Customer | Record<string, null>>({});
 	const [isLoading, setIsLoading] = useState(false);
 
 	const nameSubmit = (data: FieldValues, e: BaseSyntheticEvent): void => {
@@ -33,12 +41,29 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 			customer: {
 				name: data.fullName,
 				email: data.email,
+				...(data.idnumber && {idNumber: data.idnumber}),
 				payment_intent: paymentIntent,
 			},
 		}));
 
 		setStep(2);
 	};
+
+	useEffect(() => {
+		if (step === 2 && customer.idNumber) {
+			const items = JSON.parse(Cookies.get('cart') ?? '[]');
+			if (!items.length) return;
+	
+			fetch('/api/stripe/payment_intent', {
+				method: 'PATCH',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ items: items, id: paymentIntent, memberId: customer.idNumber }),
+			})
+				.then((res) => res.json())
+				.then((data) => data)
+				.catch(console.error);
+		}
+	}, [step]);
 
 	const onSubmit = async (e: BaseSyntheticEvent): Promise<void> => {
 		e.preventDefault();
@@ -114,7 +139,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 								required: true, pattern: {
 									value: /^[a-zA-Z]+\s[a-zA-Z]+\s?$/,
 									message: 'Geef alleen je voor- en achternaam op.',
-								}
+								},
 							})}
 						/>
 						<label>
@@ -130,7 +155,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 								required: true, pattern: {
 									value: /\S+@\S+\.\S+/,
 									message: 'Voer een geldig e-mailadres in.',
-								}
+								},
 							})}
 						/>
 						<div className='my-4'>

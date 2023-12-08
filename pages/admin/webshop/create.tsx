@@ -42,6 +42,7 @@ const AdminCreateProducts: NextPage<{
 					name: data.name,
 					price: data.price,
 					stock: data.stock,
+					isShirt: data.istshirt,
 					user,
 				}),
 			}).catch(e => {
@@ -167,6 +168,22 @@ const AdminCreateProducts: NextPage<{
 											min={0}
 											required
 											{...register('stock', { required: true })}
+										/>
+									</div>
+									<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+										<label
+											className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+											htmlFor='grid-product-tshirt'
+										>
+											Is this product a t-shirt?
+										</label>
+										<input
+											type='checkbox'
+											id='grid-product-tshirt'
+											placeholder='T-shirt'
+											required
+											{...register('istshirt', { required: true })}
+											className='mx-3'
 										/>
 									</div>
 								</div>

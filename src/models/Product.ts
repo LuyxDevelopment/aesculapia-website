@@ -5,6 +5,7 @@ export interface IProduct {
 	_id: string;
 	name: string;
 	imageURL: string;
+	isShirt: boolean;
 	price: number;
 	stock: number;
 }
@@ -22,6 +23,7 @@ export const productSchema = new Schema<IProduct, ProductModel, ProductMethods>(
 	_id: { type: Schema.Types.String, required: true },
 	name: { type: Schema.Types.String, minlength: 1, maxLength: 64, required: true },
 	imageURL: { type: Schema.Types.String, minLength: 1, maxLength: 1024, required: true },
+	isShirt: { type: Schema.Types.Boolean, required: true },
 	price: { type: Schema.Types.Number, min: 0, required: true },
 	stock: { type: Schema.Types.Number, default: 0 },
 }, {

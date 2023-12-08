@@ -62,6 +62,7 @@ export default withIronSessionApiRoute(async function productsHandler(
 				imageURL: req.body.imageURL,
 				name: req.body.name,
 				price: req.body.price * 100,
+				isShirt: req.body.isShirt,
 				stock: req.body.stock,
 			});
 
