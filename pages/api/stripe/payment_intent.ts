@@ -18,7 +18,7 @@ const calculateOrderAmount = async (items: DisplayProduct[], isMember: boolean):
 	for (const item of items) {
 		const product = await Product.findOne({ _id: item._id });
 		if (product!.stock < item.amount) item.amount = product!.stock;
-		if (product!.isShirt && isMember) {
+		if (product!.memberDiscount && isMember) {
 			price += product!.price * item.amount * 0.9;
 		} else price += product!.price * item.amount;
 	}
@@ -26,7 +26,7 @@ const calculateOrderAmount = async (items: DisplayProduct[], isMember: boolean):
 };
 
 export default async function paymentIntent(
-	req: Omit<NextApiRequest, 'body'> & { body: { items: DisplayProduct[]; id?: string; memberId: number; } },
+	req: Omit<NextApiRequest, 'body'> & { body: { items: DisplayProduct[]; id?: string; memberId: number; }; },
 	res: NextApiResponse<ResponseData<{ id: string, clientSecret: string; } | null>>,
 ): Promise<void> {
 	switch (req.method) {

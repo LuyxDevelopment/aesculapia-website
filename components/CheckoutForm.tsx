@@ -57,7 +57,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 			fetch('/api/stripe/payment_intent', {
 				method: 'PATCH',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ items: items, id: paymentIntent, memberId: customer.idNumber }),
+				body: JSON.stringify({ items: items, id: paymentIntent, memberId: customer.idNumber, receipt_email: customer.email }),
 			})
 				.then((res) => res.json())
 				.then((data) => data)

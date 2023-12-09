@@ -32,6 +32,9 @@ const Lidkaart: NextPage = () => {
 					<li>
 						⁃	Unieke kans om jouw netwerk uit te breiden
 					</li>
+					<li>
+						⁃	U kan ten allen tijden uw gegevens laten verwijderen, indien, gewenst
+					</li>
 					Dit alles voor maar <span className='font-bold'>10 euro</span>!
 				</ul>
 

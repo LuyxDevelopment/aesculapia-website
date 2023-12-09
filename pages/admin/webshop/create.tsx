@@ -42,7 +42,7 @@ const AdminCreateProducts: NextPage<{
 					name: data.name,
 					price: data.price,
 					stock: data.stock,
-					isShirt: data.istshirt,
+					memberDiscount: data.memberdiscount,
 					user,
 				}),
 			}).catch(e => {
@@ -173,16 +173,16 @@ const AdminCreateProducts: NextPage<{
 									<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
 										<label
 											className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-											htmlFor='grid-product-tshirt'
+											htmlFor='grid-product-member-discount'
 										>
-											Is this product a t-shirt?
+											Is this product a Member Discount?
 										</label>
 										<input
 											type='checkbox'
-											id='grid-product-tshirt'
-											placeholder='T-shirt'
+											id='grid-product-member-discount'
+											placeholder=''
 											required
-											{...register('istshirt', { required: true })}
+											{...register('memberdiscount', { required: true })}
 											className='mx-3'
 										/>
 									</div>

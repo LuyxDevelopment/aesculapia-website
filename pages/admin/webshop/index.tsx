@@ -15,7 +15,7 @@ interface Props {
 const AdminProductsIndex: NextPage<Props> = ({ data }) => {
 	return (
 		<>
-			{useMetaData('Admin Admin | Webshop', 'Webshop Page', '/Webshop')}
+			{useMetaData('Admin | Webshop', 'Webshop Page', '/Webshop')}
 			<Layout>
 				{!data && <ErrorPage />}
 				{data && (
