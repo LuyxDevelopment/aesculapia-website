@@ -1,7 +1,6 @@
 import { FC, BaseSyntheticEvent, useState } from 'react';
 import Toast, { clearMessage } from './Toast';
 import { FieldValues, useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
 
 const MemberValidateCheckout: FC = () => {
 	const [message, setMessage] = useState<{
@@ -16,8 +15,6 @@ const MemberValidateCheckout: FC = () => {
 		formState: { errors },
 	} = useForm();
 
-	const router = useRouter();
-
 	const onSubmit = async (
 		data: FieldValues,
 		event?: BaseSyntheticEvent,
@@ -31,7 +28,6 @@ const MemberValidateCheckout: FC = () => {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					email: data.email,
 					name: data.name,
 					memberNumber: data.memberNumber,
 				}),
@@ -47,6 +43,11 @@ const MemberValidateCheckout: FC = () => {
 				setMessage({
 					type: 'success',
 					text: 'Member exists.',
+				});
+			} else {
+				setMessage({
+					type: 'error',
+					text: 'Member not found.',
 				});
 			}
 		} catch (error) {
@@ -86,22 +87,6 @@ const MemberValidateCheckout: FC = () => {
 						<div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
 							<label
 								className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-								htmlFor='grid-lidnummer'
-							>
-								E-mail
-							</label>
-							<input
-								className='appearance-none block w-full bg-gray-200 text-gray-700 border-slate-500 rounded py-3 px-4 mb-3 leading-tight border-2 focus:border-rose-500 focus:bg-white'
-								id='grid-lidnummer'
-								type='text'
-								placeholder='example@gmail.com'
-								required
-								{...register('email', { required: true })}
-							/>
-						</div>
-						<div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
-							<label
-								className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
 								htmlFor='grid-ldc'
 							>
 								Lidnummer
@@ -112,7 +97,7 @@ const MemberValidateCheckout: FC = () => {
 								type='text'
 								placeholder='A1232452'
 								required
-								{...register('ldc', { required: true })}
+								{...register('memberNumber', { required: true })}
 							/>
 						</div>
 					</div>
@@ -121,7 +106,7 @@ const MemberValidateCheckout: FC = () => {
 							<input
 								className='cursor-pointer'
 								type='submit'
-								value='Maak'
+								value='Indienen'
 							></input>
 						</button>
 					</div>

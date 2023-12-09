@@ -50,14 +50,14 @@ const AdminProductCard: FC<Props> = ({ product }) => {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(data),
+				body: JSON.stringify({ name: data.name, price: data.price, stock: data.stock, memberDiscount: data.memberDiscount ?? false }),
 			});
 
 			if (req.ok) {
 				if (data.name) setName(data.name);
 				if (data.stock) setStock(data.stock);
 				if (data.price) setPrice(data.price);
-				if (data.memberdiscount) setIsMemberDiscount(data.memberdiscount);
+				if (data.memberDiscount) setIsMemberDiscount(data.memberDiscount);
 
 				setMessage({ type: 'success', text: 'Product bijgewerkt!' });
 				clearMessage(setMessage);
@@ -104,7 +104,7 @@ const AdminProductCard: FC<Props> = ({ product }) => {
 						</div>
 						<div className='flex flex-row gap-3'>
 							<p className='text-lg h-auto'>Lidprijs:</p>
-							<input id='grid-product-memberdiscount' type='checkbox' {...register('memberDiscount', { required: false })} />
+							<input id='grid-product-memberdiscount' defaultChecked={isMemberDiscount} type='checkbox' {...register('memberDiscount', { required: false })} />
 						</div>
 						<div className='grid justify-items-center'>
 							<button type='submit' className='absolute bottom-1 h-10 w-20 bg-gray-300 shadow-md flex items-center justify-center rounded-full p-2 hover:bg-red-500 transition-all duration-300 ease-in-out'>

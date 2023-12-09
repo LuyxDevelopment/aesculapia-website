@@ -15,9 +15,12 @@ dbConnect();
 
 const calculateOrderAmount = async (items: DisplayProduct[], isMember: boolean): Promise<number> => {
 	let price = 0;
+
 	for (const item of items) {
 		const product = await Product.findOne({ _id: item._id });
+
 		if (product!.stock < item.amount) item.amount = product!.stock;
+
 		if (product!.memberDiscount && isMember) {
 			price += product!.price * item.amount * 0.9;
 		} else price += product!.price * item.amount;
@@ -26,15 +29,15 @@ const calculateOrderAmount = async (items: DisplayProduct[], isMember: boolean):
 };
 
 export default async function paymentIntent(
-	req: Omit<NextApiRequest, 'body'> & { body: { items: DisplayProduct[]; id?: string; memberId: number; }; },
+	req: Omit<NextApiRequest, 'body'> & { body: { items: DisplayProduct[]; id?: string; isMember: boolean; memberId: boolean; }; },
 	res: NextApiResponse<ResponseData<{ id: string, clientSecret: string; } | null>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'POST': {
-			const { items } = req.body;
+			const { items, isMember } = req.body;
 
 			const paymentIntent = await stripe.paymentIntents.create({
-				amount: await calculateOrderAmount(items, false),
+				amount: await calculateOrderAmount(items, isMember),
 				currency: 'eur',
 				automatic_payment_methods: {
 					enabled: true,
@@ -54,7 +57,7 @@ export default async function paymentIntent(
 		case 'PATCH': {
 			const { items, id, memberId } = req.body;
 
-			const member = await Member.find({ ldc: memberId });
+			const member = await Member.find({ memberId });
 
 			if (member) {
 				const paymentIntent = await stripe.paymentIntents.update(id!, { amount: await calculateOrderAmount(items, true) });

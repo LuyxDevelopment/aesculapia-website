@@ -17,6 +17,7 @@ interface Customer {
 	email: string;
 	idNumber?: number;
 	payment_intent: string;
+	isMember: boolean;
 }
 
 const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
@@ -41,7 +42,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 			customer: {
 				name: data.fullName,
 				email: data.email,
-				...(data.idnumber && {idNumber: data.idnumber}),
+				...(data.idnumber && { idNumber: data.idnumber }),
 				payment_intent: paymentIntent,
 			},
 		}));
@@ -53,11 +54,11 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 		if (step === 2 && customer.idNumber) {
 			const items = JSON.parse(Cookies.get('cart') ?? '[]');
 			if (!items.length) return;
-	
+
 			fetch('/api/stripe/payment_intent', {
 				method: 'PATCH',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ items: items, id: paymentIntent, memberId: customer.idNumber, receipt_email: customer.email }),
+				body: JSON.stringify({ items: items, id: paymentIntent, memberId: customer.idNumber, isMember: customer.isMember }),
 			})
 				.then((res) => res.json())
 				.then((data) => data)
