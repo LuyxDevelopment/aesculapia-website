@@ -44,6 +44,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 				email: data.email,
 				...(data.idnumber && { idNumber: data.idnumber }),
 				payment_intent: paymentIntent,
+				isMember: !!data.idnumber,
 			},
 		}));
 
