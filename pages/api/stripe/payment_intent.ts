@@ -29,15 +29,15 @@ const calculateOrderAmount = async (items: DisplayProduct[], isMember: boolean):
 };
 
 export default async function paymentIntent(
-	req: Omit<NextApiRequest, 'body'> & { body: { items: DisplayProduct[]; id?: string; isMember: boolean; memberId: boolean; }; },
+	req: Omit<NextApiRequest, 'body'> & { body: { items: DisplayProduct[]; id?: string;  memberId: boolean; }; },
 	res: NextApiResponse<ResponseData<{ id: string, clientSecret: string; } | null>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'POST': {
-			const { items, isMember } = req.body;
+			const { items, memberId } = req.body;
 
 			const paymentIntent = await stripe.paymentIntents.create({
-				amount: await calculateOrderAmount(items, isMember),
+				amount: await calculateOrderAmount(items, !!memberId),
 				currency: 'eur',
 				automatic_payment_methods: {
 					enabled: true,

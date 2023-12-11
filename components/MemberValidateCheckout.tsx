@@ -8,14 +8,13 @@ const MemberValidateCheckout: FC = () => {
 		text: string;
 	}>({ type: 'success', text: '' });
 
-
 	const {
-		register,
-		handleSubmit,
+		register: registerMemberValidate,
+		handleSubmit: handleSubmitMemberValidate,
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = async (
+	const onSubmitMemberValidate = async (
 		data: FieldValues,
 		event?: BaseSyntheticEvent,
 	): Promise<void> => {
@@ -65,7 +64,7 @@ const MemberValidateCheckout: FC = () => {
 		<>
 			<div className='flex flex-wrap h-auto text-xl mt-3'>
 				<form
-					onSubmit={handleSubmit((data, event) => onSubmit(data, event))}
+					onSubmit={handleSubmitMemberValidate((data, event) => onSubmitMemberValidate(data, event))}
 				>
 					<div className='flex flex-wrap -mx-3 mb-6'>
 						<div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
@@ -81,7 +80,7 @@ const MemberValidateCheckout: FC = () => {
 								type='text'
 								placeholder='Bob Johnson'
 								required
-								{...register('name', { required: true })}
+								{...registerMemberValidate('name', { required: true })}
 							/>
 						</div>
 						<div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
@@ -97,7 +96,7 @@ const MemberValidateCheckout: FC = () => {
 								type='text'
 								placeholder='A1232452'
 								required
-								{...register('memberNumber', { required: true })}
+								{...registerMemberValidate('memberNumber', { required: true })}
 							/>
 						</div>
 					</div>
