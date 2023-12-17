@@ -22,8 +22,8 @@ const calculateOrderAmount = async (items: DisplayProduct[], isMember: boolean):
 		if (product!.stock < item.amount) item.amount = product!.stock;
 
 		if (product!.memberDiscount && isMember) {
-			price += product!.price * item.amount * 0.9;
-			item!.price = (product!.price * item.amount * 0.9) / 100;
+			price += product!.price * item.amount * 0.85;
+			item!.price = (product!.price * item.amount * 0.85) / 100;
 		} else price += product!.price * item.amount;
 	}
 	return price;
