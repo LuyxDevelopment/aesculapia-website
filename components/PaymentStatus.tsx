@@ -54,6 +54,7 @@ const PaymentStatus: FC = () => {
 				switch (paymentIntent?.status) {
 					case 'succeeded':
 						setMessage('Succes! Betaling ontvangen.');
+						console.log(Cookies.get('cart'));
 						fetch('/api/stripe/payment_success', {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/json' },

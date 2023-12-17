@@ -19,7 +19,7 @@ const OrderCartItem: FC<Props> = ({ item }) => {
 				<p className='text-lg'>{item.amount}</p>
 			</td>
 			<td className='px-6 py-4 text-sm font-medium text-right whitespace-nowrap'>
-				<p>€{item.price.toFixed(2)}</p>
+				<p>€{(item.price * 100).toFixed(2)}</p>
 			</td>
 		</tr>
 		{/* <div className='flex'>

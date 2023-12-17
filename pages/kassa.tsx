@@ -18,7 +18,7 @@ const Checkout: NextPage = () => {
 		const items = JSON.parse(Cookies.get('cart') ?? '[]');
 		if (!items.length) return;
 
-		fetch('/api/stripe/create_payment_intent', {
+		fetch('/api/stripe/payment_intent', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ items: items }),

@@ -1,25 +1,66 @@
-import { BaseSyntheticEvent, FC, useState } from 'react';
+import { BaseSyntheticEvent, FC, useEffect, useState } from 'react';
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 import { FieldValues, useForm } from 'react-hook-form';
 import { MoonLoader } from 'react-spinners';
 import { useRouter } from 'next/router';
-import { CloseIcon } from './Icons';
+import Cookies from 'js-cookie';
+import Toast,{clearMessage} from './Toast';
 
 interface Props {
 	paymentIntent: string;
 }
 
+interface Customer {
+	name: string;
+	email: string;
+	payment_intent: string;
+}
+
+interface Member {
+	member: {
+		name: string;
+		memberNumber: number;
+	};
+}
+
 const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
+	const {
+		register: registerMemberValidate,
+		handleSubmit: handleSubmitMemberValidate,
+	} = useForm();
+
+	const onSubmitMemberValidate = (
+		data: FieldValues,
+		event?: BaseSyntheticEvent,
+	): void => {
+		event?.preventDefault();
+
+		setMember(prevMember => ({
+			...prevMember,
+			member: {
+				name: data.name,
+				memberNumber: data.memberNumber,
+			},
+		}));
+
+		setStep(3);
+	};
+
+	const [message, setMessage] = useState<{
+		type: 'success' | 'error' | 'info';
+		text: string;
+	}>({ type: 'success', text: '' });
+
 	const stripe = useStripe();
 	const elements = useElements();
 	const router = useRouter();
 
-	const { register, handleSubmit, formState: { errors } } = useForm();
+	const { register, handleSubmit } = useForm();
 
-	const [message, setMessage] = useState('');
 	const [step, setStep] = useState(1);
-	const [customer, setCustomer] = useState({});
+	const [customer, setCustomer] = useState<Customer>(({} as Customer));
+	const [member, setMember] = useState<Member>(({} as Member));
 	const [isLoading, setIsLoading] = useState(false);
 
 	const nameSubmit = (data: FieldValues, e: BaseSyntheticEvent): void => {
@@ -34,8 +75,40 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 			},
 		}));
 
+		console.log(customer);
+
 		setStep(2);
 	};
+
+	useEffect(() => {
+		if (step === 3 && member.member.memberNumber) {
+			const items = JSON.parse(Cookies.get('cart') ?? '[]');
+			if (!items.length) return;
+
+			fetch('/api/stripe/payment_intent', {
+				method: 'PATCH',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ items: items, id: paymentIntent, name: member.member.name, memberId: member.member.memberNumber }),
+			})
+				.then((res) => res.json())
+				.then((data) => {
+					if (data.error) {
+						setMessage({ type: 'error', text: 'Identiteit lid niet gevalideerd' });
+						clearMessage(setMessage);
+						
+						return; 
+					}
+					
+					console.log(data.data.items);
+
+					Cookies.set('cart', JSON.stringify(data.data.items), { expires: new Date(new Date().getTime() + 15 * 60 * 1000) });
+					
+					setMessage({ type: 'success', text: 'Identiteit lid succesvol gevalideerd' });
+					clearMessage(setMessage);
+				})
+				.catch(console.error);
+		}
+	}, [member]);
 
 	const onSubmit = async (e: BaseSyntheticEvent): Promise<void> => {
 		e.preventDefault();
@@ -54,10 +127,10 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 
 		if (result.error?.type === 'card_error' || result.error?.type === 'validation_error') {
 			setIsLoading(false);
-			return setMessage(result.error.message ?? 'Validation error.');
+			return setMessage({ type: 'error', text: result.error.message ?? 'Validation error.' });
 		} else if (result.error) {
 			setIsLoading(false);
-			return setMessage('An unexpected error occurred.');
+			return setMessage({ type: 'error', text: 'Er is een onverwachte fout opgetreden.' });
 		}
 
 		const req = await fetch('/api/stripe/customer', {
@@ -68,7 +141,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 
 		if (req.status === 400) {
 			setIsLoading(false);
-			return setMessage('We were unable to validate your information.');
+			return setMessage({ type: 'error', text: 'We were unable to validate your information.' });
 		}
 
 		setIsLoading(false);
@@ -81,20 +154,10 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 				<div className='flex flex-row justify-start items-center font-bold gap-2 text-slate-500 mb-6'>
 					<p onClick={(): void => setStep(1)} className={step === 1 ? 'text-black hover:cursor-pointer' : 'hover:cursor-pointer'}>Billing</p>
 					<hr className='w-10'></hr>
-					<p onClick={(): void => setStep(2)} className={step === 2 ? 'text-black hover:cursor-pointer' : 'hover:cursor-pointer'}>Payment</p>
+					<p onClick={(): void => setStep(2)} className={step === 2 ? 'text-black hover:cursor-pointer' : 'hover:cursor-pointer'}>Membership</p>
+					<hr className='w-10'></hr>
+					<p onClick={(): void => setStep(2)} className={step === 3 ? 'text-black hover:cursor-pointer' : 'hover:cursor-pointer'}>Payment</p>
 				</div>
-				{message && (
-					<div className='h-12 flex flex-row bg-red-200 mb-2 rounded-lg border border-[#DF1B41] border-1'>
-						<div className='ml-4 flex items-center justify-start'>
-							<button onClick={(): void => setMessage('')} className='flex items-end justify-end'>
-								<CloseIcon className='fill-[#DF1B41] w-8' />
-							</button>
-						</div>
-						<div className='ml-4 flex items-center text-[#DF1B41]'>
-							<p>{message}</p>
-						</div>
-					</div>
-				)}
 				{step === 1 && (
 					<form id='address-form' onSubmit={handleSubmit((data, event) => nameSubmit(data, event!))}>
 						<label>
@@ -111,7 +174,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 								required: true, pattern: {
 									value: /^[a-zA-Z]+\s[a-zA-Z]+\s?$/,
 									message: 'Geef alleen je voor- en achternaam op.',
-								}
+								},
 							})}
 						/>
 						<label>
@@ -127,7 +190,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 								required: true, pattern: {
 									value: /\S+@\S+\.\S+/,
 									message: 'Voer een geldig e-mailadres in.',
-								}
+								},
 							})}
 						/>
 						<button type='submit' disabled={isLoading || !stripe || !elements} className='bottom-0 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
@@ -136,6 +199,63 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 					</form>
 				)}
 				{step === 2 && (
+					<>
+						<div className='my-4'>
+							<div className='flex flex-wrap h-auto text-xl mt-3'>
+								<form
+									onSubmit={handleSubmitMemberValidate((data, event) => onSubmitMemberValidate(data, event))}
+								>
+									<div className='flex flex-wrap -mx-3'>
+										<div className='w-full md:w-1/3 px-3'>
+											<label
+												className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+												htmlFor='grid-lidnummer'
+											>
+												Naam
+											</label>
+											<input
+												className='appearance-none block w-full bg-gray-200 text-gray-700 border-slate-500 rounded py-3 px-4 mb-3 leading-tight border-2 focus:border-rose-500 focus:bg-white'
+												id='grid-lidnummer'
+												type='text'
+												placeholder='Bob Johnson'
+												required
+												{...registerMemberValidate('name', { required: true })}
+											/>
+										</div>
+										<div className='w-full md:w-1/3 px-3'>
+											<label
+												className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+												htmlFor='grid-ldc'
+											>
+												Lidnummer
+											</label>
+											<input
+												className='appearance-none block w-full bg-gray-200 text-gray-700 border-slate-500 rounded py-3 px-4 mb-3 leading-tight border-2 focus:border-rose-500 focus:bg-white'
+												id='grid-lidnummer'
+												type='text'
+												placeholder='A1232452'
+												required
+												{...registerMemberValidate('memberNumber', { required: true })}
+											/>
+										</div>
+										<button type='submit' disabled={isLoading || !stripe || !elements} className='bottom-0 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
+											Next
+										</button>
+									</div>
+								</form>
+								<div className='flex-row flex gap-2 mt-2'>
+									<button onClick={(): void => setStep(1)} disabled={isLoading || !stripe || !elements} className='bottom-0 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
+										Terug
+									</button>
+									<button type='submit' onClick={(): void => setStep(3)} disabled={isLoading || !stripe || !elements} className='bottom-0 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
+										Skip
+									</button>
+								</div>
+							</div>
+						</div>
+					</>
+				)}
+				{step === 3 && (
 					<form id='payment-form' onSubmit={onSubmit} className='my-5'>
 						<PaymentElement id='payment-element' options={{ layout: 'tabs', business: { name: 'Aesculapia' } }} />
 						<div className='flex-row flex gap-2 mt-2'>
@@ -149,13 +269,21 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 									data-testid='loader'
 								/> : 'Nu Betalen'}
 							</button>
-							<button onClick={(): void => setStep(1)} disabled={isLoading || !stripe || !elements} className='bottom-0 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
+							<button onClick={(): void => setStep(2)} disabled={isLoading || !stripe || !elements} className='bottom-0 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
 								Terug
 							</button>
 						</div>
 					</form>
 				)}
+				<p className="mt-20"><span className="font-bold text-xl">Price</span> $</p>
 			</div>
+			{message.text !== '' && (
+				<Toast
+					type={message.type}
+					title={message.type[0].toUpperCase() + message.type.slice(1)}
+					description={message.text}
+				/>
+			)}
 		</>
 	);
 };
