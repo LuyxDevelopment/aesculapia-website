@@ -4,9 +4,8 @@ import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { FieldValues, useForm } from 'react-hook-form';
 import { MoonLoader } from 'react-spinners';
 import { useRouter } from 'next/router';
-import { CloseIcon } from './Icons';
 import Cookies from 'js-cookie';
-import Toast, { clearMessage } from './Toast';
+import Toast,{clearMessage} from './Toast';
 
 interface Props {
 	paymentIntent: string;
@@ -19,28 +18,29 @@ interface Customer {
 }
 
 interface Member {
-	name: string;
-	lidNumber: number;
+	member: {
+		name: string;
+		memberNumber: number;
+	};
 }
 
 const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 	const {
 		register: registerMemberValidate,
 		handleSubmit: handleSubmitMemberValidate,
-		formState: { errors: memberValidateErrors },
 	} = useForm();
 
-	const onSubmitMemberValidate = async (
+	const onSubmitMemberValidate = (
 		data: FieldValues,
 		event?: BaseSyntheticEvent,
-	): Promise<void> => {
+	): void => {
 		event?.preventDefault();
 
 		setMember(prevMember => ({
 			...prevMember,
 			member: {
 				name: data.name,
-				lidNumber: data.lidNumber,
+				memberNumber: data.memberNumber,
 			},
 		}));
 
@@ -56,13 +56,11 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 	const elements = useElements();
 	const router = useRouter();
 
-	const { register, handleSubmit, formState: { errors } } = useForm();
-
-	const [memberValidateMenu, setMemberValidateMenu] = useState(false);
+	const { register, handleSubmit } = useForm();
 
 	const [step, setStep] = useState(1);
-	const [customer, setCustomer] = useState<Customer | Record<string, null>>({});
-	const [member, setMember] = useState<Member | Record<string, null>>({});
+	const [customer, setCustomer] = useState<Customer>(({} as Customer));
+	const [member, setMember] = useState<Member>(({} as Member));
 	const [isLoading, setIsLoading] = useState(false);
 
 	const nameSubmit = (data: FieldValues, e: BaseSyntheticEvent): void => {
@@ -77,24 +75,40 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 			},
 		}));
 
+		console.log(customer);
+
 		setStep(2);
 	};
 
 	useEffect(() => {
-		if (step === 3 && member.lidNumber) {
+		if (step === 3 && member.member.memberNumber) {
 			const items = JSON.parse(Cookies.get('cart') ?? '[]');
 			if (!items.length) return;
 
 			fetch('/api/stripe/payment_intent', {
 				method: 'PATCH',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ items: items, id: paymentIntent, memberId: member.lidNumber }),
+				body: JSON.stringify({ items: items, id: paymentIntent, name: member.member.name, memberId: member.member.memberNumber }),
 			})
 				.then((res) => res.json())
-				.then((data) => data)
+				.then((data) => {
+					if (data.error) {
+						setMessage({ type: 'error', text: 'Identiteit lid niet gevalideerd' });
+						clearMessage(setMessage);
+						
+						return; 
+					}
+					
+					console.log(data.data.items);
+
+					Cookies.set('cart', JSON.stringify(data.data.items), { expires: new Date(new Date().getTime() + 15 * 60 * 1000) });
+					
+					setMessage({ type: 'success', text: 'Identiteit lid succesvol gevalideerd' });
+					clearMessage(setMessage);
+				})
 				.catch(console.error);
 		}
-	}, [step]);
+	}, [member]);
 
 	const onSubmit = async (e: BaseSyntheticEvent): Promise<void> => {
 		e.preventDefault();
@@ -116,7 +130,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 			return setMessage({ type: 'error', text: result.error.message ?? 'Validation error.' });
 		} else if (result.error) {
 			setIsLoading(false);
-			return setMessage({ type: 'error', text: 'An unexpected error occurred.' });
+			return setMessage({ type: 'error', text: 'Er is een onverwachte fout opgetreden.' });
 		}
 
 		const req = await fetch('/api/stripe/customer', {
@@ -225,7 +239,7 @@ const CheckoutForm: FC<Props> = ({ paymentIntent }) => {
 											/>
 										</div>
 										<button type='submit' disabled={isLoading || !stripe || !elements} className='bottom-0 bg-[#F1F1F1] shadow-md flex items-center justify-center rounded-lg p-2 hover:bg-gray-300 transition-all duration-300 ease-in-out'>
-											Nextv
+											Next
 										</button>
 									</div>
 								</form>

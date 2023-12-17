@@ -23,14 +23,15 @@ const calculateOrderAmount = async (items: DisplayProduct[], isMember: boolean):
 
 		if (product!.memberDiscount && isMember) {
 			price += product!.price * item.amount * 0.9;
+			item!.price = (product!.price * item.amount * 0.9) / 100;
 		} else price += product!.price * item.amount;
 	}
 	return price;
 };
 
 export default async function paymentIntent(
-	req: Omit<NextApiRequest, 'body'> & { body: { items: DisplayProduct[]; id?: string;  memberId: boolean; }; },
-	res: NextApiResponse<ResponseData<{ id: string, clientSecret: string; } | null>>,
+	req: Omit<NextApiRequest, 'body'> & { body: { items: DisplayProduct[]; id?: string; memberId: boolean; name?: boolean; }; },
+	res: NextApiResponse<ResponseData<{ id: string, clientSecret: string; items?: DisplayProduct[]; } | null>>,
 ): Promise<void> {
 	switch (req.method) {
 		case 'POST': {
@@ -55,12 +56,14 @@ export default async function paymentIntent(
 		} break;
 
 		case 'PATCH': {
-			const { items, id, memberId } = req.body;
+			const { items, id, name, memberId } = req.body;
 
-			const member = await Member.find({ memberId });
+			const member = await Member.findOne({ memberId: `#${memberId}`, name });
 
 			if (member) {
 				const paymentIntent = await stripe.paymentIntents.update(id!, { amount: await calculateOrderAmount(items, true) });
+
+				console.log(items);
 
 				res.status(StatusCodes.OK).json({
 					error: false,
@@ -68,6 +71,7 @@ export default async function paymentIntent(
 					data: {
 						id: paymentIntent.id,
 						clientSecret: paymentIntent.client_secret!,
+						items: items,
 					},
 				});
 
@@ -75,7 +79,7 @@ export default async function paymentIntent(
 			}
 
 			res.status(StatusCodes.NOT_FOUND).json({
-				error: false,
+				error: true,
 				message: getReasonPhrase(StatusCodes.NOT_FOUND),
 				data: null,
 			});
