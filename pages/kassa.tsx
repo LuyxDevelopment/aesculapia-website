@@ -30,6 +30,20 @@ const Checkout: NextPage = () => {
 			}).catch(console.error);
 	}, []);
 
+	useEffect(() => {
+		const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+			const message = 'Are you sure you want to leave this page?';
+			event.returnValue = message; // Standard for most browsers
+			return message; // For some older browsers
+		};
+
+		window.addEventListener('beforeunload', handleBeforeUnload);
+
+		return () => {
+			window.removeEventListener('beforeunload', handleBeforeUnload);
+		};
+	}, []);
+
 	return (
 		<>
 			{useMetaData('Kassa', 'Kassa', '/kassa')}

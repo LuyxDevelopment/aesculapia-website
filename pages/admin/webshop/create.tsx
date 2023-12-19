@@ -59,7 +59,7 @@ const AdminCreateProducts: NextPage<{
 					text: 'Product is succesvol aangemaakt!',
 				});
 
-				await router.push('/admin/sponsors/');
+				await router.push('/admin/webshop/');
 			}
 		} catch (error) {
 			console.error(error);

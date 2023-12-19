@@ -26,7 +26,8 @@ const calculateOrderAmount = async (items: DisplayProduct[], isMember: boolean):
 			item!.price = (product!.price * item.amount * 0.85) / 100;
 		} else price += product!.price * item.amount;
 	}
-	return price;
+
+	return Math.round(price);
 };
 
 export default async function paymentIntent(
@@ -62,8 +63,6 @@ export default async function paymentIntent(
 
 			if (member) {
 				const paymentIntent = await stripe.paymentIntents.update(id!, { amount: await calculateOrderAmount(items, true) });
-
-				console.log(items);
 
 				res.status(StatusCodes.OK).json({
 					error: false,
